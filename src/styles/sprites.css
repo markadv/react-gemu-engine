@@ -1,0 +1,24 @@
+.sprite {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.sprite-center-parent {
+	width: 1280px;
+	height: 720px;
+	position: fixed;
+	left: 50%;
+	margin-left: -640px;
+}
+
+.left {
+	left: -350px;
+	right: 350px;
+}
+.right {
+	left: 350px;
+	right: -350px;
+}

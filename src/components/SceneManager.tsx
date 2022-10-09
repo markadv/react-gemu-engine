@@ -1,7 +1,17 @@
-import Scene from "./Scene";
+import Background from "./Background";
+import Character from "./Character";
+import DialogueBox from "./DialogueBox";
 
-const SceneManager = ({ bg }: any) => {
-	return <Scene bg={bg} />;
+const SceneManager = ({ bgImages, dispatch, ActionTypes }: any) => {
+	return (
+		<>
+			<Background bgImages={bgImages} />
+			<Character />
+			<div>
+				<DialogueBox />
+			</div>
+		</>
+	);
 };
 
 export default SceneManager;

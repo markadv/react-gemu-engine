@@ -4,7 +4,6 @@ import { useRef, useEffect, useState } from "react";
 const useAudio = (url: string) => {
 	const audio = useRef<HTMLAudioElement | undefined>(typeof Audio !== "undefined" ? new Audio(url) : undefined);
 	const [playing, setPlaying] = useState(false);
-
 	const toggle = (): void => setPlaying(!playing);
 
 	useEffect(() => {

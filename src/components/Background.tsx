@@ -4,17 +4,17 @@ const animationBody: any = {
 	animate: { opacity: 1 },
 	exit: { opacity: 0 },
 };
-const Background = ({ bg }: any) => {
+const Background = ({ bg, bgImages }: any) => {
 	return (
 		<motion.img
-			className="h-auto w-full object-contain"
-			src={bg}
+			className="h-full w-full object-contain"
+			src={bgImages.streetSpringRain}
 			alt="lib"
 			variants={animationBody}
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			transition={{ duration: 0.23 }}
+			transition={{ duration: 1 }}
 		/>
 	);
 };

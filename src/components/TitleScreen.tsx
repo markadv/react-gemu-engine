@@ -1,4 +1,3 @@
-import useAudio from "../hooks/useAudio";
 import { motion } from "framer-motion";
 
 const animationTitleScreen: any = {
@@ -7,20 +6,15 @@ const animationTitleScreen: any = {
 	exit: { opacity: 0, y: -0 },
 };
 
-const TitleScreen = ({ dispatch, handle }: any) => {
-	const [playing, toggle] = useAudio(require("../assets/bgm/bgm.mp4"));
+const TitleScreen = ({ dispatch, handle, playMusic }: any) => {
 	const startGame = (): void => {
-		toggle();
 		handle.enter();
-		dispatch({ type: "startGame" });
+		playMusic();
+		dispatch({ type: "showIntro" });
 	};
 
 	const titleScreenEl = (
-		<div
-			className={`absolute flex h-full w-full flex-col items-center justify-center bg-white object-cover ${
-				playing ? "invisible" : "visible"
-			}`}
-		>
+		<div className="absolute flex h-full w-full flex-col items-center justify-center bg-white object-cover">
 			<div className="flex flex-row">
 				<motion.div
 					className="mini font-mustard text-3xl md:text-[42px] lg:text-[48px]"

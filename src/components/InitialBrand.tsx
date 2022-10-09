@@ -40,7 +40,7 @@ const text = {
 	},
 };
 
-const InitialBrand = (props: any): ReactElement => {
+const InitialBrand = ({ dispatch }: any): ReactElement => {
 	const [animationEnd, setAnimationEnd] = useState(false);
 	return (
 		<div className={`absolute inset-0 flex items-center justify-center ${animationEnd ? "hidden" : ""} home`}>
@@ -52,7 +52,10 @@ const InitialBrand = (props: any): ReactElement => {
 				onAnimationStart={() => {
 					setAnimationEnd(false);
 				}}
-				onAnimationComplete={() => setAnimationEnd(true)}
+				onAnimationComplete={() => {
+					setAnimationEnd(true);
+					dispatch({ type: "startGame" });
+				}}
 			>
 				<motion.svg variants={textContainer} className="absolute z-50 flex">
 					<svg>

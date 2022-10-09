@@ -20,3 +20,77 @@
 	justify-content: center;
 	align-items: center;
 }
+
+/* Chatbox border */
+.borderimg {
+	border: 25px solid #fb7185;
+	border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='75'%3E%3Cg fill='none' stroke='%23FB7185' stroke-width='2'%3E%3Cpath d='M1 1h73v73H1z'/%3E%3Cpath d='M8 8h59v59H8z'/%3E%3Cpath d='M8 8h16v16H8zM51 8h16v16H51zM51 51h16v16H51zM8 51h16v16H8z'/%3E%3C/g%3E%3Cg fill='%23FB7185'%3E%3Ccircle cx='16' cy='16' r='2'/%3E%3Ccircle cx='59' cy='16' r='2'/%3E%3Ccircle cx='59' cy='59' r='2'/%3E%3Ccircle cx='16' cy='59' r='2'/%3E%3C/g%3E%3C/svg%3E")
+		25;
+}
+
+.borderimg2 {
+	border: 10px solid #fb7185;
+	border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='75'%3E%3Cg fill='none' stroke='%23FB7185' stroke-width='2'%3E%3Cpath d='M1 1h73v73H1z'/%3E%3Cpath d='M8 8h59v59H8z'/%3E%3Cpath d='M8 8h16v16H8zM51 8h16v16H51zM51 51h16v16H51zM8 51h16v16H8z'/%3E%3C/g%3E%3Cg fill='%23FB7185'%3E%3Ccircle cx='16' cy='16' r='2'/%3E%3Ccircle cx='59' cy='16' r='2'/%3E%3Ccircle cx='59' cy='59' r='2'/%3E%3Ccircle cx='16' cy='59' r='2'/%3E%3C/g%3E%3C/svg%3E")
+		25;
+}
+
+/* Text outline in title */
+.outline-title {
+	text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* Loading screen */
+.center {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+}
+.wave {
+	width: 5px;
+	height: 100px;
+	background: linear-gradient(45deg, rgb(255, 138, 226), rgb(255, 201, 241));
+	margin: 10px;
+	animation: wave 1s linear infinite;
+	border-radius: 20px;
+}
+.wave:nth-child(2) {
+	animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+	animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+	animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+	animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+	animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+	animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+	animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+	animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+	animation-delay: 0.9s;
+}
+
+@keyframes wave {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
+}

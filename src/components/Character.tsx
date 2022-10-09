@@ -7,7 +7,6 @@ const animationBody: any = {
 };
 
 const Character = () => {
-	// const char1 = require("../assets/images/characters/Mark.png");
 	const body = require("../assets/images/characters/Female/base-body.png");
 	const clothes = require("../assets/images/characters/Female/outfits/seifuku-1.png");
 	const fronthair = require("../assets/images/characters/Female/fronthairs/long_dark.png");
@@ -17,7 +16,7 @@ const Character = () => {
 	return (
 		<>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={backhair}
 				alt="hair"
 				variants={animationBody}
@@ -27,7 +26,7 @@ const Character = () => {
 				transition={{ duration: 1 }}
 			/>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={body}
 				alt="body"
 				variants={animationBody}
@@ -37,7 +36,7 @@ const Character = () => {
 				transition={{ duration: 1 }}
 			/>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={clothes}
 				alt="clothes"
 				variants={animationBody}
@@ -47,7 +46,7 @@ const Character = () => {
 				transition={{ duration: 1 }}
 			/>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={fronthair}
 				alt="hair"
 				variants={animationBody}
@@ -57,7 +56,7 @@ const Character = () => {
 				transition={{ duration: 1 }}
 			/>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={accessories}
 				alt="acc"
 				variants={animationBody}
@@ -67,7 +66,7 @@ const Character = () => {
 				transition={{ duration: 1 }}
 			/>
 			<motion.img
-				className="absolute left-0 bottom-0 h-3/4"
+				className="absolute left-0 bottom-0 h-3/5"
 				src={expression}
 				alt="exp"
 				variants={animationBody}

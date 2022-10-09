@@ -14,6 +14,10 @@ import SceneManager from "./components/SceneManager";
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
 
+/* Data */
+import characters from "./assets/story/characters.json";
+import story from "./assets/story/story.json";
+
 /* Pre-load Music */
 const bgMusic = {
 	menu: require("./assets/bgm/Menu.mp3"),
@@ -165,13 +169,61 @@ const femaleSprites = {
 		ponyBlondie: require("./assets/images/characters/Female/backhairs/pony_blondie.png"),
 		ponyMask: require("./assets/images/characters/Female/backhairs/pony_mask.png"),
 		ponyOutline: require("./assets/images/characters/Female/backhairs/pony_outline.png"),
-		ponyShadow: require("./assets/images/characters/Female/backhairs/pony_Shadow.png"),
+		ponyShadow: require("./assets/images/characters/Female/backhairs/pony_shadow.png"),
 	},
-	body: require("./assets/images/characters/Female/base-body.png"),
-	clothes: require("./assets/images/characters/Female/outfits/seifuku-2.png"),
-	fronthair: require("./assets/images/characters/Female/fronthairs/long_dark.png"),
-	expression: require("./assets/images/characters/Female/expressions/normal.png"),
-	accessories1: require("./assets/images/characters/Female/accessories/black-glasses.png"),
+	body: { body: require("./assets/images/characters/Female/base-body.png") },
+	outfits: {
+		seifuku1: require("./assets/images/characters/Female/outfits/seifuku-1.png"),
+		seifuku2: require("./assets/images/characters/Female/outfits/seifuku-2.png"),
+		hoodie: require("./assets/images/characters/Female/outfits/hoodie.png"),
+		pajama: require("./assets/images/characters/Female/outfits/pajama.png"),
+		peUniform: require("./assets/images/characters/Female/outfits/pe-uniform.png"),
+		summerDress: require("./assets/images/characters/Female/outfits/summer-dress.png"),
+		winterOutfit: require("./assets/images/characters/Female/outfits/winter-outfit.png"),
+		towel: require("./assets/images/characters/Female/outfits/towel.png"),
+	},
+	fronthair: {
+		longDark: require("./assets/images/characters/Female/fronthairs/long_dark.png"),
+		longPink: require("./assets/images/characters/Female/fronthairs/long_pink.png"),
+		longSilver: require("./assets/images/characters/Female/fronthairs/long_silver.png"),
+		longBrown: require("./assets/images/characters/Female/fronthairs/long_brown.png"),
+		longBlondie: require("./assets/images/characters/Female/fronthairs/long_blondie.png"),
+		curlyDark: require("./assets/images/characters/Female/fronthairs/curly_dark.png"),
+		curlyPink: require("./assets/images/characters/Female/fronthairs/curly_pink.png"),
+		curlySilver: require("./assets/images/characters/Female/fronthairs/curly_silver.png"),
+		curlyBrown: require("./assets/images/characters/Female/fronthairs/curly_brown.png"),
+		curlyBlondie: require("./assets/images/characters/Female/fronthairs/curly_blondie.png"),
+		shortDark: require("./assets/images/characters/Female/fronthairs/short_dark.png"),
+		shortPink: require("./assets/images/characters/Female/fronthairs/short_pink.png"),
+		shortSilver: require("./assets/images/characters/Female/fronthairs/short_silver.png"),
+		shortBrown: require("./assets/images/characters/Female/fronthairs/short_brown.png"),
+		shortBlondie: require("./assets/images/characters/Female/fronthairs/short_blondie.png"),
+		thickDark: require("./assets/images/characters/Female/fronthairs/thick_dark.png"),
+		thickPink: require("./assets/images/characters/Female/fronthairs/thick_pink.png"),
+		thickSilver: require("./assets/images/characters/Female/fronthairs/thick_silver.png"),
+		thickBrown: require("./assets/images/characters/Female/fronthairs/thick_brown.png"),
+		thickBlondie: require("./assets/images/characters/Female/fronthairs/thick_blondie.png"),
+	},
+	expression: {
+		normal: require("./assets/images/characters/Female/expressions/normal.png"),
+		angry: require("./assets/images/characters/Female/expressions/angry.png"),
+		annoyed: require("./assets/images/characters/Female/expressions/annoyed.png"),
+		delighted: require("./assets/images/characters/Female/expressions/delighted.png"),
+		laugh: require("./assets/images/characters/Female/expressions/laugh.png"),
+		sad: require("./assets/images/characters/Female/expressions/sad.png"),
+		shocked: require("./assets/images/characters/Female/expressions/shocked.png"),
+		sleepy: require("./assets/images/characters/Female/expressions/sleepy.png"),
+		smile: require("./assets/images/characters/Female/expressions/smile.png"),
+		smile2: require("./assets/images/characters/Female/expressions/smile2.png"),
+		smug: require("./assets/images/characters/Female/expressions/smug.png"),
+	},
+	accessories1: {
+		blackGlasses: require("./assets/images/characters/Female/accessories/black-glasses.png"),
+		circleGlasses: require("./assets/images/characters/Female/accessories/circle-glasses.png"),
+		redGlasses: require("./assets/images/characters/Female/accessories/red-glasses.png"),
+	},
+	accesories2: { choker: require("./assets/images/characters/Female/accessories/choker.png") },
+	accesories3: { flower: require("./assets/images/characters/Female/accessories/flower.png") },
 };
 
 const bgImages = {
@@ -203,17 +255,6 @@ const bgImages = {
 	streetSummerNight: require("./assets/images/bg/Street_Summer_Night.jpg"),
 	streetSummerRain: require("./assets/images/bg/Street_Summer_Rain.jpg"),
 	streetSummerStars: require("./assets/images/bg/Street_Summer_Stars.jpg"),
-};
-
-const characters = {
-	Kanon: {
-		backhair: require("./assets/images/characters/Female/backhairs/long_dark.png"),
-		body: require("./assets/images/characters/Female/base-body.png"),
-		clothes: require("./assets/images/characters/Female/outfits/seifuku-2.png"),
-		fronthair: require("./assets/images/characters/Female/fronthairs/long_dark.png"),
-		expression: require("./assets/images/characters/Female/expressions/normal.png"),
-		accessories1: require("./assets/images/characters/Female/accessories/black-glasses.png"),
-	},
 };
 
 /* Actual application */
@@ -260,7 +301,9 @@ const Game = () => {
 		>
 			{state.isLoading && loadingScreen}
 			{state.introShown && <InitialBrand dispatch={dispatch} />}
-			{state.titleScreenShown && <TitleScreen dispatch={dispatch} handle={handle} />}
+			{state.titleScreenShown && (
+				<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
+			)}
 			{state.gameIsRendering && (
 				<motion.div
 					variants={animationBody}
@@ -275,6 +318,8 @@ const Game = () => {
 						dispatch={dispatch}
 						state={state}
 						bgMusic={bgMusic}
+						femaleSprites={femaleSprites}
+						story={story}
 					/>
 				</motion.div>
 			)}

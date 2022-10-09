@@ -3,16 +3,43 @@
 		"type": "scene",
 		"bg": "streetSpringDay",
 		"bgm": "sunny",
-		"sprite": "Kanon",
+		"sprite1": "Kanon",
 		"speaker": "Kanon",
+		"sprite2": null,
 		"text": "Scene1."
 	},
 	{
 		"type": "scene",
 		"bg": "streetSpringNight",
 		"bgm": "night",
-		"sprite": "Kanon",
-		"speaker": "Kanon2",
+		"sprite1": "Kanon",
+		"speaker": "Kanon",
+		"sprite2": "Chisato",
 		"text": "Scene2."
+	},
+	{
+		"type": "scene",
+		"bg": "streetSpringNight",
+		"bgm": "night",
+		"speaker": "Narrator",
+		"text": "Scene3."
+	},
+	{
+		"type": "scene",
+		"bg": "schoolDay",
+		"bgm": "goodNews",
+		"sprite1": "Chisato",
+		"speaker": "Chisato",
+		"sprite2": "Kanon",
+		"text": "Scene4."
+	},
+	{
+		"type": "scene",
+		"bg": "classroomDay",
+		"bgm": "byeDramatic",
+		"sprite1": "Chisato",
+		"speaker": "Kanon",
+		"sprite2": "Kanon",
+		"text": "Scene5."
 	}
 ]

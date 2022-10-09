@@ -1,1 +1,16 @@
-{"Kanon":}
+{
+	"Kanon": {
+		"backhair": "shortBlondie",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "shortBlondie",
+		"expression": "smile"
+	},
+	"Chisato": {
+		"backhair": "curlySilver",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "shortSilver",
+		"expression": "smile2"
+	}
+}

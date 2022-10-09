@@ -7,10 +7,11 @@ const animationTitleScreen: any = {
 	exit: { opacity: 0, y: -0 },
 };
 
-const TitleScreen = ({ dispatch, handle }: any) => {
+const TitleScreen = ({ dispatch, handle, bgMusic, story }: any) => {
 	const startGame = (): void => {
 		handle.enter();
 		dispatch({ type: "showIntro" });
+		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[0].bgm] });
 	};
 
 	const titleScreenEl = (
@@ -36,7 +37,7 @@ const TitleScreen = ({ dispatch, handle }: any) => {
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[32px] font-semibold text-sky-400">life!</span>
+					<span className="outline-title text-[32px] font-semibold text-sky-400">live!</span>
 				</motion.div>
 				<motion.div
 					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"

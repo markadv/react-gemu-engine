@@ -1,15 +1,15 @@
-# Interactable Game Trailer Application
+# React visual novel game engine
 
 ## Features
 
 -   [ ] General
     -   [x] Navbar
 -   [ ] Homepage (Intro)
-    -   [ ] Disclaimer
+    -   [x] Disclaimer
     -   [x] Intro
         -   [x] Initialize music
     -   [ ] Interactable menu
     -   [ ] Interactable characters
--   [ ] Game (Actual website)
+-   [x] Game (Actual website)
 -   [ ] Contact (Ending)
     -   [ ] Social media links

@@ -3,7 +3,7 @@ import { useReducer, useEffect } from "react";
 import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { motion } from "framer-motion";
-import useSound from "use-sound";
+import ReactHowler from "react-howler";
 /* Styles */
 
 /* Components */
@@ -14,9 +14,20 @@ import SceneManager from "./components/SceneManager";
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
 
+/* Pre-load Music */
+const bgMusic = {
+	menu: require("./assets/bgm/Menu.mp3"),
+	night: require("./assets/bgm/Night.mp3"),
+	sunny: require("./assets/bgm/Sunny.mp3"),
+	goodNews: require("./assets/bgm/GoodNews.mp3"),
+	defeat: require("./assets/bgm/Defeat.mp3"),
+	complete: require("./assets/bgm/Complete.mp3"),
+	byeDramatic: require("./assets/bgm/ByeDramatic.mp3"),
+};
 /* States */
 const INITIAL_STATE = {
 	/* config state */
+	bgMusic: bgMusic.menu,
 	bgmVolume: 80,
 	soundEffectVolume: 90,
 	voiceVolume: 100,
@@ -43,23 +54,26 @@ const INITIAL_STATE = {
 	isLoading: true,
 };
 
-enum ActionTypes {
-	RESET = "reset",
-	SETVOLUME = "setVolume",
-	STARTGAME = "startGame",
-	SHOWINTRO = "showIntro",
-	SHOWTITLE = "showTitle",
-	ISFULLSCREEN = "isfullscreen",
-	ISLOADING = "isLoading",
-	NEXTFRAME = "nextFrame",
-}
+export const ActionTypes = {
+	RESET: "reset",
+	SETVOLUME: "setVolume",
+	STARTGAME: "startGame",
+	SHOWINTRO: "showIntro",
+	SHOWTITLE: "showTitle",
+	ISFULLSCREEN: "isfullscreen",
+	ISLOADING: "isLoading",
+	NEXTFRAME: "nextFrame",
+	CHANGEBGM: "changeBgm",
+} as const;
 
+export type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
 /* Typescript interface */
 interface Action {
 	type: ActionTypes;
 	payload?: any;
 }
 interface State {
+	bgMusic: any;
 	bgmVolume: number;
 	soundEffectVolume: number;
 	voiceVolume: number;
@@ -108,6 +122,9 @@ const reducer = (state: State, action: Action): State => {
 		case "nextFrame": {
 			return { ...state, index: state.index + 1 };
 		}
+		case "changeBgm": {
+			return { ...state, bgMusic: action.payload };
+		}
 		case "reset": {
 			return INITIAL_STATE;
 		}
@@ -123,9 +140,41 @@ const animationBody: any = {
 	exit: { opacity: 0 },
 };
 
-const bgMusic = require("./assets/bgm/bgm.mp4");
+/* Assets to be transferred in a separate file after */
+const femaleSprites = {
+	backhair: {
+		longDark: require("./assets/images/characters/Female/backhairs/long_dark.png"),
+		longPink: require("./assets/images/characters/Female/backhairs/long_pink.png"),
+		longSilver: require("./assets/images/characters/Female/backhairs/long_silver.png"),
+		longBrown: require("./assets/images/characters/Female/backhairs/long_brown.png"),
+		longBlondie: require("./assets/images/characters/Female/backhairs/long_blondie.png"),
+		curlyDark: require("./assets/images/characters/Female/backhairs/curly_dark.png"),
+		curlyPink: require("./assets/images/characters/Female/backhairs/curly_pink.png"),
+		curlySilver: require("./assets/images/characters/Female/backhairs/curly_silver.png"),
+		curlyBrown: require("./assets/images/characters/Female/backhairs/curly_brown.png"),
+		curlyBlondie: require("./assets/images/characters/Female/backhairs/curly_blondie.png"),
+		shortDark: require("./assets/images/characters/Female/backhairs/short_dark.png"),
+		shortPink: require("./assets/images/characters/Female/backhairs/short_pink.png"),
+		shortSilver: require("./assets/images/characters/Female/backhairs/short_silver.png"),
+		shortBrown: require("./assets/images/characters/Female/backhairs/short_brown.png"),
+		shortBlondie: require("./assets/images/characters/Female/backhairs/short_blondie.png"),
+		ponyDark: require("./assets/images/characters/Female/backhairs/pony_dark.png"),
+		ponyPink: require("./assets/images/characters/Female/backhairs/pony_pink.png"),
+		ponySilver: require("./assets/images/characters/Female/backhairs/pony_silver.png"),
+		ponyBrown: require("./assets/images/characters/Female/backhairs/pony_brown.png"),
+		ponyBlondie: require("./assets/images/characters/Female/backhairs/pony_blondie.png"),
+		ponyMask: require("./assets/images/characters/Female/backhairs/pony_mask.png"),
+		ponyOutline: require("./assets/images/characters/Female/backhairs/pony_outline.png"),
+		ponyShadow: require("./assets/images/characters/Female/backhairs/pony_Shadow.png"),
+	},
+	body: require("./assets/images/characters/Female/base-body.png"),
+	clothes: require("./assets/images/characters/Female/outfits/seifuku-2.png"),
+	fronthair: require("./assets/images/characters/Female/fronthairs/long_dark.png"),
+	expression: require("./assets/images/characters/Female/expressions/normal.png"),
+	accessories1: require("./assets/images/characters/Female/accessories/black-glasses.png"),
+};
 
-const bgImages: any = {
+const bgImages = {
 	schoolDay: require("./assets/images/bg/School_Hallway_Day.jpg"),
 	classroomDay: require("./assets/images/bg/Classroom_Day.jpg"),
 	bedroomDay: require("./assets/images/bg/Bedroom_Day.jpg"),
@@ -156,8 +205,21 @@ const bgImages: any = {
 	streetSummerStars: require("./assets/images/bg/Street_Summer_Stars.jpg"),
 };
 
+const characters = {
+	Kanon: {
+		backhair: require("./assets/images/characters/Female/backhairs/long_dark.png"),
+		body: require("./assets/images/characters/Female/base-body.png"),
+		clothes: require("./assets/images/characters/Female/outfits/seifuku-2.png"),
+		fronthair: require("./assets/images/characters/Female/fronthairs/long_dark.png"),
+		expression: require("./assets/images/characters/Female/expressions/normal.png"),
+		accessories1: require("./assets/images/characters/Female/accessories/black-glasses.png"),
+	},
+};
+
 /* Actual application */
 const Game = () => {
+	useDocumentTitle("Superstar");
+
 	/* Start loading screen */
 	const loadingScreen = (
 		<div className="center">
@@ -173,8 +235,7 @@ const Game = () => {
 			<div className="wave"></div>
 		</div>
 	);
-	const [play, { stop }] = useSound(bgMusic, { loop: true });
-	useDocumentTitle("Superstar");
+
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 	const handle = useFullScreenHandle();
 	/* 	Adds a prompt when user leave/refresh/back/forward page (Only works when user already interacted with the page) by Markad */
@@ -190,6 +251,7 @@ const Game = () => {
 		return () => window.removeEventListener("load", loadingFinished);
 	}, []);
 	console.log(state);
+
 	return (
 		<FullScreen
 			handle={handle}
@@ -198,7 +260,7 @@ const Game = () => {
 		>
 			{state.isLoading && loadingScreen}
 			{state.introShown && <InitialBrand dispatch={dispatch} />}
-			{state.titleScreenShown && <TitleScreen dispatch={dispatch} handle={handle} playMusic={play} />}
+			{state.titleScreenShown && <TitleScreen dispatch={dispatch} handle={handle} />}
 			{state.gameIsRendering && (
 				<motion.div
 					variants={animationBody}
@@ -207,11 +269,17 @@ const Game = () => {
 					exit="exit"
 					transition={{ duration: 0.23 }}
 				>
-					<SceneManager bgImages={bgImages} dispatch={dispatch} ActionTypes={ActionTypes} />
+					<SceneManager
+						bgImages={bgImages}
+						characters={characters}
+						dispatch={dispatch}
+						state={state}
+						bgMusic={bgMusic}
+					/>
 				</motion.div>
 			)}
+			<ReactHowler src={state.bgMusic} playing={true} />
 		</FullScreen>
 	);
 };
-
 export default Game;

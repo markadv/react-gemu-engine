@@ -1,0 +1,18 @@
+[
+	{
+		"type": "scene",
+		"bg": "streetSpringDay",
+		"bgm": "sunny",
+		"sprite": "Kanon",
+		"speaker": "Kanon",
+		"text": "Scene1."
+	},
+	{
+		"type": "scene",
+		"bg": "streetSpringNight",
+		"bgm": "night",
+		"sprite": "Kanon",
+		"speaker": "Kanon2",
+		"text": "Scene2."
+	}
+]

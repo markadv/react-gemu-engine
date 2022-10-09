@@ -1,20 +1,21 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 const animationBody: any = {
 	initial: { opacity: 0 },
 	animate: { opacity: 1 },
 	exit: { opacity: 0 },
 };
-const Background = ({ bg, bgImages }: any) => {
+const Background = ({ bgImages, bg }: any) => {
 	return (
 		<motion.img
 			className="h-full w-full object-contain"
-			src={bgImages.streetSpringRain}
+			key={bgImages[bg]}
+			src={bgImages[bg]}
 			alt="lib"
 			variants={animationBody}
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			transition={{ duration: 1 }}
+			transition={{ duration: 2 }}
 		/>
 	);
 };

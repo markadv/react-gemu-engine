@@ -76,7 +76,7 @@ const InitialBrand = ({ dispatch }: any): ReactElement => {
 							y="45%"
 							style={{ fill: "url(#pattern)" }}
 						>
-							kokoro
+							Superstar
 						</text>
 					</svg>
 				</motion.svg>

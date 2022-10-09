@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ActionTypes } from "../Game";
 
 const animationTitleScreen: any = {
 	initial: { opacity: 0, y: 0 },
@@ -6,10 +7,9 @@ const animationTitleScreen: any = {
 	exit: { opacity: 0, y: -0 },
 };
 
-const TitleScreen = ({ dispatch, handle, playMusic }: any) => {
+const TitleScreen = ({ dispatch, handle }: any) => {
 	const startGame = (): void => {
 		handle.enter();
-		playMusic();
 		dispatch({ type: "showIntro" });
 	};
 
@@ -25,7 +25,7 @@ const TitleScreen = ({ dispatch, handle, playMusic }: any) => {
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="mini outline-title text-fuchsia-500">kokoro</span>
+					<span className="mini outline-title text-fuchsia-500">Love</span>
 				</motion.div>
 				<motion.div
 					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"
@@ -36,7 +36,7 @@ const TitleScreen = ({ dispatch, handle, playMusic }: any) => {
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[32px] font-semibold text-sky-400">med</span>
+					<span className="outline-title text-[32px] font-semibold text-sky-400">life!</span>
 				</motion.div>
 				<motion.div
 					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"
@@ -47,7 +47,7 @@ const TitleScreen = ({ dispatch, handle, playMusic }: any) => {
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[32px] font-semibold text-rose-400">school</span>
+					<span className="outline-title text-[32px] font-semibold text-rose-400">Superstar!</span>
 				</motion.div>
 			</div>
 			<p>This game is not suitable for childred. Parental guidance is adviced.</p>

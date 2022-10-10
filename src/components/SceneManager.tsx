@@ -1,9 +1,27 @@
 import Background from "./Background";
 import Character from "./Character";
 import DialogueBox from "./DialogueBox";
-import { ActionTypes } from "../Game";
+import { ActionTypes, Action, State } from "../types/enum";
 
-const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: any) => {
+interface SceneManagerProps {
+	dispatch: React.Dispatch<Action>;
+	bgImages: {
+		[key: string]: any;
+	};
+	bgMusic: {
+		[key: string]: any;
+	};
+	characters: {
+		[key: string]: { [key: string]: any };
+	};
+	story: any[];
+	state: State;
+	femaleSprites: {
+		[key: string]: { [key: string]: any };
+	};
+}
+
+const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: SceneManagerProps) => {
 	const nextFrame = () => {
 		dispatch({ type: ActionTypes.NEXTFRAME });
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[state.index + 1].bgm] });

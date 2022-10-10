@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ActionTypes } from "../Game";
+import { ActionTypes, Action } from "../types/enum";
+import { FullScreenHandle } from "react-full-screen";
 
 const animationTitleScreen: any = {
 	initial: { opacity: 0, y: 0 },
@@ -7,7 +8,16 @@ const animationTitleScreen: any = {
 	exit: { opacity: 0, y: -0 },
 };
 
-const TitleScreen = ({ dispatch, handle, bgMusic, story }: any) => {
+interface TitleScreenProps {
+	dispatch: React.Dispatch<Action>;
+	handle: FullScreenHandle;
+	bgMusic: {
+		[key: string]: any;
+	};
+	story: any[];
+}
+
+const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => {
 	const startGame = (): void => {
 		handle.enter();
 		dispatch({ type: "showIntro" });
@@ -37,7 +47,7 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: any) => {
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[32px] font-semibold text-sky-400">live!</span>
+					<span className="outline-title text-[42px] font-semibold text-sky-400">live!</span>
 				</motion.div>
 				<motion.div
 					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"
@@ -51,7 +61,7 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: any) => {
 					<span className="outline-title text-[32px] font-semibold text-rose-400">Superstar!</span>
 				</motion.div>
 			</div>
-			<p>This game is not suitable for childred. Parental guidance is adviced.</p>
+			<p>This game is not suitable for children. Parental guidance is adviced.</p>
 			<button
 				className="mini rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"
 				onClick={startGame}

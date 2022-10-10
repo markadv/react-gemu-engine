@@ -1,7 +1,8 @@
 export const ActionTypes = {
 	RESET: "reset",
 	SETVOLUME: "setVolume",
-	STARTGAME: "startGame",
+	STARTSCENE: "startScene",
+	STARTEDITOR: "startEditor",
 	SHOWINTRO: "showIntro",
 	SHOWTITLE: "showTitle",
 	ISFULLSCREEN: "isfullscreen",
@@ -35,11 +36,30 @@ export interface State {
 	configMenuShown: boolean;
 	titleScreenShown: boolean;
 	introShown: boolean;
-	gameIsRendering: boolean;
+	scenceIsRendering: boolean;
+	sceneeditorIsRendering: boolean;
 	backlogShown: boolean;
 	textBoxShown: boolean;
 	saveMenuShown: boolean;
 	loadMenuShown: boolean;
 	isSkipping: boolean;
 	isLoading: boolean;
+}
+
+export interface ManagerProps {
+	dispatch: React.Dispatch<Action>;
+	bgImages: {
+		[key: string]: any;
+	};
+	bgMusic: {
+		[key: string]: any;
+	};
+	characters: {
+		[key: string]: { [key: string]: any };
+	};
+	story: any[];
+	state: State;
+	femaleSprites: {
+		[key: string]: { [key: string]: any };
+	};
 }

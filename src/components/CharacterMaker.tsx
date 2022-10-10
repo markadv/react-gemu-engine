@@ -1,7 +1,5 @@
-import React from "react";
-
 const CharacterMaker = () => {
-	return <div>CharacterMaker</div>;
+	return <></>;
 };
 
 export default CharacterMaker;

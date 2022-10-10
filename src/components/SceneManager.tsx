@@ -1,43 +1,41 @@
 import Background from "./Background";
 import Character from "./Character";
 import DialogueBox from "./DialogueBox";
-import { ActionTypes, Action, State } from "../types/enum";
+import { ActionTypes, ManagerProps } from "../types/enum";
+import { AnimatePresence } from "framer-motion";
 
-interface SceneManagerProps {
-	dispatch: React.Dispatch<Action>;
-	bgImages: {
-		[key: string]: any;
-	};
-	bgMusic: {
-		[key: string]: any;
-	};
-	characters: {
-		[key: string]: { [key: string]: any };
-	};
-	story: any[];
-	state: State;
-	femaleSprites: {
-		[key: string]: { [key: string]: any };
-	};
-}
-
-const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: SceneManagerProps) => {
+const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
+	let scene = story[state.index];
 	const nextFrame = () => {
 		dispatch({ type: ActionTypes.NEXTFRAME });
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[state.index + 1].bgm] });
 	};
-	console.log(state.index);
-	return (
-		<>
-			<Background bgImages={bgImages} bg={story[state.index].bg} />
+	let characterEl = [];
+	for (let i = 0; i < scene.characters.length; i++) {
+		// let key;
+		// if (scene.characters[i - 1] && scene.characters[i].sprite === scene.characters[i - 1].sprite) {
+		// 	key = scene.characters[i].sprite + (state.index - 1) + "";
+		// } else {
+		// 	key = scene.characters[i].sprite + state.index + "";
+		// }
+		characterEl.push(
 			<Character
-				character1={story[state.index].sprite1}
-				character2={story[state.index].sprite2}
+				character={scene.characters[i]}
 				characters={characters}
 				femaleSprites={femaleSprites}
+				key={scene.characters[i].sprite}
+				sceneIndex={state.index}
 			/>
+		);
+	}
+	return (
+		<>
+			<AnimatePresence mode="wait">
+				<Background bgImages={bgImages} bg={scene.bg.media} />
+			</AnimatePresence>
+			<AnimatePresence>{characterEl}</AnimatePresence>
 			<div onClick={nextFrame}>
-				<DialogueBox name={story[state.index].speaker} text={story[state.index].text} />
+				<DialogueBox name={scene.speaker.name} text={scene.text} location={scene.speaker.location} />
 			</div>
 		</>
 	);

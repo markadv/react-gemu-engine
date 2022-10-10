@@ -18,17 +18,21 @@ interface TitleScreenProps {
 }
 
 const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => {
-	const startGame = (): void => {
+	const startScene = (): void => {
 		handle.enter();
-		dispatch({ type: "showIntro" });
+		dispatch({ type: ActionTypes.SHOWINTRO });
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[0].bgm] });
+	};
+	const startEditor = (): void => {
+		handle.enter();
+		dispatch({ type: ActionTypes.STARTEDITOR });
 	};
 
 	const titleScreenEl = (
-		<div className="absolute flex h-full w-full flex-col items-center justify-center bg-white object-cover">
+		<div className="absolute flex h-full w-full flex-col items-center justify-center gap-10 bg-white object-cover">
 			<div className="flex flex-row">
 				<motion.div
-					className="mini font-mustard text-3xl md:text-[42px] lg:text-[48px]"
+					className="mini mx-1 font-mustard text-3xl md:text-[42px] lg:text-[48px]"
 					animate={{
 						scale: [1, 2, 2, 1, 1],
 						rotate: [0, -60, 45, -60, 0],
@@ -36,10 +40,10 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="mini outline-title text-fuchsia-500">Love</span>
+					<span className="mini outline-title text-fuchsia-500">React</span>
 				</motion.div>
 				<motion.div
-					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"
+					className="mx-1 font-mustard text-3xl md:text-[42px] lg:text-[48px]"
 					animate={{
 						scale: [1, 2, 2, 1, 1],
 						rotate: [0, 45, -60, 45, 0],
@@ -47,7 +51,7 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[42px] font-semibold text-sky-400">live!</span>
+					<span className="outline-title mx-1 text-[42px] font-semibold text-sky-400">VisualNovel</span>
 				</motion.div>
 				<motion.div
 					className="font-mustard text-3xl md:text-[42px] lg:text-[48px]"
@@ -58,16 +62,24 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 					}}
 					transition={{ duration: 1 }}
 				>
-					<span className="outline-title text-[32px] font-semibold text-rose-400">Superstar!</span>
+					<span className="outline-title text-[32px] font-semibold text-rose-400">Engine</span>
 				</motion.div>
 			</div>
-			<p>This game is not suitable for children. Parental guidance is adviced.</p>
-			<button
-				className="mini rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"
-				onClick={startGame}
-			>
-				Start Game
-			</button>
+			<p>A react visual novel game engine for everyone.</p>
+			<div className="flex flex-row gap-10">
+				<button
+					className="mini rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"
+					onClick={startScene}
+				>
+					Start Game
+				</button>
+				<button
+					className="mini rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"
+					onClick={startEditor}
+				>
+					Edit Game
+				</button>
+			</div>
 		</div>
 	);
 	return (

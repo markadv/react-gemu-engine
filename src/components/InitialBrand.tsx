@@ -54,7 +54,7 @@ const InitialBrand = ({ dispatch }: any): ReactElement => {
 				}}
 				onAnimationComplete={() => {
 					setAnimationEnd(true);
-					dispatch({ type: "startGame" });
+					dispatch({ type: "startScene" });
 				}}
 			>
 				<motion.svg variants={textContainer} className="absolute z-50 flex">

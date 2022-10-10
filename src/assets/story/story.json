@@ -1,45 +1,58 @@
 [
 	{
 		"type": "scene",
-		"bg": "streetSpringDay",
+		"bg": { "media": "streetSpringDay", "transition": null },
 		"bgm": "sunny",
-		"sprite1": "Kanon",
-		"speaker": "Kanon",
-		"sprite2": null,
-		"text": "Scene1."
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Smile", "transition": null },
+			{ "location": "right", "sprite": "Chisato-Smile2", "transition": null }
+		],
+		"speaker": { "name": "Kanon", "location": "left" },
+		"text": "Scene 1",
+		"voice": null,
+		"sfx": null
 	},
 	{
 		"type": "scene",
-		"bg": "streetSpringNight",
+		"bg": { "media": "streetSpringDay", "transition": null },
+		"bgm": "sunny",
+		"characters": [
+			{ "location": "left", "sprite": "Chisato-Smile2", "transition": null },
+			{ "location": "right", "sprite": "Kanon-Smile", "transition": null }
+		],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "Scene 2",
+		"voice": null,
+		"sfx": null
+	},
+	{
+		"type": "scene",
+		"bg": { "media": "streetSpringDay", "transition": null },
+		"bgm": "sunny",
+		"characters": [{ "location": "left", "sprite": "Chisato-Smile2", "transition": null }],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "Scene 2",
+		"voice": null,
+		"sfx": null
+	},
+	{
+		"type": "scene",
+		"bg": { "media": "streetSpringNight", "transition": null },
 		"bgm": "night",
-		"sprite1": "Kanon",
-		"speaker": "Kanon",
-		"sprite2": "Chisato",
-		"text": "Scene2."
+		"characters": [{ "location": "left", "sprite": "Chisato-Smile2", "transition": null }],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "Scene 2",
+		"voice": null,
+		"sfx": null
 	},
 	{
 		"type": "scene",
-		"bg": "streetSpringNight",
+		"bg": { "media": "streetSpringNight", "transition": null },
 		"bgm": "night",
-		"speaker": "Narrator",
-		"text": "Scene3."
-	},
-	{
-		"type": "scene",
-		"bg": "schoolDay",
-		"bgm": "goodNews",
-		"sprite1": "Chisato",
-		"speaker": "Chisato",
-		"sprite2": "Kanon",
-		"text": "Scene4."
-	},
-	{
-		"type": "scene",
-		"bg": "classroomDay",
-		"bgm": "byeDramatic",
-		"sprite1": "Chisato",
-		"speaker": "Kanon",
-		"sprite2": "Kanon",
-		"text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus, modi? Fuga commodi ab ipsam et voluptates cum nemo non distinctio consequatur odit? Cumque sint autem obcaecati dolorem, sit debitis assumenda? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus, modi? Fuga commodi ab ipsam et voluptates cum nemo non distinctio consequatur odit? Cumque sint autem obcaecati dolorem, sit debitis assumenda?"
+		"characters": [],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "Scene 2",
+		"voice": null,
+		"sfx": null
 	}
 ]

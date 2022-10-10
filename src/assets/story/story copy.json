@@ -1,0 +1,43 @@
+[
+	{
+		"type": "scene",
+		"bg": "streetSpringDay",
+		"bgm": "sunny",
+		"characters": { "Kanon": "Kanon" },
+		"text": "Scene1."
+	},
+	{
+		"type": "scene",
+		"bg": "streetSpringNight",
+		"bgm": "night",
+		"sprite1": "Kanon",
+		"speaker": "Kanon",
+		"sprite2": "Chisato",
+		"text": "Scene2."
+	},
+	{
+		"type": "scene",
+		"bg": "streetSpringNight",
+		"bgm": "night",
+		"speaker": "Narrator",
+		"text": "Scene3."
+	},
+	{
+		"type": "scene",
+		"bg": "schoolDay",
+		"bgm": "goodNews",
+		"sprite1": "Chisato",
+		"speaker": "Chisato",
+		"sprite2": "Kanon",
+		"text": "Scene4."
+	},
+	{
+		"type": "scene",
+		"bg": "classroomDay",
+		"bgm": "byeDramatic",
+		"sprite1": "Chisato",
+		"speaker": "Kanon",
+		"sprite2": "Kanon",
+		"text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus, modi? Fuga commodi ab ipsam et voluptates cum nemo non distinctio consequatur odit? Cumque sint autem obcaecati dolorem, sit debitis assumenda? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus, modi? Fuga commodi ab ipsam et voluptates cum nemo non distinctio consequatur odit? Cumque sint autem obcaecati dolorem, sit debitis assumenda?"
+	}
+]

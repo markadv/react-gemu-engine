@@ -12,16 +12,16 @@ const enterRightExitRight: any = {
 };
 const shrinkUnshrink: any = {
 	initial: { scale: 0.95 },
-	animate: { scale: 1 },
-	exit: { scale: 0.95 },
+	animate: { scale: 1, opacity: 1 },
+	exit: { scale: 0.8, opacity: 0 },
 };
 
 const location: { [key: string]: { [key: string]: any } } = {
-	left: { location: "absolute left-0 bottom-0 h-3/5", transition: enterLeftExitLeft },
-	right: { location: "absolute right-0 bottom-0 h-3/5", transition: enterRightExitRight },
+	left: { location: "absolute left-0 bottom-0 h-4/6", transition: enterLeftExitLeft },
+	right: { location: "absolute right-0 bottom-0 h-4/6", transition: enterRightExitRight },
 };
 
-const Character = ({ character, characters, femaleSprites, createdCharacter, type }: any) => {
+const Character = ({ character, characters, femaleSprites, createdCharacter, type, charLocation }: any) => {
 	let characterEl = [];
 	if (type === "game") {
 		for (let part in characters[character.sprite]) {
@@ -44,8 +44,8 @@ const Character = ({ character, characters, femaleSprites, createdCharacter, typ
 			if (createdCharacter[part] !== "") {
 				characterEl.push(
 					<motion.img
-						key={femaleSprites[part][createdCharacter[part]]}
-						className={location["left"].location}
+						key={part + createdCharacter[part]}
+						className={location[charLocation].location}
 						src={femaleSprites[part][createdCharacter[part]]}
 						alt={part}
 						variants={shrinkUnshrink}

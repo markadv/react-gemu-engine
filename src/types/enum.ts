@@ -9,6 +9,8 @@ export const ActionTypes = {
 	ISLOADING: "isLoading",
 	NEXTFRAME: "nextFrame",
 	CHANGEBGM: "changeBgm",
+	BGMTOGGLE: "bgmToggle",
+	MENUTOGGLE: "menuToggle",
 } as const;
 
 export type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
@@ -22,6 +24,7 @@ export interface Action {
 export interface State {
 	bgMusic: any;
 	bgmVolume: number;
+	bgmPlaying: boolean;
 	soundEffectVolume: number;
 	voiceVolume: number;
 	font: string;

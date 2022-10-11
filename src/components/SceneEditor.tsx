@@ -1,27 +1,41 @@
 import CharacterMaker from "./CharacterMaker";
-import { ManagerProps } from "../types/enum";
+import { ActionTypes, ManagerProps } from "../types/enum";
 import Background from "./Background";
 import Character from "./Character";
-import { AnimatePresence } from "framer-motion";
-import { useReducer } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducer, useEffect } from "react";
+import DialogueBox from "./DialogueBox";
 
-export const EditTypes = {
+export const CharTypes = {
 	RESET: "reset",
 	EDITCHARACTER: "editCharacterToggle",
+	EDITCHARACTERCLEAR: "editCharacterClear",
 	CHANGEFRONTHAIR: "changeFrontHair",
 	CHANGEBACKHAIR: "changeBackHair",
 	CHANGECHARACTERPART: "changeCharacterPart",
 } as const;
 
-export type EditTypes = typeof EditTypes[keyof typeof EditTypes];
+export type CharTypes = typeof CharTypes[keyof typeof CharTypes];
 
-export interface Edit {
-	type: EditTypes;
+export const SceneTypes = {
+	RESET: "reset",
+	CHANGEBACKGROUND: "changeBackground",
+	CHANGEBGM: "changeBgm",
+} as const;
+
+export type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
+
+export interface IEditScene {
+	type: SceneTypes;
 	payload?: any;
 }
 
-interface EditState {
+export interface IEditChar {
+	type: CharTypes;
+	payload?: any;
+}
+
+interface EditCharState {
 	[key: string]: object | number | boolean;
 	parts: {
 		[backhair: string]: string | null | boolean;
@@ -43,7 +57,26 @@ interface EditState {
 	accessories3Index: number;
 }
 
-const INITIAL_EDIT = {
+interface EditSceneState {
+	[key: string]: string | object | number | boolean;
+	index: number;
+	type: string;
+	bg: { media: string; transition: string | null };
+	characters: { location: string; sprite: string; transition: null }[];
+	bgm: string;
+	voice: string;
+	sfx: string;
+	speaker: {
+		name: string;
+		sprite: string;
+		transition: string | null;
+	};
+	text: string;
+	bgIndex: number;
+	bgmIndex: number;
+}
+
+const INITIAL_CHAR = {
 	parts: {
 		backhair: "longDark",
 		body: "body",
@@ -64,7 +97,29 @@ const INITIAL_EDIT = {
 	accessories3Index: 0,
 };
 
+const INITIAL_SCENE = {
+	index: 0,
+	type: "scene",
+	bg: { media: "schoolDay", transition: null },
+	characters: [
+		{ location: "left", sprite: "Chisato-Smile2", transition: null },
+		{ location: "right", sprite: "Kanon-Smile", transition: null },
+	],
+	bgm: "menu",
+	voice: "test",
+	sfx: "test",
+	speaker: {
+		name: "test",
+		sprite: "test",
+		transition: null,
+	},
+	text: "test",
+	bgIndex: 0,
+	bgmIndex: 0,
+};
+
 const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
+	/* List of assets */
 	const fronthairList = Object.keys(femaleSprites.fronthair);
 	const backhairList = Object.keys(femaleSprites.backhair);
 	const outfitsList = Object.keys(femaleSprites.outfits);
@@ -72,13 +127,19 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 	const accessories1List = Object.keys(femaleSprites.accessories1);
 	const accessories2List = Object.keys(femaleSprites.accessories2);
 	const accessories3List = Object.keys(femaleSprites.accessories3);
+	const bgImagesList = Object.keys(bgImages);
+	const bgMusicList = Object.keys(bgMusic);
 	accessories1List.unshift("");
 	accessories2List.unshift("");
 	accessories3List.unshift("");
-	const editReducer = (state: EditState, action: Edit): EditState => {
+
+	const charEditReducer = (state: EditCharState, action: IEditChar): EditCharState => {
 		switch (action.type) {
 			case "editCharacterToggle": {
 				return { ...state, inCharacterEditMode: !state.inCharacterEditMode };
+			}
+			case "editCharacterClear": {
+				return { ...state, inCharacterEditMode: false };
 			}
 			case "changeCharacterPart": {
 				const partIndicator = action.payload;
@@ -102,7 +163,6 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 				};
 				let partSelected = partList[partIndicator];
 				let indexSelected: number = indexList[partIndicator];
-				console.log("part", partIndicator, "index", indexSelected);
 				if (indexSelected >= partSelected.length - 1) {
 					return {
 						...state,
@@ -121,32 +181,141 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 				}
 			}
 			case "reset": {
-				return INITIAL_EDIT;
+				return INITIAL_CHAR;
 			}
 			default:
-				return INITIAL_EDIT;
+				return INITIAL_CHAR;
 		}
 	};
-	const [editState, editDispatch] = useReducer(editReducer, INITIAL_EDIT);
-	const editCharacterToggle = () => {
-		editDispatch({ type: EditTypes.EDITCHARACTER });
+
+	/* Controls scene edits */
+	const sceneEditReducer = (state: EditSceneState, action: IEditScene): EditSceneState => {
+		switch (action.type) {
+			case "changeBackground": {
+				if (state.bgIndex >= bgImagesList.length - 1) {
+					return {
+						...state,
+						bg: { ...state.bg, media: bgImagesList[0] },
+						bgIndex: 0,
+					};
+				} else {
+					return {
+						...state,
+						bg: { ...state.bg, media: bgImagesList[state.bgIndex + 1] },
+						bgIndex: state.bgIndex + 1,
+					};
+				}
+			}
+			case "changeBgm": {
+				if (state.bgmIndex >= bgMusicList.length - 1) {
+					return {
+						...state,
+						bgm: bgMusicList[0],
+						bgmIndex: 0,
+					};
+				} else {
+					return {
+						...state,
+						bgm: bgMusicList[state.bgmIndex + 1],
+						bgmIndex: state.bgmIndex + 1,
+					};
+				}
+			}
+			case "reset": {
+				return INITIAL_SCENE;
+			}
+			default:
+				return INITIAL_SCENE;
+		}
 	};
-	console.log(editState);
-	console.log(outfitsList);
+	const [editChar1, editChar1Dispatch] = useReducer(charEditReducer, INITIAL_CHAR);
+	const [editChar2, editChar2Dispatch] = useReducer(charEditReducer, INITIAL_CHAR);
+	const [editScene, editSceneDispatch] = useReducer(sceneEditReducer, INITIAL_SCENE);
+	const editCharacter1Toggle = () => {
+		editChar1Dispatch({ type: CharTypes.EDITCHARACTER });
+	};
+	const handleClickOutside1 = () => {
+		editChar1Dispatch({ type: CharTypes.EDITCHARACTERCLEAR });
+	};
+	const editCharacter2Toggle = () => {
+		editChar2Dispatch({ type: CharTypes.EDITCHARACTER });
+	};
+	const handleClickOutside2 = () => {
+		editChar2Dispatch({ type: CharTypes.EDITCHARACTERCLEAR });
+	};
+	const changeBackground = () => {
+		editSceneDispatch({ type: SceneTypes.CHANGEBACKGROUND });
+	};
+	const changeBgm = () => {
+		editSceneDispatch({ type: SceneTypes.CHANGEBGM });
+	};
+	console.log(editScene);
+
+	useEffect(() => {
+		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editScene.bgm] });
+	}, [editScene.bgm]);
 
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={"streetSpringDay"} />
+				<Background bgImages={bgImages} bg={editScene.bg.media} />
 			</AnimatePresence>
-			<motion.div onClick={editCharacterToggle}>
+			<motion.div onClick={editCharacter1Toggle}>
 				<AnimatePresence>
-					<Character femaleSprites={femaleSprites} createdCharacter={editState.parts} type="editor" />
+					<Character
+						femaleSprites={femaleSprites}
+						createdCharacter={editChar1.parts}
+						charLocation="left"
+						type="editor"
+					/>
+				</AnimatePresence>
+			</motion.div>
+			<motion.div onClick={editCharacter2Toggle}>
+				<AnimatePresence>
+					<Character
+						femaleSprites={femaleSprites}
+						createdCharacter={editChar2.parts}
+						charLocation="right"
+						type="editor"
+					/>
 				</AnimatePresence>
 			</motion.div>
 			<AnimatePresence>
-				{editState.inCharacterEditMode && <CharacterMaker editDispatch={editDispatch} />}
+				{editChar1.inCharacterEditMode && (
+					<CharacterMaker
+						editDispatch={editChar1Dispatch}
+						handleClickOutside={handleClickOutside1}
+						charLocation="left"
+					/>
+				)}
 			</AnimatePresence>
+			<AnimatePresence>
+				{editChar2.inCharacterEditMode && (
+					<CharacterMaker
+						editDispatch={editChar2Dispatch}
+						handleClickOutside={handleClickOutside2}
+						charLocation="right"
+					/>
+				)}
+			</AnimatePresence>
+			<DialogueBox name="text" text="text" location="left" />
+			<div className="absolute top-0 h-[10%] w-full bg-black opacity-50"></div>
+			<motion.img
+				className="absolute top-[2.5%] left-[7.5%] h-[5%]"
+				src={require("../assets/icons/background.png")}
+				alt="background icon"
+				whileHover={{ scale: 1.2 }}
+				whileTap={{ scale: 0.9 }}
+				onClick={changeBackground}
+			/>
+			<motion.img
+				className="absolute top-[2.5%] left-[2.5%] h-[5%] rounded-full border-2 border-[#E879F9]"
+				src={require("../assets/icons/music-note.png")}
+				alt="background icon"
+				onClick={changeBgm}
+				whileHover={{ scale: 1.2 }}
+				whileTap={{ scale: 0.9 }}
+			/>
 		</>
 	);
 };

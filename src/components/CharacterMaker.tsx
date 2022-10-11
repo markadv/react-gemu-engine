@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { EditTypes, Edit } from "./SceneEditor";
+import useOnClickOutside from "../hooks/useOnClickOutside";
+import { CharTypes, IEditChar } from "./SceneEditor";
+import { useRef } from "react";
 
 const dropIn = {
 	hidden: {
@@ -17,25 +19,38 @@ const dropIn = {
 		},
 	},
 	exit: {
-		y: "100vh",
+		y: "-100vh",
 		opacity: 0,
 	},
 };
 
-const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }) => {
+const CharacterMaker = ({
+	editDispatch,
+	handleClickOutside,
+	charLocation,
+}: {
+	editDispatch: React.Dispatch<IEditChar>;
+	handleClickOutside: () => void;
+	charLocation: string;
+}) => {
+	const charMaker1Ref = useRef(null);
+	useOnClickOutside(charMaker1Ref, handleClickOutside);
 	return (
 		<motion.div
+			ref={charMaker1Ref}
 			onClick={(e) => e.stopPropagation()}
 			variants={dropIn}
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className="absolute bottom-[55%] left-[10%] flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white"
+			className={`absolute top-[20%] ${
+				charLocation === "left" ? "left-[11.5%]" : "right-[11.5%]"
+			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white`}
 		>
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "fronthair" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "fronthair" });
 				}}
 			>
 				Fronthair
@@ -43,7 +58,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "backhair" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "backhair" });
 				}}
 			>
 				Backhair
@@ -51,7 +66,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "outfits" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "outfits" });
 				}}
 			>
 				Outfits
@@ -59,7 +74,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "expression" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "expression" });
 				}}
 			>
 				Expression
@@ -67,7 +82,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories1" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
 				}}
 			>
 				Glasses
@@ -75,7 +90,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories2" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
 				}}
 			>
 				Neck accessories
@@ -83,7 +98,7 @@ const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }
 			<button
 				className="text-xl"
 				onClick={() => {
-					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories3" });
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 				}}
 			>
 				Hair accessories

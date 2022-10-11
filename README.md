@@ -1,15 +1,99 @@
 # React visual novel game engine
 
+## File tree
+
+📦public
+┣ 📜favicon.ico
+┣ 📜index.html
+┣ 📜logo192.png
+┣ 📜logo512.png
+┣ 📜manifest.json
+┗ 📜robots.txt
+📦src
+┣ 📂assets
+┃ ┣ 📂bgm
+┃ ┣ 📂fonts
+┃ ┣ 📂images
+┃ ┃ ┣ 📂bg
+┃ ┃ ┣ 📂characters
+┃ ┃ ┃ ┣ 📂Female
+┃ ┃ ┃ ┃ ┣ 📂accessories
+┃ ┃ ┃ ┃ ┣ 📂backhairs
+┃ ┃ ┃ ┃ ┣ 📂blush
+┃ ┃ ┃ ┃ ┣ 📂expressions
+┃ ┃ ┃ ┃ ┣ 📂fronthairs
+┃ ┃ ┃ ┃ ┣ 📂outfits
+┃ ┃ ┃ ┗ 📂Male
+┃ ┃ ┃ ┃ ┣ 📂accessories
+┃ ┃ ┃ ┃ ┣ 📂backhairs
+┃ ┃ ┃ ┃ ┣ 📂expressions
+┃ ┃ ┃ ┃ ┣ 📂fronthairs
+┃ ┃ ┃ ┃ ┣ 📂outfits
+┃ ┗ 📂story
+┃ ┃ ┣ 📜characters.json
+┃ ┃ ┗ 📜story.json
+┣ 📂components
+┃ ┣ 📜AnimatedText.tsx
+┃ ┣ 📜Background.tsx
+┃ ┣ 📜Character.tsx
+┃ ┣ 📜CharacterMaker.tsx
+┃ ┣ 📜DialogueBox.tsx
+┃ ┣ 📜InitialBrand.tsx
+┃ ┣ 📜SceneEditor.tsx
+┃ ┣ 📜SceneManager.tsx
+┃ ┗ 📜TitleScreen.tsx
+┣ 📂hooks
+┃ ┣ 📜useAudio.tsx
+┃ ┣ 📜useBeforeunload.tsx
+┃ ┣ 📜useDocumentTitle.tsx
+┃ ┣ 📜useEventListener.tsx
+┃ ┣ 📜useIntro.tsx
+┃ ┣ 📜useIsomorphicLayoutEffect.tsx
+┃ ┣ 📜useLocalStorage.tsx
+┃ ┣ 📜useOnClickOutside.tsx
+┃ ┣ 📜useSafeContext.tsx
+┃ ┗ 📜useWindowSize.tsx
+┣ 📂loader
+┃ ┣ 📜bgImages.ts
+┃ ┣ 📜bgMusic.ts
+┃ ┗ 📜femaleSprites.ts
+┣ 📂types
+┃ ┗ 📜enum.ts
+┣ 📜App.tsx
+┣ 📜index.css
+┣ 📜index.tsx
+┣ 📜logo.svg
+┣ 📜react-app-env.d.ts
+┣ 📜reportWebVitals.ts
+┣ 📜service-worker.ts
+┣ 📜serviceWorkerRegistration.ts
+┗ 📜setupTests.ts
+
 ## Features
 
 -   [ ] General
-    -   [x] Navbar
+    -   [x] Title screen -50%
 -   [ ] Homepage (Intro)
-    -   [x] Disclaimer
     -   [x] Intro
         -   [x] Initialize music
-    -   [ ] Interactable menu
+    -   [ ] Option menu
+    -   [ ] Quick access sound
+    -   [ ] Quick access fullscreen
     -   [ ] Interactable characters
--   [x] Game (Actual website)
--   [ ] Contact (Ending)
-    -   [ ] Social media links
+-   [x] Game output
+    -   [x] Characters
+    -   [x] Background
+    -   [x] Dialogue
+    -   [x] Controls
+    -   [ ] Choices (Optional)
+    -   [ ] History
+    -   [ ] Quick menu
+    -   [ ] Ending
+-   [ ] Editor (CRUD)
+    -   [ ] Scenes
+    -   [x] Characters
+    -   [ ] Background
+    -   [ ] Background music
+    -   [ ] Voice
+    -   [ ] Sound effects
+    -   [ ] Story choices (Optional)

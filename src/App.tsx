@@ -27,6 +27,21 @@ import femaleSprites from "./loader/femaleSprites";
 import bgImages from "./loader/bgImages";
 import SceneEditor from "./components/SceneEditor";
 
+/* Loading screen */
+const loadingScreen = (
+	<ul className="loader">
+		<li className="center"></li>
+		<li className="item item-1"></li>
+		<li className="item item-2"></li>
+		<li className="item item-3"></li>
+		<li className="item item-4"></li>
+		<li className="item item-5"></li>
+		<li className="item item-6"></li>
+		<li className="item item-7"></li>
+		<li className="item item-8"></li>
+	</ul>
+);
+
 /* States */
 const INITIAL_STATE: State = {
 	/* config state */
@@ -122,6 +137,8 @@ const App = () => {
 	/* Initialize reducer with initial state */
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 	let loadDelay = state.isDebug ? 0 : 3500;
+	state.isDebug && console.log(state);
+
 	/* Used to handle full screen */
 	const handle: FullScreenHandle = useFullScreenHandle();
 
@@ -142,79 +159,64 @@ const App = () => {
 		window.addEventListener("load", loadingFinished);
 		return () => window.removeEventListener("load", loadingFinished);
 	}, []);
-	console.log(state);
 
 	return (
-		<FullScreen
-			handle={handle}
-			onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
-			className={`relative aspect-video w-[1280px] overflow-hidden ${
-				(state.sceneIsRendering || state.sceneeditorIsRendering) &&
-				!state.isFullscreen &&
-				"border border-rose-400"
-			}`}
-		>
+		<>
 			{state.isLoading && loadingScreen}
-			{state.introShown && <InitialBrand dispatch={dispatch} />}
-			{state.titleScreenShown && (
-				<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
-			)}
-			{state.sceneIsRendering && (
-				<motion.div
-					variants={animationBody}
-					initial="initial"
-					animate="animate"
-					exit="exit"
-					transition={{ duration: 0.23 }}
+			<div className="flex h-full flex-col items-center justify-center bg-slate-50">
+				<FullScreen
+					handle={handle}
+					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
+					className={`relative h-[360px] w-[640px] overflow-hidden md:h-[423px] md:w-[768px] lg:h-[576px] lg:w-[1024px] xl:h-[720px] xl:w-[1280px] 2xl:h-[864px]  2xl:w-[1536px]
+							${(state.sceneIsRendering || state.sceneeditorIsRendering) && !state.isFullscreen && "border border-rose-400"}`}
 				>
-					<SceneManager
-						bgImages={bgImages}
-						characters={characters}
-						dispatch={dispatch}
-						state={state}
-						bgMusic={bgMusic}
-						femaleSprites={femaleSprites}
-						story={story}
-					/>
-				</motion.div>
-			)}
-			{state.sceneeditorIsRendering && (
-				<motion.div
-					variants={animationBody}
-					initial="initial"
-					animate="animate"
-					exit="exit"
-					transition={{ duration: 0.23 }}
-				>
-					<SceneEditor
-						bgImages={bgImages}
-						characters={characters}
-						dispatch={dispatch}
-						state={state}
-						bgMusic={bgMusic}
-						femaleSprites={femaleSprites}
-						story={story}
-					/>
-				</motion.div>
-			)}
-			<ReactHowler src={state.bgMusic} playing={true} volume={0.1} loop={true} />
-		</FullScreen>
+					{state.introShown && <InitialBrand dispatch={dispatch} />}
+					{state.titleScreenShown && (
+						<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
+					)}
+					{state.sceneIsRendering && (
+						<motion.div
+							variants={animationBody}
+							initial="initial"
+							animate="animate"
+							exit="exit"
+							transition={{ duration: 0.23 }}
+						>
+							<SceneManager
+								bgImages={bgImages}
+								characters={characters}
+								dispatch={dispatch}
+								state={state}
+								bgMusic={bgMusic}
+								femaleSprites={femaleSprites}
+								story={story}
+							/>
+						</motion.div>
+					)}
+					{state.sceneeditorIsRendering && (
+						<motion.div
+							variants={animationBody}
+							initial="initial"
+							animate="animate"
+							exit="exit"
+							transition={{ duration: 0.23 }}
+						>
+							<SceneEditor
+								bgImages={bgImages}
+								characters={characters}
+								dispatch={dispatch}
+								state={state}
+								bgMusic={bgMusic}
+								femaleSprites={femaleSprites}
+								story={story}
+							/>
+						</motion.div>
+					)}
+					<ReactHowler src={state.bgMusic} playing={true} volume={0.1} loop={true} />
+				</FullScreen>
+			</div>
+		</>
 	);
 };
 
 export default App;
-
-/* Loading screen */
-const loadingScreen = (
-	<ul className="loader">
-		<li className="center"></li>
-		<li className="item item-1"></li>
-		<li className="item item-2"></li>
-		<li className="item item-3"></li>
-		<li className="item item-4"></li>
-		<li className="item item-5"></li>
-		<li className="item item-6"></li>
-		<li className="item item-7"></li>
-		<li className="item item-8"></li>
-	</ul>
-);

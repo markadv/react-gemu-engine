@@ -8,7 +8,7 @@ const animationBody: any = {
 const Background = ({ bgImages, bg }: any) => {
 	return (
 		<motion.img
-			className="h-full w-full object-contain"
+			className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2"
 			key={bgImages[bg]}
 			src={bgImages[bg]}
 			alt="lib"

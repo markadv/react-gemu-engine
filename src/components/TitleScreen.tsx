@@ -25,7 +25,6 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[0].bgm] });
 	};
 	const startEditor = (): void => {
-		handle.enter();
 		dispatch({ type: ActionTypes.STARTEDITOR });
 	};
 	const constraintsRef = useRef(null);
@@ -86,7 +85,7 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 				>
-					Start Game
+					Demo Game
 				</motion.button>
 				<motion.button
 					className="rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"

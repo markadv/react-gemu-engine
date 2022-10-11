@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { EditTypes, Edit } from "./SceneEditor";
 
 const dropIn = {
 	hidden: {
@@ -21,7 +22,7 @@ const dropIn = {
 	},
 };
 
-const CharacterMaker = () => {
+const CharacterMaker = ({ editDispatch }: { editDispatch: React.Dispatch<Edit> }) => {
 	return (
 		<motion.div
 			onClick={(e) => e.stopPropagation()}
@@ -29,9 +30,64 @@ const CharacterMaker = () => {
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className="absolute bottom-[55%] left-[10%] flex w-[10%] items-center justify-center rounded-md border border-rose-400 bg-white"
+			className="absolute bottom-[55%] left-[10%] flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white"
 		>
-			<p className="z-10 bg-white text-3xl">Test</p>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "fronthair" });
+				}}
+			>
+				Fronthair
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "backhair" });
+				}}
+			>
+				Backhair
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "outfits" });
+				}}
+			>
+				Outfits
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "expression" });
+				}}
+			>
+				Expression
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories1" });
+				}}
+			>
+				Glasses
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories2" });
+				}}
+			>
+				Neck accessories
+			</button>
+			<button
+				className="text-xl"
+				onClick={() => {
+					editDispatch({ type: EditTypes.CHANGECHARACTERPART, payload: "accessories3" });
+				}}
+			>
+				Hair accessories
+			</button>
 			{/* <button onClick={handleClose}>Close</button> */}
 		</motion.div>
 	);

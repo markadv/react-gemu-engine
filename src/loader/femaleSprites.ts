@@ -20,9 +20,6 @@ const femaleSprites = {
 		ponySilver: require("../assets/images/characters/Female/backhairs/pony_silver.png"),
 		ponyBrown: require("../assets/images/characters/Female/backhairs/pony_brown.png"),
 		ponyBlondie: require("../assets/images/characters/Female/backhairs/pony_blondie.png"),
-		ponyMask: require("../assets/images/characters/Female/backhairs/pony_mask.png"),
-		ponyOutline: require("../assets/images/characters/Female/backhairs/pony_outline.png"),
-		ponyShadow: require("../assets/images/characters/Female/backhairs/pony_shadow.png"),
 	},
 	body: { body: require("../assets/images/characters/Female/base-body.png") },
 	outfits: {
@@ -75,8 +72,8 @@ const femaleSprites = {
 		circleGlasses: require("../assets/images/characters/Female/accessories/circle-glasses.png"),
 		redGlasses: require("../assets/images/characters/Female/accessories/red-glasses.png"),
 	},
-	accesories2: { choker: require("../assets/images/characters/Female/accessories/choker.png") },
-	accesories3: { flower: require("../assets/images/characters/Female/accessories/flower.png") },
+	accessories2: { choker: require("../assets/images/characters/Female/accessories/choker.png") },
+	accessories3: { flower: require("../assets/images/characters/Female/accessories/flower.png") },
 };
 
 export default femaleSprites;

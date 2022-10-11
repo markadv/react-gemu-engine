@@ -12,19 +12,13 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 	};
 	let characterEl = [];
 	for (let i = 0; i < scene.characters.length; i++) {
-		// let key;
-		// if (scene.characters[i - 1] && scene.characters[i].sprite === scene.characters[i - 1].sprite) {
-		// 	key = scene.characters[i].sprite + (state.index - 1) + "";
-		// } else {
-		// 	key = scene.characters[i].sprite + state.index + "";
-		// }
 		characterEl.push(
 			<Character
+				key={scene.characters[i].sprite + i}
 				character={scene.characters[i]}
 				characters={characters}
 				femaleSprites={femaleSprites}
-				key={scene.characters[i].sprite}
-				sceneIndex={state.index}
+				type="game"
 			/>
 		);
 	}

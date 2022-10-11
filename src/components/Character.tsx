@@ -16,9 +16,9 @@ const location: { [key: string]: { [key: string]: any } } = {
 	right: { location: "absolute right-0 bottom-0 h-3/5", transition: enterRightExitRight },
 };
 
-const Character = ({ character, characters, femaleSprites, createdCharacter, sceneIndex }: any) => {
+const Character = ({ character, characters, femaleSprites, createdCharacter, type }: any) => {
 	let characterEl = [];
-	if (character !== null && characters !== null) {
+	if (type === "game") {
 		for (let part in characters[character.sprite]) {
 			characterEl.push(
 				<motion.img
@@ -27,6 +27,22 @@ const Character = ({ character, characters, femaleSprites, createdCharacter, sce
 					src={femaleSprites[part][characters[character.sprite][part]]}
 					alt={part}
 					variants={location[character.location].transition}
+					initial="initial"
+					animate="animate"
+					exit="exit"
+					transition={{ ease: "easeOut", duration: 1 }}
+				/>
+			);
+		}
+	} else {
+		for (let part in createdCharacter) {
+			characterEl.push(
+				<motion.img
+					key={part}
+					className={location["left"].location}
+					src={femaleSprites[part][createdCharacter[part]]}
+					alt={part}
+					variants={location["left"].transition}
 					initial="initial"
 					animate="animate"
 					exit="exit"

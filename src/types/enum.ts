@@ -36,7 +36,7 @@ export interface State {
 	configMenuShown: boolean;
 	titleScreenShown: boolean;
 	introShown: boolean;
-	scenceIsRendering: boolean;
+	sceneIsRendering: boolean;
 	sceneeditorIsRendering: boolean;
 	backlogShown: boolean;
 	textBoxShown: boolean;
@@ -44,6 +44,7 @@ export interface State {
 	loadMenuShown: boolean;
 	isSkipping: boolean;
 	isLoading: boolean;
+	isDebug: boolean;
 }
 
 export interface ManagerProps {

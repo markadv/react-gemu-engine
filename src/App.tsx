@@ -48,7 +48,7 @@ const INITIAL_STATE: State = {
 	configMenuShown: false,
 	titleScreenShown: false,
 	introShown: false,
-	scenceIsRendering: false,
+	sceneIsRendering: false,
 	sceneeditorIsRendering: false,
 	backlogShown: false,
 	textBoxShown: true,
@@ -56,6 +56,7 @@ const INITIAL_STATE: State = {
 	loadMenuShown: false,
 	isSkipping: false,
 	isLoading: true,
+	isDebug: true,
 };
 
 /* Reducer function to control all state */
@@ -77,7 +78,7 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, titleScreenShown: false, introShown: true };
 		}
 		case "startScene": {
-			return { ...state, scenceIsRendering: true };
+			return { ...state, sceneIsRendering: true };
 		}
 		case "startEditor": {
 			return { ...state, titleScreenShown: false, sceneeditorIsRendering: true };
@@ -108,19 +109,19 @@ const App = () => {
 	/* Set document title by Markad */
 	useDocumentTitle("Superstar");
 
-	/* Start loading screen with Effect by Markad */
-	const wave = () => {
-		let wave = [];
-		for (let i = 0; i < 10; i++) {
-			wave.push(<div key={i} style={{ animationDelay: `${i * 0.1}s` }} className="wave"></div>);
-		}
-		return wave;
-	};
-	const loadingScreen = <div className="flex h-full items-center justify-center">{wave()}</div>;
+	/* To be used for sound button */
+	// const wave = () => {
+	// 	let wave = [];
+	// 	for (let i = 0; i < 10; i++) {
+	// 		wave.push(<div key={i} style={{ animationDelay: `${i * 0.1}s` }} className="wave"></div>);
+	// 	}
+	// 	return wave;
+	// };
+	// const loadingScreen = <div className="flex h-full items-center justify-center">{wave()}</div>;
 
 	/* Initialize reducer with initial state */
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-
+	let loadDelay = state.isDebug ? 0 : 3500;
 	/* Used to handle full screen */
 	const handle: FullScreenHandle = useFullScreenHandle();
 
@@ -131,7 +132,9 @@ const App = () => {
 
 	/* Listens when assets finished loading to start title screen */
 	const loadingFinished = () => {
-		dispatch({ type: ActionTypes.SHOWTITLE });
+		setTimeout(() => {
+			dispatch({ type: ActionTypes.SHOWTITLE });
+		}, loadDelay);
 	};
 
 	/* Loading finished listener */
@@ -146,7 +149,9 @@ const App = () => {
 			handle={handle}
 			onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 			className={`relative aspect-video w-[1280px] overflow-hidden ${
-				state.scenceIsRendering && !state.isFullscreen && "border border-rose-400"
+				(state.sceneIsRendering || state.sceneeditorIsRendering) &&
+				!state.isFullscreen &&
+				"border border-rose-400"
 			}`}
 		>
 			{state.isLoading && loadingScreen}
@@ -154,7 +159,7 @@ const App = () => {
 			{state.titleScreenShown && (
 				<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
 			)}
-			{state.scenceIsRendering && (
+			{state.sceneIsRendering && (
 				<motion.div
 					variants={animationBody}
 					initial="initial"
@@ -196,4 +201,20 @@ const App = () => {
 		</FullScreen>
 	);
 };
+
 export default App;
+
+/* Loading screen */
+const loadingScreen = (
+	<ul className="loader">
+		<li className="center"></li>
+		<li className="item item-1"></li>
+		<li className="item item-2"></li>
+		<li className="item item-3"></li>
+		<li className="item item-4"></li>
+		<li className="item item-5"></li>
+		<li className="item item-6"></li>
+		<li className="item item-7"></li>
+		<li className="item item-8"></li>
+	</ul>
+);

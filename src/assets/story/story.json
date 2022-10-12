@@ -51,7 +51,7 @@
 		"bgm": "night",
 		"characters": [],
 		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "Scene 2",
+		"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet sollicitudin enim. Quisque aliquam feugiat arcu vitae sollicitudin. Donec eget metus pellentesque, suscipit turpis laoreet, vehicula turpis. Morbi tempus, velit sed mollis imperdiet, velit erat pellentesque nunc, at viverra sem libero eu tellus. Phasellus nec diam gravida, consequat justo quis, interdum eros. Duis sollicitudin tempor ex tincidunt luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu ultricies augue. Vivamus imperdiet sapien ut ornare aliquet. Aenean pulvinar, ipsum sed interdum pulvinar, tellus velit pulvinar ante, quis dapibus lorem nisi ac nisl. Ut imperdiet aliquam sem ut pharetra. Donec pharetra, mi quis sagittis tempus, eros ante viverra ipsum, id placerat felis ipsum vel arcu. Ut elementum dignissim lacus, et aliquam nunc ultricies a. Nullam consectetur vehicula fringilla. Vivamus egestas nisi laoreet enim aliquet tempus.",
 		"voice": null,
 		"sfx": null
 	}

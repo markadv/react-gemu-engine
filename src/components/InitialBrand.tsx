@@ -76,7 +76,7 @@ const InitialBrand = ({ dispatch }: any): ReactElement => {
 							y="45%"
 							style={{ fill: "url(#pattern)" }}
 						>
-							Superstar
+							Markad
 						</text>
 					</svg>
 				</motion.svg>

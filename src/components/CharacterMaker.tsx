@@ -45,10 +45,15 @@ const CharacterMaker = ({
 			exit="exit"
 			className={`absolute top-[20%] ${
 				charLocation === "left" ? "left-[11.5%]" : "right-[11.5%]"
-			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white`}
+			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white font-handwritten font-bold`}
 		>
+			<input
+				type="text"
+				name="sprite-name"
+				className="mt-2 inline w-[90%] bg-none p-0 text-[0.9vw] outline-none"
+			/>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "fronthair" });
 				}}
@@ -56,7 +61,7 @@ const CharacterMaker = ({
 				Fronthair
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "backhair" });
 				}}
@@ -64,7 +69,7 @@ const CharacterMaker = ({
 				Backhair
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "outfits" });
 				}}
@@ -72,7 +77,7 @@ const CharacterMaker = ({
 				Outfits
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "expression" });
 				}}
@@ -80,7 +85,7 @@ const CharacterMaker = ({
 				Expression
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
 				}}
@@ -88,7 +93,7 @@ const CharacterMaker = ({
 				Glasses
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
 				}}
@@ -96,7 +101,7 @@ const CharacterMaker = ({
 				Neck accessories
 			</button>
 			<button
-				className="text-xl"
+				className="text-[0.9vw]"
 				onClick={() => {
 					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 				}}

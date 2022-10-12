@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 import { ActionTypes, Action } from "../types/enum";
 
 const dropIn = {
@@ -22,7 +24,15 @@ const dropIn = {
 	},
 };
 
-const ConfigMenuScreen = ({ dispatch }: { dispatch: React.Dispatch<Action> }) => {
+const ConfigMenuScreen = ({
+	dispatch,
+	configMenuOff,
+}: {
+	dispatch: React.Dispatch<Action>;
+	configMenuOff: () => void;
+}) => {
+	const configMenuRef = useRef(null);
+	useOnClickOutside(configMenuRef, configMenuOff);
 	return (
 		<motion.div
 			onClick={(e) => e.stopPropagation()}
@@ -32,7 +42,10 @@ const ConfigMenuScreen = ({ dispatch }: { dispatch: React.Dispatch<Action> }) =>
 			exit="exit"
 			className={`absolute left-1/2 top-1/2 `}
 		>
-			<div className="-translate-x-1/2 -translate-y-1/2 rounded-md border border-rose-400 bg-white p-2">
+			<div
+				ref={configMenuRef}
+				className="-translate-x-1/2 -translate-y-1/2 rounded-md border border-rose-400 bg-white p-2"
+			>
 				<button
 					className="text-xl"
 					onClick={(e) => {

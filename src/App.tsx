@@ -2,7 +2,7 @@
 import { useReducer, useEffect } from "react";
 import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, FullScreenHandle, useFullScreenHandle } from "react-full-screen";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ReactHowler from "react-howler";
 
 /* Styles */
@@ -18,7 +18,7 @@ import SceneManager from "./components/SceneManager";
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
 
-/* Data */
+/* Initial data */
 import characters from "./assets/story/characters.json";
 import story from "./assets/story/story.json";
 
@@ -32,6 +32,7 @@ import bgImages from "./loader/bgImages";
 import SceneEditor from "./components/SceneEditor";
 import ConfigMenuScreen from "./components/ConfigMenuScreen";
 import Tippy from "@tippyjs/react";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 /* Loading screen */
 const loadingScreen = (
@@ -92,6 +93,9 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case "menuToggle": {
 			return { ...state, configMenuShown: !state.configMenuShown };
+		}
+		case "menuOff": {
+			return { ...state, configMenuShown: false };
 		}
 		case "isfullscreen": {
 			return { ...state, isFullscreen: action.payload };
@@ -173,12 +177,15 @@ const App = () => {
 	const configMenuToggle = () => {
 		dispatch({ type: ActionTypes.MENUTOGGLE });
 	};
-
-	console.log(state);
-
+	const configMenuOff = () => {
+		dispatch({ type: ActionTypes.MENUOFF });
+	};
+	const [storyState, setStoryState] = useLocalStorage("story", story);
+	const [charactersState, setCharactersState] = useLocalStorage("characters", characters);
 	return (
 		<>
 			{state.isLoading && loadingScreen}
+
 			{!state.isLoading && (
 				<FullScreen
 					handle={handle}
@@ -187,9 +194,11 @@ const App = () => {
 							${(state.sceneIsRendering || state.sceneeditorIsRendering) && !state.isFullscreen && "border border-rose-400"}`}
 				>
 					{state.introShown && <InitialBrand dispatch={dispatch} />}
+
 					{state.titleScreenShown && (
 						<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
 					)}
+
 					{state.sceneIsRendering && (
 						<motion.div
 							variants={animationBody}
@@ -200,15 +209,16 @@ const App = () => {
 						>
 							<SceneManager
 								bgImages={bgImages}
-								characters={characters}
+								characters={charactersState}
 								dispatch={dispatch}
 								state={state}
 								bgMusic={bgMusic}
 								femaleSprites={femaleSprites}
-								story={story}
+								story={storyState}
 							/>
 						</motion.div>
 					)}
+
 					{state.sceneeditorIsRendering && (
 						<motion.div
 							variants={animationBody}
@@ -219,18 +229,22 @@ const App = () => {
 						>
 							<SceneEditor
 								bgImages={bgImages}
-								characters={characters}
+								characters={charactersState}
 								dispatch={dispatch}
 								state={state}
 								bgMusic={bgMusic}
 								femaleSprites={femaleSprites}
-								story={story}
+								story={storyState}
+								setCharacters={setCharactersState}
+								setStory={setStoryState}
 							/>
 						</motion.div>
 					)}
+
 					{(state.sceneIsRendering || state.titleScreenShown) && (
 						<div className="absolute top-0 right-0 h-[5.5%] w-[9%] rounded-bl-xl bg-black opacity-25"></div>
 					)}
+
 					{!state.isLoading && (
 						<Tippy
 							appendTo="parent"
@@ -255,6 +269,7 @@ const App = () => {
 							</motion.div>
 						</Tippy>
 					)}
+
 					{!state.isLoading && (
 						<Tippy
 							appendTo="parent"
@@ -269,7 +284,7 @@ const App = () => {
 								className={`absolute cursor-pointer ${
 									state.sceneIsRendering || state.titleScreenShown
 										? "top-[0.9%] right-[6%] text-[1.5vw]"
-										: "top-[2.5%] right-[12.5%] text-[2.4vw]"
+										: "top-[2.5%] right-[12.5%] text-[2.3vw]"
 								} text-[#E879F9]`}
 								onClick={fullscreenToggle}
 								whileHover={{ scale: 1.2 }}
@@ -279,6 +294,7 @@ const App = () => {
 							</motion.div>
 						</Tippy>
 					)}
+
 					{!state.isLoading && (
 						<Tippy
 							appendTo="parent"
@@ -303,9 +319,15 @@ const App = () => {
 							</motion.div>
 						</Tippy>
 					)}
-					{state.configMenuShown && <ConfigMenuScreen dispatch={dispatch} />}
+
+					<AnimatePresence>
+						{state.configMenuShown && (
+							<ConfigMenuScreen dispatch={dispatch} configMenuOff={configMenuOff} />
+						)}
+					</AnimatePresence>
+
 					{!state.isLoading && (
-						<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.03} loop={true} />
+						<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.1} loop={true} />
 					)}
 				</FullScreen>
 			)}

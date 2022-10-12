@@ -55,7 +55,7 @@ const DialogueBox = ({
 						type="text"
 						value={name}
 						name="name"
-						className="bg-slate-100 font-handwritten text-[1.15vw] font-bold outline-none"
+						className="bg-slate-100 text-center font-handwritten text-[1.15vw] font-bold outline-none"
 						onInput={editName}
 					/>
 				)}

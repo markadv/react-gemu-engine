@@ -7,7 +7,6 @@ import Tippy from "@tippyjs/react";
 import CharacterMaker from "./CharacterMaker";
 import Background from "./Background";
 import Character from "./Character";
-import { ActionTypes, ManagerProps } from "../types/enum";
 import DialogueBox from "./DialogueBox";
 
 /* Styles */
@@ -16,94 +15,35 @@ import { MdRadio } from "react-icons/md";
 import { BsFillPersonFill, BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill, BsPlayBtn } from "react-icons/bs";
 import { FiMessageSquare, FiSave } from "react-icons/fi";
 
-export const CharTypes = {
-	RESET: "reset",
-	EDITCHARACTER: "editCharacterToggle",
-	EDITCHARACTERCLEAR: "editCharacterClear",
-	CHANGEFRONTHAIR: "changeFrontHair",
-	CHANGEBACKHAIR: "changeBackHair",
-	CHANGECHARACTERPART: "changeCharacterPart",
-	ENABLECHARACTERTOGGLE: "enableCharacterToggle",
-} as const;
-
-export type CharTypes = typeof CharTypes[keyof typeof CharTypes];
-
-export const SceneTypes = {
-	RESET: "reset",
-	CHANGEBACKGROUND: "changeBackground",
-	CHANGEBGM: "changeBgm",
-	HIDEDIALOGUE: "hideDialogue",
-	CHANGENAME: "changeName",
-	CHANGETEXT: "changeText",
-} as const;
-
-export type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
-
-export interface IEditScene {
-	type: SceneTypes;
-	payload?: any;
-}
-
-export interface IEditChar {
-	type: CharTypes;
-	payload?: any;
-}
-
-interface EditCharState {
-	[key: string]: object | number | boolean;
-	isEnabled: boolean;
-	parts: {
-		[backhair: string]: string | null | boolean;
-		body: string;
-		outfits: string;
-		fronthair: string;
-		expression: string;
-		accessories1: string | null;
-		accessories2: string | null;
-		accessories3: string | null;
-	};
-	inCharacterEditMode: boolean;
-	fronthairIndex: number;
-	backhairIndex: number;
-	outfitsIndex: number;
-	expressionIndex: number;
-	accessories1Index: number;
-	accessories2Index: number;
-	accessories3Index: number;
-}
-
-interface EditSceneState {
-	[key: string]: string | object | number | boolean;
-	index: number;
-	type: string;
-	bg: { media: string; transition: string | null };
-	characters: { location: string; sprite: string; transition: null }[];
-	bgm: string;
-	voice: string;
-	sfx: string;
-	speaker: {
-		name: string;
-		location: string;
-	};
-	text: string;
-	bgIndex: number;
-	bgmIndex: number;
-	enableDialogue: boolean;
-}
+/* Types */
+import {
+	ActionTypes,
+	ManagerProps,
+	CharTypes,
+	SceneTypes,
+	IEditScene,
+	IEditChar,
+	EditCharState,
+	EditSceneState,
+	IMenuButtons,
+} from "../types/enum";
 
 const INITIAL_CHAR = {
 	isEnabled: true,
+	spriteName: "default",
 	parts: {
-		backhair: "longDark",
+		haircolor: "dark",
+		backhair: "long",
 		body: "body",
 		outfits: "seifuku1",
-		fronthair: "longDark",
+		fronthair: "long",
 		expression: "normal",
 		accessories1: "",
 		accessories2: "",
 		accessories3: "",
 	},
 	inCharacterEditMode: false,
+	haircolorIndex: 0,
 	fronthairIndex: 0,
 	backhairIndex: 0,
 	outfitsIndex: 0,
@@ -134,10 +74,20 @@ const INITIAL_SCENE = {
 	enableDialogue: true,
 };
 
-const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
+const SceneEditor = ({
+	dispatch,
+	bgImages,
+	characters,
+	state,
+	bgMusic,
+	femaleSprites,
+	story,
+	setCharacters,
+	setStory,
+}: ManagerProps) => {
 	/* List of assets */
-	const fronthairList = Object.keys(femaleSprites.fronthair);
-	const backhairList = Object.keys(femaleSprites.backhair);
+	const haircolorList = Object.keys(femaleSprites.fronthair);
+	const hairList = Object.keys(femaleSprites.fronthair[haircolorList[0]]);
 	const outfitsList = Object.keys(femaleSprites.outfits);
 	const expressionList = Object.keys(femaleSprites.expression);
 	const accessories1List = Object.keys(femaleSprites.accessories1);
@@ -149,6 +99,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 	accessories2List.unshift("");
 	accessories3List.unshift("");
 
+	/* Controls character edits. */
 	const editCharReducer = (state: EditCharState, action: IEditChar): EditCharState => {
 		switch (action.type) {
 			case "enableCharacterToggle": {
@@ -160,11 +111,15 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			case "editCharacterClear": {
 				return { ...state, inCharacterEditMode: false };
 			}
+			case "changeSpriteName": {
+				return { ...state, spriteName: action.payload };
+			}
 			case "changeCharacterPart": {
 				const partIndicator = action.payload;
 				const partList: { [key: string]: any } = {
-					backhair: backhairList,
-					fronthair: fronthairList,
+					haircolor: haircolorList,
+					fronthair: hairList,
+					backhair: hairList,
 					outfits: outfitsList,
 					expression: expressionList,
 					accessories1: accessories1List,
@@ -172,8 +127,9 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 					accessories3: accessories3List,
 				};
 				const indexList: { [key: string]: any } = {
-					backhair: state.backhairIndex,
+					haircolor: state.haircolorIndex,
 					fronthair: state.fronthairIndex,
+					backhair: state.backhairIndex,
 					outfits: state.outfitsIndex,
 					expression: state.expressionIndex,
 					accessories1: state.accessories1Index,
@@ -199,6 +155,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 					};
 				}
 			}
+
 			case "reset": {
 				return INITIAL_CHAR;
 			}
@@ -256,9 +213,76 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 				return INITIAL_SCENE;
 		}
 	};
-	const [editChar1, editChar1Dispatch] = useReducer(editCharReducer, INITIAL_CHAR);
-	const [editChar2, editChar2Dispatch] = useReducer(editCharReducer, INITIAL_CHAR);
-	const [editScene, editSceneDispatch] = useReducer(editSceneReducer, INITIAL_SCENE);
+	const LOADED_INITIAL_SCENE = {
+		...story[0],
+		bgIndex: 0,
+		bgmIndex: 0,
+		enableDialogue: true,
+	};
+	const storyCharacterCheck = () => {
+		if (story[0].characters.length > 0) {
+			return [...story[0].characters];
+		}
+	};
+	/* Check if there is a left character in the initial state */
+	const checkCharacter = (location: string) => {
+		interface storyCharacter {
+			location: string;
+			sprite: string;
+			transition: string | null;
+		}
+		let charactersArr = storyCharacterCheck();
+		if (charactersArr) {
+			let leftCharacter = charactersArr.find((character: storyCharacter) => character.location === location);
+			return {
+				isEnabled: true,
+				spriteName: leftCharacter.sprite,
+				parts: {
+					haircolor: characters[leftCharacter.sprite].haircolor,
+					backhair: characters[leftCharacter.sprite].backhair,
+					body: characters[leftCharacter.sprite].body,
+					outfits: characters[leftCharacter.sprite].outfits,
+					fronthair: characters[leftCharacter.sprite].fronthair,
+					expression: characters[leftCharacter.sprite].expression,
+					accessories1: characters[leftCharacter.sprite].accessories1
+						? characters[leftCharacter.sprite].accessories1
+						: "",
+					accessories2: characters[leftCharacter.sprite].accessories2
+						? characters[leftCharacter.sprite].accessories2
+						: "",
+					accessories3: characters[leftCharacter.sprite].accessories3
+						? characters[leftCharacter.sprite].accessories3
+						: "",
+				},
+				inCharacterEditMode: false,
+				haircolorIndex:
+					haircolorList.findIndex((row) => row === characters[leftCharacter.sprite].haircolor) && 0,
+				fronthairIndex: hairList.findIndex((row) => row === characters[leftCharacter.sprite].fronthair) && 0,
+				backhairIndex: hairList.findIndex((row) => row === characters[leftCharacter.sprite].backhair) && 0,
+				outfitsIndex: outfitsList.findIndex((row) => row === characters[leftCharacter.sprite].outfits) && 0,
+				expressionIndex:
+					expressionList.findIndex((row) => row === characters[leftCharacter.sprite].expression) && 0,
+				accessories1Index:
+					accessories1List.findIndex((row) => row === characters[leftCharacter.sprite].accessories1) && 0,
+				accessories2Index:
+					accessories2List.findIndex((row) => row === characters[leftCharacter.sprite].accessories2) && 0,
+				accessories3Index:
+					accessories3List.findIndex((row) => row === characters[leftCharacter.sprite].accessories3) && 0,
+			};
+		} else {
+			return INITIAL_CHAR;
+		}
+	};
+
+	console.log("loaded", LOADED_INITIAL_SCENE);
+	/* If story exist and is not null, load story scene instead of initial scene */
+	const [editScene, editSceneDispatch] = useReducer(
+		editSceneReducer,
+		story && story.length > 0 ? LOADED_INITIAL_SCENE : INITIAL_SCENE
+	);
+	const [editChar1, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
+	const [editChar2, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
+	console.log("loadedcharstate", editChar1);
 	const editCharacter1Toggle = () => {
 		editChar1Dispatch({ type: CharTypes.EDITCHARACTER });
 	};
@@ -286,25 +310,15 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 	const enableDialogue = () => {
 		editSceneDispatch({ type: SceneTypes.HIDEDIALOGUE });
 	};
-	console.log(editScene);
-
+	const saveCurrent = () => {};
 	useEffect(() => {
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editScene.bgm] });
 	}, [editScene.bgm]);
 
-	const menuButtonsList: {
-		title: string;
-		left: string;
-		top: string;
-		textSize: string;
-		onClick: any;
-		icon: any;
-		extraIcon?: any;
-		extraClass?: any;
-	}[] = [
+	const menuButtonsList: IMenuButtons[] = [
 		{ title: "Music", left: "2.5%", top: "2.5%", textSize: "2.4vw", onClick: changeBgm, icon: <MdRadio /> },
 		{
-			title: "Background",
+			title: "Change background",
 			left: "7.5%",
 			top: "2.5%",
 			textSize: "2.4vw",
@@ -312,7 +326,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			icon: <ImImages />,
 		},
 		{
-			title: "Left character",
+			title: "Add/Remove left character",
 			left: "12.5%",
 			top: "2.5%",
 			textSize: "2.4vw",
@@ -322,7 +336,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			extraClass: editChar1.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Right character",
+			title: "Add/remove right character",
 			left: "17.5%",
 			top: "2.5%",
 			textSize: "2.4vw",
@@ -332,7 +346,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			extraClass: editChar2.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Dialogue box",
+			title: "Enable/disable dialogue box",
 			left: "23%",
 			top: "2.5%",
 			textSize: "2.4vw",
@@ -340,7 +354,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			icon: <FiMessageSquare />,
 		},
 		{
-			title: "Save",
+			title: "Save current characters and scene",
 			left: "41%",
 			top: "2.5%",
 			textSize: "2.4vw",
@@ -364,14 +378,13 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			icon: state.index + 1,
 		},
 		{
-			title: "Previous scene",
+			title: "Next scene",
 			left: "53%",
 			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
 			icon: <BsFillArrowRightCircleFill />,
 		},
-
 		{
 			title: "Play",
 			left: "57.5%",
@@ -409,7 +422,7 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 			</Tippy>
 		);
 	});
-
+	console.log(editChar1);
 	return (
 		<>
 			<AnimatePresence mode="wait">
@@ -433,6 +446,8 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 								editDispatch={editChar1Dispatch}
 								handleClickOutside={handleClickOutside1}
 								charLocation="left"
+								editChar={editChar1}
+								characters={characters}
 							/>
 						)}
 					</AnimatePresence>
@@ -457,6 +472,8 @@ const SceneEditor = ({ dispatch, bgImages, characters, state, bgMusic, femaleSpr
 								editDispatch={editChar2Dispatch}
 								handleClickOutside={handleClickOutside2}
 								charLocation="right"
+								editChar={editChar2}
+								characters={characters}
 							/>
 						)}
 					</AnimatePresence>

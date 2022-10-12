@@ -75,7 +75,7 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => 
 						}}
 						transition={{ duration: 1 }}
 					>
-						<span className="outline-title text-[32px] font-semibold text-rose-400">Engine</span>
+						<span className="outline-title text-[32px] font-semibold text-rose-400">Maker</span>
 					</motion.div>
 				</div>
 				<p className="text-xs">Try dragging the title when it seems out of place.</p>

@@ -27,6 +27,7 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 			/>
 		);
 	}
+
 	return (
 		<>
 			<AnimatePresence mode="wait">
@@ -34,7 +35,12 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 			</AnimatePresence>
 			<AnimatePresence>{characterEl}</AnimatePresence>
 			<div onClick={nextFrame}>
-				<DialogueBox name={scene.speaker.name} text={scene.text} location={scene.speaker.location} type="game" />
+				<DialogueBox
+					name={scene.speaker.name}
+					text={scene.text}
+					location={scene.speaker.location}
+					type="game"
+				/>
 			</div>
 		</>
 	);

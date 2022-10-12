@@ -1,16 +1,26 @@
 {
+	"default": {
+		"haircolor": "dark",
+		"backhair": "long",
+		"body": "body",
+		"outfits": "seifuku1",
+		"fronthair": "long",
+		"expression": "normal"
+	},
 	"Kanon-Smile": {
-		"backhair": "shortBlondie",
+		"haircolor": "blondie",
+		"backhair": "short",
 		"body": "body",
 		"outfits": "seifuku2",
-		"fronthair": "shortBlondie",
+		"fronthair": "short",
 		"expression": "smile"
 	},
 	"Chisato-Smile2": {
-		"backhair": "curlySilver",
+		"haircolor": "silver",
+		"backhair": "curly",
 		"body": "body",
 		"outfits": "seifuku2",
-		"fronthair": "shortSilver",
+		"fronthair": "short",
 		"expression": "smile2"
 	}
 }

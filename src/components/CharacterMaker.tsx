@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import useOnClickOutside from "../hooks/useOnClickOutside";
-import { CharTypes, IEditChar } from "./SceneEditor";
+import { CharTypes, EditCharState, IEditChar } from "../types/enum";
 import { useRef } from "react";
 
 const dropIn = {
@@ -28,13 +28,26 @@ const CharacterMaker = ({
 	editDispatch,
 	handleClickOutside,
 	charLocation,
+	editChar,
+	characters,
 }: {
 	editDispatch: React.Dispatch<IEditChar>;
 	handleClickOutside: () => void;
 	charLocation: string;
+	editChar: EditCharState;
+	characters: any;
 }) => {
+	/* Close the modal if you click outside */
 	const charMaker1Ref = useRef(null);
 	useOnClickOutside(charMaker1Ref, handleClickOutside);
+	const onInputSpriteName = (e: React.FormEvent<HTMLInputElement>) => {
+		editDispatch({ type: CharTypes.CHANGESPRITENAME, payload: e.currentTarget.value });
+	};
+
+	const spriteList = Object.keys(characters);
+	const spriteListEl = spriteList.map((sprite, index) => {
+		return <option key={index} value={sprite} />;
+	});
 	return (
 		<motion.div
 			ref={charMaker1Ref}
@@ -43,15 +56,27 @@ const CharacterMaker = ({
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className={`absolute top-[20%] ${
+			className={`absolute bottom-[60%] ${
 				charLocation === "left" ? "left-[11.5%]" : "right-[11.5%]"
 			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white font-handwritten font-bold`}
 		>
 			<input
 				type="text"
+				value={editChar.spriteName}
 				name="sprite-name"
-				className="mt-2 inline w-[90%] bg-none p-0 text-[0.9vw] outline-none"
+				list="sprite"
+				className="inline w-[90%] bg-none p-0 text-center text-[0.9vw] outline-none"
+				onInput={onInputSpriteName}
 			/>
+			<datalist id="sprite">{spriteListEl}</datalist>
+			<button
+				className="text-[0.9vw]"
+				onClick={() => {
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "haircolor" });
+				}}
+			>
+				Haircolor
+			</button>
 			<button
 				className="text-[0.9vw]"
 				onClick={() => {

@@ -51,7 +51,6 @@ const AnimatedText: FC<Props> = ({ text, delay = 0, duration = 0.05, ...props }:
 			},
 		},
 	};
-	console.log(text);
 	return (
 		<motion.p
 			className="flex overflow-hidden font-handwritten font-semibold"

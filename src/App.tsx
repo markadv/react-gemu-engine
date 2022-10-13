@@ -1,5 +1,5 @@
 /* Dependencies */
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, FullScreenHandle, useFullScreenHandle } from "react-full-screen";
 import { AnimatePresence, motion } from "framer-motion";
@@ -33,6 +33,8 @@ import SceneEditor from "./components/SceneEditor";
 import ConfigMenuScreen from "./components/ConfigMenuScreen";
 import Tippy from "@tippyjs/react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import useWindowSize from "./hooks/useWindowSize";
+import useScreenOrientation from "./hooks/useScreenOrientation";
 
 /* Loading screen */
 const loadingScreen = (
@@ -57,7 +59,7 @@ const INITIAL_STATE: State = {
 	bgmPlaying: true,
 	soundEffectVolume: 90,
 	voiceVolume: 100,
-	font: "Trebuchet MS",
+	font: "Handwritten",
 	isFullscreen: false,
 	/* Story state */
 	choicesStore: {},
@@ -79,7 +81,7 @@ const INITIAL_STATE: State = {
 	loadMenuShown: false,
 	isSkipping: false,
 	isLoading: true,
-	isDebug: true,
+	isDebug: false,
 };
 
 /* Reducer function to control all state */
@@ -182,6 +184,8 @@ const App = () => {
 	};
 	const [storyState, setStoryState] = useLocalStorage("story", story);
 	const [charactersState, setCharactersState] = useLocalStorage("characters", characters);
+	const { height, width } = useWindowSize();
+	const screenOrientation = useScreenOrientation();
 	return (
 		<>
 			{state.isLoading && loadingScreen}
@@ -190,145 +194,158 @@ const App = () => {
 				<FullScreen
 					handle={handle}
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
-					className={`gamescreen relative h-[360px] w-[640px] overflow-hidden md:h-[423px] md:w-[768px] lg:h-[576px] lg:w-[1024px] xl:h-[720px] xl:w-[1280px] 2xl:h-[864px]  2xl:w-[1536px]
-							${(state.sceneIsRendering || state.sceneeditorIsRendering) && !state.isFullscreen && "border border-rose-400"}`}
 				>
-					{state.introShown && <InitialBrand dispatch={dispatch} />}
+					<div
+						className="gamescreen relative aspect-video overflow-hidden"
+						style={
+							screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
+								? {
+										width: width / height > 16 / 9 ? "auto" : width,
+										height: width / height > 16 / 9 ? height : "auto",
+								  }
+								: {
+										height: width / height > 16 / 9 ? "auto" : width,
+										width: width / height > 16 / 9 ? height : "auto",
+								  }
+						}
+					>
+						{state.introShown && <InitialBrand dispatch={dispatch} />}
 
-					{state.titleScreenShown && (
-						<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
-					)}
-
-					{state.sceneIsRendering && (
-						<motion.div
-							variants={animationBody}
-							initial="initial"
-							animate="animate"
-							exit="exit"
-							transition={{ duration: 0.23 }}
-						>
-							<SceneManager
-								bgImages={bgImages}
-								characters={charactersState}
-								dispatch={dispatch}
-								state={state}
-								bgMusic={bgMusic}
-								femaleSprites={femaleSprites}
-								story={storyState}
-							/>
-						</motion.div>
-					)}
-
-					{state.sceneeditorIsRendering && (
-						<motion.div
-							variants={animationBody}
-							initial="initial"
-							animate="animate"
-							exit="exit"
-							transition={{ duration: 0.23 }}
-						>
-							<SceneEditor
-								bgImages={bgImages}
-								characters={charactersState}
-								dispatch={dispatch}
-								state={state}
-								bgMusic={bgMusic}
-								femaleSprites={femaleSprites}
-								story={storyState}
-								setCharacters={setCharactersState}
-								setStory={setStoryState}
-							/>
-						</motion.div>
-					)}
-
-					{(state.sceneIsRendering || state.titleScreenShown) && (
-						<div className="absolute top-0 right-0 h-[5.5%] w-[9%] rounded-bl-xl bg-black opacity-25"></div>
-					)}
-
-					{!state.isLoading && (
-						<Tippy
-							appendTo="parent"
-							content={
-								<div className="rounded-lg bg-[#E379F4] p-1">
-									<span className="text-sm text-slate-50">BGM On/Off</span>
-								</div>
-							}
-							placement="bottom"
-						>
-							<motion.div
-								className={`absolute cursor-pointer ${
-									state.sceneIsRendering || state.titleScreenShown
-										? "top-[0.9%] right-[3.3%] text-[1.5vw]"
-										: "top-[2.5%] right-[7.5%] text-[2.4vw]"
-								} ${state.bgmPlaying ? "animate-pulse text-[#E879F9]" : "opacity-50 grayscale"}`}
-								onClick={bgmToggle}
-								whileHover={{ scale: 1.2 }}
-								whileTap={{ scale: 0.9 }}
-							>
-								<GiMusicalNotes />
-							</motion.div>
-						</Tippy>
-					)}
-
-					{!state.isLoading && (
-						<Tippy
-							appendTo="parent"
-							content={
-								<div className="rounded-lg bg-[#E379F4] p-1">
-									<span className="text-sm text-slate-50">Fullscreen</span>
-								</div>
-							}
-							placement="bottom"
-						>
-							<motion.div
-								className={`absolute cursor-pointer ${
-									state.sceneIsRendering || state.titleScreenShown
-										? "top-[0.9%] right-[6%] text-[1.5vw]"
-										: "top-[2.5%] right-[12.5%] text-[2.3vw]"
-								} text-[#E879F9]`}
-								onClick={fullscreenToggle}
-								whileHover={{ scale: 1.2 }}
-								whileTap={{ scale: 0.9 }}
-							>
-								{handle.active ? <BsFullscreenExit /> : <BsArrowsFullscreen />}
-							</motion.div>
-						</Tippy>
-					)}
-
-					{!state.isLoading && (
-						<Tippy
-							appendTo="parent"
-							content={
-								<div className="rounded-lg bg-[#E379F4] p-1">
-									<span className="text-sm text-slate-50">Settings</span>
-								</div>
-							}
-							placement="bottom"
-						>
-							<motion.div
-								className={`absolute cursor-pointer ${
-									state.sceneIsRendering || state.titleScreenShown
-										? "top-[0.5%] right-[.5%] text-[1.75vw]"
-										: "top-[2.5%] right-[2.5%] text-[2.4vw]"
-								} ${state.titleScreenShown ? "text-slate-500 opacity-50" : "text-[#E879F9]"}`}
-								onClick={configMenuToggle}
-								whileHover={{ scale: 1.2 }}
-								whileTap={{ scale: 0.9 }}
-							>
-								<IoSettingsOutline />
-							</motion.div>
-						</Tippy>
-					)}
-
-					<AnimatePresence>
-						{state.configMenuShown && (
-							<ConfigMenuScreen dispatch={dispatch} configMenuOff={configMenuOff} />
+						{state.titleScreenShown && (
+							<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
 						)}
-					</AnimatePresence>
 
-					{!state.isLoading && (
-						<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.1} loop={true} />
-					)}
+						{state.sceneIsRendering && (
+							<motion.div
+								variants={animationBody}
+								initial="initial"
+								animate="animate"
+								exit="exit"
+								transition={{ duration: 0.23 }}
+							>
+								<SceneManager
+									bgImages={bgImages}
+									characters={charactersState}
+									dispatch={dispatch}
+									state={state}
+									bgMusic={bgMusic}
+									femaleSprites={femaleSprites}
+									story={storyState}
+								/>
+							</motion.div>
+						)}
+
+						{state.sceneeditorIsRendering && (
+							<motion.div
+								variants={animationBody}
+								initial="initial"
+								animate="animate"
+								exit="exit"
+								transition={{ duration: 0.23 }}
+							>
+								<SceneEditor
+									bgImages={bgImages}
+									characters={charactersState}
+									dispatch={dispatch}
+									state={state}
+									bgMusic={bgMusic}
+									femaleSprites={femaleSprites}
+									story={storyState}
+									setCharacters={setCharactersState}
+									setStory={setStoryState}
+								/>
+							</motion.div>
+						)}
+
+						{(state.sceneIsRendering || state.titleScreenShown) && (
+							<div className="absolute top-0 right-0 h-[5.5%] w-[9%] rounded-bl-xl bg-black opacity-25"></div>
+						)}
+
+						{!state.isLoading && (
+							<Tippy
+								appendTo="parent"
+								content={
+									<div className="rounded-lg bg-[#E379F4] p-1">
+										<span className="text-sm text-slate-50">BGM On/Off</span>
+									</div>
+								}
+								placement="bottom"
+							>
+								<motion.div
+									className={`absolute cursor-pointer ${
+										state.sceneIsRendering || state.titleScreenShown
+											? "top-[0.9%] right-[3.3%] text-[1.5vw]"
+											: "top-[2.5%] right-[7.5%] text-[2.4vw]"
+									} ${state.bgmPlaying ? "animate-pulse text-[#E879F9]" : "opacity-50 grayscale"}`}
+									onClick={bgmToggle}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+								>
+									<GiMusicalNotes />
+								</motion.div>
+							</Tippy>
+						)}
+
+						{!state.isLoading && (
+							<Tippy
+								appendTo="parent"
+								content={
+									<div className="rounded-lg bg-[#E379F4] p-1">
+										<span className="text-sm text-slate-50">Fullscreen</span>
+									</div>
+								}
+								placement="bottom"
+							>
+								<motion.div
+									className={`absolute cursor-pointer ${
+										state.sceneIsRendering || state.titleScreenShown
+											? "top-[0.9%] right-[6%] text-[1.5vw]"
+											: "top-[2.5%] right-[12.5%] text-[2.3vw]"
+									} text-[#E879F9]`}
+									onClick={fullscreenToggle}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+								>
+									{handle.active ? <BsFullscreenExit /> : <BsArrowsFullscreen />}
+								</motion.div>
+							</Tippy>
+						)}
+
+						{!state.isLoading && (
+							<Tippy
+								appendTo="parent"
+								content={
+									<div className="rounded-lg bg-[#E379F4] p-1">
+										<span className="text-sm text-slate-50">Settings</span>
+									</div>
+								}
+								placement="bottom"
+							>
+								<motion.div
+									className={`absolute cursor-pointer ${
+										state.sceneIsRendering || state.titleScreenShown
+											? "top-[0.5%] right-[.5%] text-[1.75vw]"
+											: "top-[2.5%] right-[2.5%] text-[2.4vw]"
+									} ${state.titleScreenShown ? "text-slate-500 opacity-50" : "text-[#E879F9]"}`}
+									onClick={configMenuToggle}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+								>
+									<IoSettingsOutline />
+								</motion.div>
+							</Tippy>
+						)}
+
+						<AnimatePresence>
+							{state.configMenuShown && (
+								<ConfigMenuScreen dispatch={dispatch} configMenuOff={configMenuOff} />
+							)}
+						</AnimatePresence>
+
+						{!state.isLoading && (
+							<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.5} loop={true} />
+						)}
+					</div>
 				</FullScreen>
 			)}
 		</>

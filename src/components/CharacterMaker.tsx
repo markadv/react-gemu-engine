@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { CharTypes, EditCharState, IEditChar } from "../types/enum";
 import { useRef } from "react";
+import DatalistInput from "./DatalistInput";
 
 const dropIn = {
 	hidden: {
@@ -40,14 +41,21 @@ const CharacterMaker = ({
 	/* Close the modal if you click outside */
 	const charMaker1Ref = useRef(null);
 	useOnClickOutside(charMaker1Ref, handleClickOutside);
-	const onInputSpriteName = (e: React.FormEvent<HTMLInputElement>) => {
-		editDispatch({ type: CharTypes.CHANGESPRITENAME, payload: e.currentTarget.value });
+	const setValueSpriteName = (value: string) => {
+		editDispatch({ type: CharTypes.CHANGESPRITENAME, payload: value });
 	};
 
 	const spriteList = Object.keys(characters);
 	const spriteListEl = spriteList.map((sprite, index) => {
 		return <option key={index} value={sprite} />;
 	});
+	const spriteListObject = spriteList.map((sprite, index) => {
+		return { id: sprite, value: sprite };
+	});
+	const loadCharacter = (value: string) => {
+		editDispatch({ type: CharTypes.LOADCHARACTER, payload: value });
+	};
+	// console.log(editChar);
 	return (
 		<motion.div
 			ref={charMaker1Ref}
@@ -60,15 +68,18 @@ const CharacterMaker = ({
 				charLocation === "left" ? "left-[11.5%]" : "right-[11.5%]"
 			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white font-handwritten font-bold`}
 		>
-			<input
-				type="text"
+			<DatalistInput
+				placeholder={editChar.spriteName}
+				label="Sprite Name"
+				showLabel={false}
+				onFocus={(item) => setValueSpriteName("")}
+				items={spriteListObject}
+				className="text-center outline-none"
 				value={editChar.spriteName}
-				name="sprite-name"
-				list="sprite"
-				className="inline w-[90%] bg-none p-0 text-center text-[0.9vw] outline-none"
-				onInput={onInputSpriteName}
+				onInput={(e) => console.log("input", e)}
+				onSelect={(e) => loadCharacter(e.value)}
+				setValue={setValueSpriteName}
 			/>
-			<datalist id="sprite">{spriteListEl}</datalist>
 			<button
 				className="text-[0.9vw]"
 				onClick={() => {

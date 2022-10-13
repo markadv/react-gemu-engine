@@ -77,12 +77,11 @@ const CharTypes = {
 	RESET: "reset",
 	EDITCHARACTER: "editCharacterToggle",
 	EDITCHARACTERCLEAR: "editCharacterClear",
-	CHANGEFRONTHAIR: "changeFrontHair",
-	CHANGEBACKHAIR: "changeBackHair",
 	CHANGECHARACTERPART: "changeCharacterPart",
 	ENABLECHARACTERTOGGLE: "enableCharacterToggle",
 	CHANGESPRITENAME: "changeSpriteName",
 	CHANGEHAIRCOLOR: "changeHaircolor",
+	LOADCHARACTER: "loadCharacter",
 } as const;
 
 type CharTypes = typeof CharTypes[keyof typeof CharTypes];
@@ -124,7 +123,7 @@ interface EditCharState {
 	spriteName: string;
 	isEnabled: boolean;
 	parts: {
-		[backhair: string]: string | null | boolean;
+		[backhair: string]: string | null;
 		haircolor: string;
 		body: string;
 		outfits: string;

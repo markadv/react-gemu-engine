@@ -155,7 +155,9 @@ const SceneEditor = ({
 					};
 				}
 			}
-
+			case "loadCharacter": {
+				return { ...state, parts: { ...state["parts"], ...characters[action.payload] } };
+			}
 			case "reset": {
 				return INITIAL_CHAR;
 			}
@@ -219,6 +221,40 @@ const SceneEditor = ({
 		bgmIndex: 0,
 		enableDialogue: true,
 	};
+
+	/* If story exist and is not null, load story scene instead of initial scene */
+	const [editScene, editSceneDispatch] = useReducer(
+		editSceneReducer,
+		story && story.length > 0 ? LOADED_INITIAL_SCENE : INITIAL_SCENE
+	);
+
+	const retrieveSprite = (spriteName: string) => {
+		return {
+			isEnabled: true,
+			spriteName: spriteName,
+			parts: {
+				haircolor: characters[spriteName].haircolor,
+				backhair: characters[spriteName].backhair,
+				body: characters[spriteName].body,
+				outfits: characters[spriteName].outfits,
+				fronthair: characters[spriteName].fronthair,
+				expression: characters[spriteName].expression,
+				accessories1: characters[spriteName].accessories1 ? characters[spriteName].accessories1 : "",
+				accessories2: characters[spriteName].accessories2 ? characters[spriteName].accessories2 : "",
+				accessories3: characters[spriteName].accessories3 ? characters[spriteName].accessories3 : "",
+			},
+			inCharacterEditMode: false,
+			haircolorIndex: haircolorList.findIndex((row) => row === characters[spriteName].haircolor) && 0,
+			fronthairIndex: hairList.findIndex((row) => row === characters[spriteName].fronthair) && 0,
+			backhairIndex: hairList.findIndex((row) => row === characters[spriteName].backhair) && 0,
+			outfitsIndex: outfitsList.findIndex((row) => row === characters[spriteName].outfits) && 0,
+			expressionIndex: expressionList.findIndex((row) => row === characters[spriteName].expression) && 0,
+			accessories1Index: accessories1List.findIndex((row) => row === characters[spriteName].accessories1) && 0,
+			accessories2Index: accessories2List.findIndex((row) => row === characters[spriteName].accessories2) && 0,
+			accessories3Index: accessories3List.findIndex((row) => row === characters[spriteName].accessories3) && 0,
+		};
+	};
+
 	const storyCharacterCheck = () => {
 		if (story[0].characters.length > 0) {
 			return [...story[0].characters];
@@ -234,55 +270,16 @@ const SceneEditor = ({
 		let charactersArr = storyCharacterCheck();
 		if (charactersArr) {
 			let leftCharacter = charactersArr.find((character: storyCharacter) => character.location === location);
-			return {
-				isEnabled: true,
-				spriteName: leftCharacter.sprite,
-				parts: {
-					haircolor: characters[leftCharacter.sprite].haircolor,
-					backhair: characters[leftCharacter.sprite].backhair,
-					body: characters[leftCharacter.sprite].body,
-					outfits: characters[leftCharacter.sprite].outfits,
-					fronthair: characters[leftCharacter.sprite].fronthair,
-					expression: characters[leftCharacter.sprite].expression,
-					accessories1: characters[leftCharacter.sprite].accessories1
-						? characters[leftCharacter.sprite].accessories1
-						: "",
-					accessories2: characters[leftCharacter.sprite].accessories2
-						? characters[leftCharacter.sprite].accessories2
-						: "",
-					accessories3: characters[leftCharacter.sprite].accessories3
-						? characters[leftCharacter.sprite].accessories3
-						: "",
-				},
-				inCharacterEditMode: false,
-				haircolorIndex:
-					haircolorList.findIndex((row) => row === characters[leftCharacter.sprite].haircolor) && 0,
-				fronthairIndex: hairList.findIndex((row) => row === characters[leftCharacter.sprite].fronthair) && 0,
-				backhairIndex: hairList.findIndex((row) => row === characters[leftCharacter.sprite].backhair) && 0,
-				outfitsIndex: outfitsList.findIndex((row) => row === characters[leftCharacter.sprite].outfits) && 0,
-				expressionIndex:
-					expressionList.findIndex((row) => row === characters[leftCharacter.sprite].expression) && 0,
-				accessories1Index:
-					accessories1List.findIndex((row) => row === characters[leftCharacter.sprite].accessories1) && 0,
-				accessories2Index:
-					accessories2List.findIndex((row) => row === characters[leftCharacter.sprite].accessories2) && 0,
-				accessories3Index:
-					accessories3List.findIndex((row) => row === characters[leftCharacter.sprite].accessories3) && 0,
-			};
+			return retrieveSprite(leftCharacter.sprite);
 		} else {
 			return INITIAL_CHAR;
 		}
 	};
 
-	console.log("loaded", LOADED_INITIAL_SCENE);
-	/* If story exist and is not null, load story scene instead of initial scene */
-	const [editScene, editSceneDispatch] = useReducer(
-		editSceneReducer,
-		story && story.length > 0 ? LOADED_INITIAL_SCENE : INITIAL_SCENE
-	);
 	const [editChar1, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
 	const [editChar2, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
-	console.log("loadedcharstate", editChar1);
+
+	/* Character scripts */
 	const editCharacter1Toggle = () => {
 		editChar1Dispatch({ type: CharTypes.EDITCHARACTER });
 	};
@@ -295,22 +292,30 @@ const SceneEditor = ({
 	const handleClickOutside2 = () => {
 		editChar2Dispatch({ type: CharTypes.EDITCHARACTERCLEAR });
 	};
-	const changeBackground = () => {
-		editSceneDispatch({ type: SceneTypes.CHANGEBACKGROUND });
-	};
-	const changeBgm = () => {
-		editSceneDispatch({ type: SceneTypes.CHANGEBGM });
-	};
+
 	const enableCharacter1 = (character: string) => {
 		editChar1Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
 	};
 	const enableCharacter2 = (character: string) => {
 		editChar2Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
 	};
+	/* Scene scripts */
+	const changeBackground = () => {
+		editSceneDispatch({ type: SceneTypes.CHANGEBACKGROUND });
+	};
+	const changeBgm = () => {
+		editSceneDispatch({ type: SceneTypes.CHANGEBGM });
+	};
 	const enableDialogue = () => {
 		editSceneDispatch({ type: SceneTypes.HIDEDIALOGUE });
 	};
-	const saveCurrent = () => {};
+	const saveCurrent = () => {
+		setCharacters((prev: any) => {
+			console.log("sc", prev);
+			return { ...prev, [editChar1.spriteName]: editChar1.parts, [editChar2.spriteName]: editChar2.parts };
+		});
+	};
+
 	useEffect(() => {
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editScene.bgm] });
 	}, [editScene.bgm]);
@@ -358,7 +363,7 @@ const SceneEditor = ({
 			left: "41%",
 			top: "2.5%",
 			textSize: "2.4vw",
-			onClick: changeBgm,
+			onClick: saveCurrent,
 			icon: <FiSave />,
 		},
 		{
@@ -422,7 +427,7 @@ const SceneEditor = ({
 			</Tippy>
 		);
 	});
-	console.log(editChar1);
+	console.log(characters["Chisato-Smile2"]);
 	return (
 		<>
 			<AnimatePresence mode="wait">

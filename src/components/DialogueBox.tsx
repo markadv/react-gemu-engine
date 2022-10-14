@@ -11,12 +11,14 @@ const DialogueBox = ({
 	location,
 	type,
 	editSceneDispatch,
+	setIsTyping,
 }: {
 	name: string;
 	text: string;
 	location: string;
 	type: string;
 	editSceneDispatch?: any;
+	setIsTyping?: any;
 }) => {
 	const editName = (e: React.FormEvent<HTMLInputElement>) => {
 		editSceneDispatch({ type: "changeName", payload: e.currentTarget.value });
@@ -31,7 +33,10 @@ const DialogueBox = ({
 					<Typewriter
 						key={text}
 						onInit={(typewriter) => {
-							typewriter.typeString(text).start();
+							typewriter
+								.typeString(text)
+								.callFunction(() => setIsTyping(false))
+								.start();
 						}}
 						options={{ cursor: "", delay: 0.23 / text.length }}
 					/>

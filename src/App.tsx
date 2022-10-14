@@ -1,19 +1,17 @@
 /* Dependencies */
-import { useReducer, useEffect, useRef } from "react";
+import { useReducer, useEffect } from "react";
 import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, FullScreenHandle, useFullScreenHandle } from "react-full-screen";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import ReactHowler from "react-howler";
 
 /* Styles */
-import { IoSettingsOutline } from "react-icons/io5";
-import { GiMusicalNotes } from "react-icons/gi";
-import { BsArrowsFullscreen, BsFullscreenExit } from "react-icons/bs";
 
 /* Components */
 import InitialBrand from "./components/InitialBrand";
 import TitleScreen from "./components/TitleScreen";
 import SceneManager from "./components/SceneManager";
+import OptionsButton from "./components/OptionsButton";
 
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
@@ -30,8 +28,6 @@ import bgMusic from "./loader/bgMusic";
 import femaleSprites from "./loader/femaleSprites";
 import bgImages from "./loader/bgImages";
 import SceneEditor from "./components/SceneEditor";
-import ConfigMenuScreen from "./components/ConfigMenuScreen";
-import Tippy from "@tippyjs/react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import useWindowSize from "./hooks/useWindowSize";
 import useScreenOrientation from "./hooks/useScreenOrientation";
@@ -63,7 +59,7 @@ const INITIAL_STATE: State = {
 	isFullscreen: false,
 	/* Story state */
 	choicesStore: {},
-	index: 0,
+	index: "main-0",
 	stateHistory: [],
 	choicesHistory: [],
 	choicesIndexHistory: [],
@@ -81,7 +77,7 @@ const INITIAL_STATE: State = {
 	loadMenuShown: false,
 	isSkipping: false,
 	isLoading: true,
-	isDebug: false,
+	isDebug: true,
 };
 
 /* Reducer function to control all state */
@@ -118,7 +114,7 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, titleScreenShown: false, sceneeditorIsRendering: true };
 		}
 		case "nextFrame": {
-			return { ...state, index: state.index + 1 };
+			return { ...state, index: action.payload };
 		}
 		case "changeBgm": {
 			return { ...state, bgMusic: action.payload };
@@ -179,6 +175,7 @@ const App = () => {
 	const configMenuToggle = () => {
 		dispatch({ type: ActionTypes.MENUTOGGLE });
 	};
+
 	const configMenuOff = () => {
 		dispatch({ type: ActionTypes.MENUOFF });
 	};
@@ -196,7 +193,7 @@ const App = () => {
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 				>
 					<div
-						className="gamescreen relative aspect-video overflow-hidden"
+						className="relative aspect-video overflow-hidden"
 						style={
 							screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
 								? {
@@ -204,15 +201,21 @@ const App = () => {
 										height: width / height > 16 / 9 ? height : "auto",
 								  }
 								: {
-										height: width / height > 16 / 9 ? "auto" : width,
-										width: width / height > 16 / 9 ? height : "auto",
+										height: width / height > 16 / 9 ? width : "auto",
+										width: width / height > 16 / 9 ? "auto" : height,
 								  }
 						}
 					>
 						{state.introShown && <InitialBrand dispatch={dispatch} />}
 
 						{state.titleScreenShown && (
-							<TitleScreen dispatch={dispatch} handle={handle} bgMusic={bgMusic} story={story} />
+							<TitleScreen
+								dispatch={dispatch}
+								handle={handle}
+								bgMusic={bgMusic}
+								story={story}
+								screenOrientation={screenOrientation}
+							/>
 						)}
 
 						{state.sceneIsRendering && (
@@ -257,90 +260,17 @@ const App = () => {
 							</motion.div>
 						)}
 
-						{(state.sceneIsRendering || state.titleScreenShown) && (
-							<div className="absolute top-0 right-0 h-[5.5%] w-[9%] rounded-bl-xl bg-black opacity-25"></div>
-						)}
-
 						{!state.isLoading && (
-							<Tippy
-								appendTo="parent"
-								content={
-									<div className="rounded-lg bg-[#E379F4] p-1">
-										<span className="text-sm text-slate-50">BGM On/Off</span>
-									</div>
-								}
-								placement="bottom"
-							>
-								<motion.div
-									className={`absolute cursor-pointer ${
-										state.sceneIsRendering || state.titleScreenShown
-											? "top-[0.9%] right-[3.3%] text-[1.5vw]"
-											: "top-[2.5%] right-[7.5%] text-[2.4vw]"
-									} ${state.bgmPlaying ? "animate-pulse text-[#E879F9]" : "opacity-50 grayscale"}`}
-									onClick={bgmToggle}
-									whileHover={{ scale: 1.2 }}
-									whileTap={{ scale: 0.9 }}
-								>
-									<GiMusicalNotes />
-								</motion.div>
-							</Tippy>
+							<OptionsButton
+								state={state}
+								bgmToggle={bgmToggle}
+								fullscreenToggle={fullscreenToggle}
+								handle={handle}
+								configMenuToggle={configMenuToggle}
+								dispatch={dispatch}
+								configMenuOff={configMenuOff}
+							/>
 						)}
-
-						{!state.isLoading && (
-							<Tippy
-								appendTo="parent"
-								content={
-									<div className="rounded-lg bg-[#E379F4] p-1">
-										<span className="text-sm text-slate-50">Fullscreen</span>
-									</div>
-								}
-								placement="bottom"
-							>
-								<motion.div
-									className={`absolute cursor-pointer ${
-										state.sceneIsRendering || state.titleScreenShown
-											? "top-[0.9%] right-[6%] text-[1.5vw]"
-											: "top-[2.5%] right-[12.5%] text-[2.3vw]"
-									} text-[#E879F9]`}
-									onClick={fullscreenToggle}
-									whileHover={{ scale: 1.2 }}
-									whileTap={{ scale: 0.9 }}
-								>
-									{handle.active ? <BsFullscreenExit /> : <BsArrowsFullscreen />}
-								</motion.div>
-							</Tippy>
-						)}
-
-						{!state.isLoading && (
-							<Tippy
-								appendTo="parent"
-								content={
-									<div className="rounded-lg bg-[#E379F4] p-1">
-										<span className="text-sm text-slate-50">Settings</span>
-									</div>
-								}
-								placement="bottom"
-							>
-								<motion.div
-									className={`absolute cursor-pointer ${
-										state.sceneIsRendering || state.titleScreenShown
-											? "top-[0.5%] right-[.5%] text-[1.75vw]"
-											: "top-[2.5%] right-[2.5%] text-[2.4vw]"
-									} ${state.titleScreenShown ? "text-slate-500 opacity-50" : "text-[#E879F9]"}`}
-									onClick={configMenuToggle}
-									whileHover={{ scale: 1.2 }}
-									whileTap={{ scale: 0.9 }}
-								>
-									<IoSettingsOutline />
-								</motion.div>
-							</Tippy>
-						)}
-
-						<AnimatePresence>
-							{state.configMenuShown && (
-								<ConfigMenuScreen dispatch={dispatch} configMenuOff={configMenuOff} />
-							)}
-						</AnimatePresence>
 
 						{!state.isLoading && (
 							<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.5} loop={true} />

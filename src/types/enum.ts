@@ -32,7 +32,7 @@ interface State {
 	font: string;
 	isFullscreen: boolean;
 	choicesStore: { [key: string]: any };
-	index: number;
+	index: string;
 	stateHistory: any[];
 	choicesHistory: any[];
 	choicesIndexHistory: any[];
@@ -63,7 +63,7 @@ interface ManagerProps {
 	characters: {
 		[key: string]: { [key: string]: any };
 	};
-	story: any[];
+	story: any;
 	state: State;
 	femaleSprites: {
 		[key: string]: { [key: string]: any };
@@ -93,6 +93,7 @@ const SceneTypes = {
 	HIDEDIALOGUE: "hideDialogue",
 	CHANGENAME: "changeName",
 	CHANGETEXT: "changeText",
+	TOGGLECHARACTER: "toggleCharacter",
 } as const;
 
 type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
@@ -121,7 +122,6 @@ interface IMenuButtons {
 interface EditCharState {
 	[key: string]: string | object | number | boolean;
 	spriteName: string;
-	isEnabled: boolean;
 	parts: {
 		[backhair: string]: string | null;
 		haircolor: string;
@@ -145,10 +145,10 @@ interface EditCharState {
 }
 interface EditSceneState {
 	[key: string]: string | object | number | boolean;
-	index: number;
+	index: string;
 	type: string;
 	bg: { media: string; transition: string | null };
-	characters: { location: string; sprite: string; transition: null }[];
+	characters: { location: string; sprite: string; transition: null; enabled: boolean }[];
 	bgm: string;
 	voice: string;
 	sfx: string;
@@ -160,6 +160,8 @@ interface EditSceneState {
 	bgIndex: number;
 	bgmIndex: number;
 	enableDialogue: boolean;
+	choices: any[];
+	next: string;
 }
 
 export type { Action, State, ManagerProps, IMenuButtons, IEditScene, IEditChar, EditCharState, EditSceneState };

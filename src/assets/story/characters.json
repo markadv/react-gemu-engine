@@ -5,7 +5,10 @@
 		"body": "body",
 		"outfits": "seifuku1",
 		"fronthair": "long",
-		"expression": "normal"
+		"expression": "normal",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
 	},
 	"Kanon-Smile": {
 		"haircolor": "blondie",
@@ -13,7 +16,10 @@
 		"body": "body",
 		"outfits": "seifuku2",
 		"fronthair": "short",
-		"expression": "smile"
+		"expression": "smile",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
 	},
 	"Chisato-Smile2": {
 		"haircolor": "silver",
@@ -21,6 +27,20 @@
 		"body": "body",
 		"outfits": "seifuku2",
 		"fronthair": "short",
-		"expression": "smile2"
+		"expression": "smile2",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Chisato-Sad": {
+		"haircolor": "silver",
+		"backhair": "curly",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "sad",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
 	}
 }

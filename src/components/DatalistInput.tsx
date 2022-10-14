@@ -229,8 +229,8 @@ const useComboboxHelpers = ({
 	 */
 	const handleSelect = useCallback(
 		(item: Item) => {
-			// return focus to input field after selection
-			if (comboboxInputRef.current) comboboxInputRef.current.focus();
+			// return focus to input field after selection, commented out by Markad
+			// if (comboboxInputRef.current) comboboxInputRef.current.focus();
 			if (setValue) setValue(item.value);
 			if (setIsExpanded) setIsExpanded(false);
 			if (setSelectedItem) setSelectedItem(item);

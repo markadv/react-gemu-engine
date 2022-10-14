@@ -1,19 +1,44 @@
 import { motion } from "framer-motion";
 
+const variantsList: any = {
+	enterRight: {
+		initial: { opacity: 0, x: "100vw" },
+		animate: { opacity: 1, x: "0" },
+	},
+	exitRight: {
+		initial: { opacity: 1, x: "0" },
+		animate: { opacity: 0, x: "100vw" },
+	},
+	appear: {
+		initial: { scale: 0.9 },
+		animate: { scale: 1 },
+	},
+	disapper: {
+		animate: { opacity: 0 },
+	},
+};
+
 const enterLeftExitLeft: any = {
 	initial: { opacity: 0, x: "-100vw" },
 	animate: { opacity: 1, x: "0" },
 	exit: { opacity: 0, x: "-100vw" },
 };
+
 const enterRightExitRight: any = {
 	initial: { opacity: 0, x: "100vw" },
 	animate: { opacity: 1, x: "0" },
 	exit: { opacity: 0, x: "100vw" },
 };
+
 const shrinkUnshrink: any = {
 	initial: { scale: 0.95 },
 	animate: { scale: 1, opacity: 1 },
 	exit: { scale: 0.8, opacity: 0 },
+};
+const disappearAppear: any = {
+	initial: { opacity: 0 },
+	animate: { opacity: 1 },
+	exit: { opacity: 0 },
 };
 
 const location: { [key: string]: { [key: string]: any } } = {
@@ -21,13 +46,14 @@ const location: { [key: string]: { [key: string]: any } } = {
 	right: { location: "absolute right-0 bottom-0 h-4/6", transition: enterRightExitRight },
 };
 
-const Character = ({ character, characters, femaleSprites, createdCharacter, type, charLocation }: any) => {
+const Character = ({ character, characters, femaleSprites, createdCharacter, type, charLocation, transition }: any) => {
 	let characterEl = [];
 	if (type === "game") {
 		for (let part in characters[character.sprite]) {
 			if (part === "haircolor") {
 				continue;
-			} else if (part === "fronthair" || part === "backhair") {
+			}
+			if (part === "fronthair" || part === "backhair") {
 				characterEl.push(
 					<motion.img
 						key={part}
@@ -38,21 +64,25 @@ const Character = ({ character, characters, femaleSprites, createdCharacter, typ
 							]
 						}
 						alt={part}
-						variants={location[character.location].transition}
+						variants={
+							transition === null ? location[character.location].transition : variantsList[transition]
+						}
 						initial="initial"
 						animate="animate"
 						exit="exit"
 						transition={{ ease: "easeOut", duration: 1 }}
 					/>
 				);
-			} else if (characters[character.sprite] !== "") {
+			} else if (characters[character.sprite][part] !== "") {
 				characterEl.push(
 					<motion.img
 						key={part}
 						className={location[character.location].location}
 						src={femaleSprites[part][characters[character.sprite][part]]}
 						alt={part}
-						variants={location[character.location].transition}
+						variants={
+							transition === null ? location[character.location].transition : variantsList[transition]
+						}
 						initial="initial"
 						animate="animate"
 						exit="exit"

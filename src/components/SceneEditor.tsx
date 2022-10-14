@@ -29,7 +29,6 @@ import {
 } from "../types/enum";
 
 const INITIAL_CHAR = {
-	isEnabled: true,
 	spriteName: "default",
 	parts: {
 		haircolor: "dark",
@@ -54,12 +53,12 @@ const INITIAL_CHAR = {
 };
 
 const INITIAL_SCENE = {
-	index: 0,
+	index: "main-0",
 	type: "scene",
 	bg: { media: "schoolDay", transition: null },
 	characters: [
-		{ location: "left", sprite: "Chisato-Smile2", transition: null },
-		{ location: "right", sprite: "Kanon-Smile", transition: null },
+		{ location: "left", sprite: "Chisato-Smile2", transition: null, enabled: true },
+		{ location: "right", sprite: "Kanon-Smile", transition: null, enabled: true },
 	],
 	bgm: "menu",
 	voice: "test",
@@ -72,6 +71,8 @@ const INITIAL_SCENE = {
 	bgIndex: 0,
 	bgmIndex: 0,
 	enableDialogue: true,
+	choices: [],
+	next: "main-1",
 };
 
 const SceneEditor = ({
@@ -208,6 +209,15 @@ const SceneEditor = ({
 			case "changeText": {
 				return { ...state, text: action.payload };
 			}
+			case "toggleCharacter": {
+				let charIndex = state.characters.findIndex((row) => row.location === action.payload);
+				let charactersArray = [...state.characters];
+				charactersArray[charIndex] = {
+					...state.characters[charIndex],
+					enabled: !state.characters[charIndex].enabled,
+				};
+				return { ...state, characters: [...charactersArray] };
+			}
 			case "reset": {
 				return INITIAL_SCENE;
 			}
@@ -216,18 +226,17 @@ const SceneEditor = ({
 		}
 	};
 	const LOADED_INITIAL_SCENE = {
-		...story[0],
-		bgIndex: 0,
-		bgmIndex: 0,
-		enableDialogue: true,
+		...story[state.index],
+		bgIndex: bgImagesList.findIndex((rows) => rows === story[state.index].bg.media),
+		bgmIndex: bgMusicList.findIndex((rows) => rows === story[state.index].bgm),
 	};
 
 	/* If story exist and is not null, load story scene instead of initial scene */
-	const [editScene, editSceneDispatch] = useReducer(
+	const [editSceneState, editSceneDispatch] = useReducer(
 		editSceneReducer,
-		story && story.length > 0 ? LOADED_INITIAL_SCENE : INITIAL_SCENE
+		story ? LOADED_INITIAL_SCENE : INITIAL_SCENE
 	);
-
+	console.log("scenestate", editSceneState);
 	const retrieveSprite = (spriteName: string) => {
 		return {
 			isEnabled: true,
@@ -256,8 +265,8 @@ const SceneEditor = ({
 	};
 
 	const storyCharacterCheck = () => {
-		if (story[0].characters.length > 0) {
-			return [...story[0].characters];
+		if (story[state.index].characters.length > 0) {
+			return [...story[state.index].characters];
 		}
 	};
 	/* Check if there is a left character in the initial state */
@@ -276,8 +285,8 @@ const SceneEditor = ({
 		}
 	};
 
-	const [editChar1, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
-	const [editChar2, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
+	const [editChar1State, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
+	const [editChar2State, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
 
 	/* Character scripts */
 	const editCharacter1Toggle = () => {
@@ -295,9 +304,11 @@ const SceneEditor = ({
 
 	const enableCharacter1 = (character: string) => {
 		editChar1Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
+		editSceneDispatch({ type: SceneTypes.TOGGLECHARACTER, payload: "left" });
 	};
 	const enableCharacter2 = (character: string) => {
 		editChar2Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
+		editSceneDispatch({ type: SceneTypes.TOGGLECHARACTER, payload: "right" });
 	};
 	/* Scene scripts */
 	const changeBackground = () => {
@@ -310,15 +321,28 @@ const SceneEditor = ({
 		editSceneDispatch({ type: SceneTypes.HIDEDIALOGUE });
 	};
 	const saveCurrent = () => {
+		/* Use to insert sprite to the characters array in scene */
+		let leftIndex = editSceneState.characters.findIndex((rows) => rows.location === "left");
+		let rightIndex = editSceneState.characters.findIndex((rows) => rows.location === "right");
+		let charactersArray = [...editSceneState.characters];
+		charactersArray[leftIndex].sprite = editChar1State.spriteName;
+		charactersArray[rightIndex].sprite = editChar2State.spriteName;
+
 		setCharacters((prev: any) => {
-			console.log("sc", prev);
-			return { ...prev, [editChar1.spriteName]: editChar1.parts, [editChar2.spriteName]: editChar2.parts };
+			return {
+				...prev,
+				[editChar1State.spriteName]: editChar1State.parts,
+				[editChar2State.spriteName]: editChar2State.parts,
+			};
+		});
+		setStory((prev: any) => {
+			return { ...prev, [editSceneState.index]: { ...editSceneState, characters: [...charactersArray] } };
 		});
 	};
 
 	useEffect(() => {
-		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editScene.bgm] });
-	}, [editScene.bgm]);
+		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editSceneState.bgm] });
+	}, [editSceneState.bgm]);
 
 	const menuButtonsList: IMenuButtons[] = [
 		{ title: "Music", left: "2.5%", top: "2.5%", textSize: "2.4vw", onClick: changeBgm, icon: <MdRadio /> },
@@ -338,7 +362,7 @@ const SceneEditor = ({
 			onClick: enableCharacter1,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">L</span>,
-			extraClass: editChar1.isEnabled ? "" : "opacity-40 grayscale",
+			extraClass: editChar1State.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
 			title: "Add/remove right character",
@@ -348,7 +372,7 @@ const SceneEditor = ({
 			onClick: enableCharacter2,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">R</span>,
-			extraClass: editChar2.isEnabled ? "" : "opacity-40 grayscale",
+			extraClass: editChar2State.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
 			title: "Enable/disable dialogue box",
@@ -360,7 +384,7 @@ const SceneEditor = ({
 		},
 		{
 			title: "Save current characters and scene",
-			left: "41%",
+			left: "36.25%",
 			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: saveCurrent,
@@ -368,7 +392,7 @@ const SceneEditor = ({
 		},
 		{
 			title: "Previous scene",
-			left: "45.5%",
+			left: "41.25%",
 			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
@@ -376,15 +400,15 @@ const SceneEditor = ({
 		},
 		{
 			title: "Current scene",
-			left: "50%",
+			left: "45%",
 			top: "1%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
-			icon: state.index + 1,
+			icon: state.index,
 		},
 		{
 			title: "Next scene",
-			left: "53%",
+			left: "54%",
 			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
@@ -392,7 +416,7 @@ const SceneEditor = ({
 		},
 		{
 			title: "Play",
-			left: "57.5%",
+			left: "59%",
 			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
@@ -427,31 +451,31 @@ const SceneEditor = ({
 			</Tippy>
 		);
 	});
-	console.log(characters["Chisato-Smile2"]);
+
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={editScene.bg.media} />
+				<Background bgImages={bgImages} bg={editSceneState.bg.media} />
 			</AnimatePresence>
-			{editChar1.isEnabled && (
+			{editSceneState.characters[0].enabled && (
 				<>
 					<motion.div onClick={editCharacter1Toggle}>
 						<AnimatePresence>
 							<Character
 								femaleSprites={femaleSprites}
-								createdCharacter={editChar1.parts}
+								createdCharacter={editChar1State.parts}
 								charLocation="left"
 								type="editor"
 							/>
 						</AnimatePresence>
 					</motion.div>
 					<AnimatePresence>
-						{editChar1.inCharacterEditMode && (
+						{editChar1State.inCharacterEditMode && (
 							<CharacterMaker
 								editDispatch={editChar1Dispatch}
 								handleClickOutside={handleClickOutside1}
 								charLocation="left"
-								editChar={editChar1}
+								editChar={editChar1State}
 								characters={characters}
 							/>
 						)}
@@ -459,42 +483,46 @@ const SceneEditor = ({
 				</>
 			)}
 
-			{editChar2.isEnabled && (
+			{editChar2State.isEnabled && (
 				<>
 					<motion.div onClick={editCharacter2Toggle}>
 						<AnimatePresence>
 							<Character
 								femaleSprites={femaleSprites}
-								createdCharacter={editChar2.parts}
+								createdCharacter={editChar2State.parts}
 								charLocation="right"
 								type="editor"
 							/>
 						</AnimatePresence>
 					</motion.div>
 					<AnimatePresence>
-						{editChar2.inCharacterEditMode && (
+						{editChar2State.inCharacterEditMode && (
 							<CharacterMaker
 								editDispatch={editChar2Dispatch}
 								handleClickOutside={handleClickOutside2}
 								charLocation="right"
-								editChar={editChar2}
+								editChar={editChar2State}
 								characters={characters}
 							/>
 						)}
 					</AnimatePresence>
 				</>
 			)}
-			{editScene.enableDialogue && (
+			{editSceneState.enableDialogue && (
 				<DialogueBox
-					name={editScene.speaker.name}
-					text={editScene.text}
-					location={editScene.speaker.location}
+					name={editSceneState.speaker.name}
+					text={editSceneState.text}
+					location={editSceneState.speaker.location}
 					type="editor"
 					editSceneDispatch={editSceneDispatch}
 				/>
 			)}
 			<div className="absolute top-0 h-[10%] w-full bg-black opacity-50"></div>
 			{menuButtons}
+			<div className="gap 10 absolute top-0 flex w-full flex-row items-center justify-center">
+				<p className="text-[.9vw]">Test</p>
+				<p className="text-[.9vw]">Test2</p>
+			</div>
 		</>
 	);
 };

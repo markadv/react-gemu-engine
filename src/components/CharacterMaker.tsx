@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { CharTypes, EditCharState, IEditChar } from "../types/enum";
-import { useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import DatalistInput from "./DatalistInput";
 
 const dropIn = {
@@ -39,26 +39,27 @@ const CharacterMaker = ({
 	characters: any;
 }) => {
 	/* Close the modal if you click outside */
-	const charMaker1Ref = useRef(null);
-	useOnClickOutside(charMaker1Ref, handleClickOutside);
+	const charMakerRef = useRef(null);
+	useOnClickOutside(charMakerRef, handleClickOutside);
 	const setValueSpriteName = (value: string) => {
 		editDispatch({ type: CharTypes.CHANGESPRITENAME, payload: value });
 	};
-
+	/* For datalist */
 	const spriteList = Object.keys(characters);
-	const spriteListEl = spriteList.map((sprite, index) => {
-		return <option key={index} value={sprite} />;
-	});
-	const spriteListObject = spriteList.map((sprite, index) => {
-		return { id: sprite, value: sprite };
-	});
-	const loadCharacter = (value: string) => {
+	const spriteListObject = useMemo(
+		() =>
+			spriteList.map((sprite, index) => {
+				return { id: index + sprite, value: sprite };
+			}),
+		[]
+	);
+	const loadCharacter = useCallback((value: string) => {
 		editDispatch({ type: CharTypes.LOADCHARACTER, payload: value });
-	};
-	// console.log(editChar);
+	}, []);
+
 	return (
 		<motion.div
-			ref={charMaker1Ref}
+			ref={charMakerRef}
 			onClick={(e) => e.stopPropagation()}
 			variants={dropIn}
 			initial="hidden"
@@ -74,10 +75,10 @@ const CharacterMaker = ({
 				showLabel={false}
 				onFocus={(item) => setValueSpriteName("")}
 				items={spriteListObject}
-				className="text-center outline-none"
+				className="text-center text-[1vw] outline-none"
 				value={editChar.spriteName}
 				onInput={(e) => console.log("input", e)}
-				onSelect={(e) => loadCharacter(e.value)}
+				onSelect={(item) => loadCharacter(item.value)}
 				setValue={setValueSpriteName}
 			/>
 			<button
@@ -143,6 +144,14 @@ const CharacterMaker = ({
 				}}
 			>
 				Hair accessories
+			</button>
+			<button
+				className="text-[0.9vw]"
+				onClick={() => {
+					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
+				}}
+			>
+				Transition
 			</button>
 			{/* <button onClick={handleClose}>Close</button> */}
 		</motion.div>

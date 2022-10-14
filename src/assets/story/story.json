@@ -1,58 +1,78 @@
-[
-	{
+{
+	"main-0": {
+		"index": "main-0",
 		"type": "scene",
-		"bg": { "media": "streetSpringDay", "transition": null },
+		"bg": { "media": "schoolDay", "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "transition": null },
-			{ "location": "right", "sprite": "Chisato-Smile2", "transition": null }
+			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Smile2", "transition": "enterRight", "enabled": true }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 1",
 		"voice": null,
-		"sfx": null
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 0,
+		"bgmIndex": 2,
+		"choices": [],
+		"next": "main-1"
 	},
-	{
+	"main-1": {
+		"index": "main-1",
 		"type": "scene",
-		"bg": { "media": "streetSpringDay", "transition": null },
+		"bg": { "media": "schoolDay", "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Chisato-Smile2", "transition": null },
-			{ "location": "right", "sprite": "Kanon-Smile", "transition": null }
+			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Sad", "transition": "appear", "enabled": true }
 		],
-		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "Scene 2",
+		"speaker": { "name": "Kanon", "location": "left" },
+		"text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quaerat molestias nobis incidunt blanditiis exercitationem harum, quasi tenetur impedit ullam molestiae corporis ab magni ducimus sequi similique ad. Totam, eveniet!",
 		"voice": null,
-		"sfx": null
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 0,
+		"bgmIndex": 2,
+		"choices": [],
+		"next": "main-2"
 	},
-	{
+	"main-2": {
+		"index": "main-2",
 		"type": "scene",
-		"bg": { "media": "streetSpringDay", "transition": null },
+		"bg": { "media": "schoolDay", "transition": null },
 		"bgm": "sunny",
-		"characters": [{ "location": "left", "sprite": "Chisato-Smile2", "transition": null }],
-		"speaker": { "name": "Kanon", "location": "right" },
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Sad", "transition": "exitRight", "enabled": true }
+		],
+		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 3",
 		"voice": null,
-		"sfx": null
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 0,
+		"bgmIndex": 2,
+		"choices": [],
+		"next": "main-3"
 	},
-	{
+	"main-3": {
+		"index": "main-3",
 		"type": "scene",
-		"bg": { "media": "streetSpringNight", "transition": null },
-		"bgm": "night",
-		"characters": [{ "location": "left", "sprite": "Chisato-Smile2", "transition": null }],
-		"speaker": { "name": "Kanon", "location": "right" },
+		"bg": { "media": "schoolDay", "transition": null },
+		"bgm": "sunny",
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Sad", "transition": null, "enabled": false }
+		],
+		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 4",
 		"voice": null,
-		"sfx": null
-	},
-	{
-		"type": "scene",
-		"bg": { "media": "streetSpringNight", "transition": null },
-		"bgm": "night",
-		"characters": [],
-		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet sollicitudin enim. Quisque aliquam feugiat arcu vitae sollicitudin. Donec eget metus pellentesque, suscipit turpis laoreet, vehicula turpis. Morbi tempus, velit sed mollis imperdiet, velit erat pellentesque nunc, at viverra sem libero eu tellus. Phasellus nec diam gravida, consequat justo quis, interdum eros. Duis sollicitudin tempor ex tincidunt luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu ultricies augue.",
-		"voice": null,
-		"sfx": null
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 0,
+		"bgmIndex": 2,
+		"choices": [],
+		"next": "end"
 	}
-]
+}

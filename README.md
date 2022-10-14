@@ -1,7 +1,14 @@
 # React visual novel game engine
 
+Table- [React visual novel game engine](#react-visual-novel-game-engine)
+
+- [React visual novel game engine](#react-visual-novel-game-engine)
+  - [File tree](#file-tree)
+  - [Features](#features)
+
 ## File tree
 
+```
 📦public
 ┣ 📜favicon.ico
 ┣ 📜index.html
@@ -68,6 +75,7 @@
 ┣ 📜service-worker.ts
 ┣ 📜serviceWorkerRegistration.ts
 ┗ 📜setupTests.ts
+```
 
 ## Features
 
@@ -90,10 +98,10 @@
     -   [ ] Quick menu
     -   [ ] Ending
 -   [ ] Editor (CRUD)
-    -   [ ] Scenes
+    -   [x] Scenes
     -   [x] Characters
-    -   [ ] Background
-    -   [ ] Background music
-    -   [ ] Voice
-    -   [ ] Sound effects
+    -   [x] Background
+    -   [x] Background music
+    -   [ ] Voice (Optional)
+    -   [ ] Sound effects (Optional)
     -   [ ] Story choices (Optional)

@@ -15,14 +15,15 @@ interface TitleScreenProps {
 	bgMusic: {
 		[key: string]: any;
 	};
-	story: any[];
+	story: any;
+	screenOrientation: string;
 }
 
-const TitleScreen = ({ dispatch, handle, bgMusic, story }: TitleScreenProps) => {
+const TitleScreen = ({ dispatch, handle, bgMusic, story, screenOrientation }: TitleScreenProps) => {
 	const startScene = (): void => {
-		handle.enter();
+		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
 		dispatch({ type: ActionTypes.SHOWINTRO });
-		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[0].bgm] });
+		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story["main-0"].bgm] });
 	};
 	const startEditor = (): void => {
 		dispatch({ type: ActionTypes.STARTEDITOR });

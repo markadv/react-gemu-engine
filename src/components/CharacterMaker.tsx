@@ -57,6 +57,89 @@ const CharacterMaker = ({
 		editDispatch({ type: CharTypes.LOADCHARACTER, payload: value });
 	}, []);
 
+	const buttonList = [
+		{
+			title: "Haircolor",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "haircolor" });
+			},
+			partName: editChar.parts.haircolor.toUpperCase(),
+		},
+		{
+			title: "Fronthair",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "fronthair" });
+			},
+			partName: editChar.parts.fronthair.toUpperCase(),
+		},
+		{
+			title: "Backhair",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "backhair" });
+			},
+			partName: editChar.parts.backhair.toUpperCase(),
+		},
+		{
+			title: "Outfits",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "outfits" });
+			},
+			partName: editChar.parts.outfits.toUpperCase(),
+		},
+		{
+			title: "Expression",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "expression" });
+			},
+			partName: editChar.parts.expression.toUpperCase(),
+		},
+		{
+			title: "Glasses",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
+			},
+			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "null",
+		},
+		{
+			title: "NeckAcc",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
+			},
+			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "null",
+		},
+		{
+			title: "HeadAcc",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
+			},
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
+		},
+		{
+			title: "Animate",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
+			},
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
+		},
+		{
+			title: "Transition",
+			onClick: () => {
+				editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
+			},
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
+		},
+	];
+	const buttonListEl = buttonList.map((rows) => {
+		return (
+			<div className="flex flex-row items-center justify-center">
+				<p className="w-1/3 text-left text-[.8vw]">{rows.title}:</p>
+				<button className="w-2/3 text-[0.9vw]" onClick={rows.onClick}>
+					{rows.partName}
+				</button>
+			</div>
+		);
+	});
+
 	return (
 		<motion.div
 			ref={charMakerRef}
@@ -65,95 +148,26 @@ const CharacterMaker = ({
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className={`absolute bottom-[60%] ${
-				charLocation === "left" ? "left-[11.5%]" : "right-[11.5%]"
-			} flex w-[10%] flex-col items-center justify-center rounded-md border border-rose-400 bg-white font-handwritten font-bold`}
+			className={`absolute bottom-[30%] p-1 ${
+				charLocation === "left" ? "left-[30%]" : "right-[30%]"
+			} flex w-[15%] flex-col  rounded-md border border-rose-400 bg-white font-handwritten font-bold`}
 		>
-			<DatalistInput
-				placeholder={editChar.spriteName}
-				label="Sprite Name"
-				showLabel={false}
-				onFocus={(item) => setValueSpriteName("")}
-				items={spriteListObject}
-				className="text-center text-[1vw] outline-none"
-				value={editChar.spriteName}
-				onInput={(e) => console.log("input", e)}
-				onSelect={(item) => loadCharacter(item.value)}
-				setValue={setValueSpriteName}
-			/>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "haircolor" });
-				}}
-			>
-				Haircolor
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "fronthair" });
-				}}
-			>
-				Fronthair
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "backhair" });
-				}}
-			>
-				Backhair
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "outfits" });
-				}}
-			>
-				Outfits
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "expression" });
-				}}
-			>
-				Expression
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
-				}}
-			>
-				Glasses
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
-				}}
-			>
-				Neck accessories
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
-				}}
-			>
-				Hair accessories
-			</button>
-			<button
-				className="text-[0.9vw]"
-				onClick={() => {
-					editDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
-				}}
-			>
-				Transition
-			</button>
-			{/* <button onClick={handleClose}>Close</button> */}
+			<div className="flex flex-row items-center justify-center">
+				<p className="text-[.9vw]">Spritename:</p>
+				<DatalistInput
+					placeholder={editChar.spriteName}
+					label="Sprite Name"
+					showLabel={false}
+					onFocus={(item) => setValueSpriteName("")}
+					items={spriteListObject}
+					className="text-center text-[.9vw] outline-none"
+					value={editChar.spriteName}
+					onInput={(e) => console.log("input", e)}
+					onSelect={(item) => loadCharacter(item.value)}
+					setValue={setValueSpriteName}
+				/>
+			</div>
+			{buttonListEl}
 		</motion.div>
 	);
 };

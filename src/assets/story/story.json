@@ -2,11 +2,17 @@
 	"main-0": {
 		"index": "main-0",
 		"type": "scene",
-		"bg": { "media": "schoolDay", "transition": null },
+		"bg": { "media": "schoolDay", "animate": null, "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
-			{ "location": "right", "sprite": "Chisato-Smile2", "transition": "enterRight", "enabled": true }
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "enterRight",
+				"transition": null,
+				"enabled": true
+			}
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 1",
@@ -21,11 +27,11 @@
 	"main-1": {
 		"index": "main-1",
 		"type": "scene",
-		"bg": { "media": "schoolDay", "transition": null },
+		"bg": { "media": "schoolDay", "animate": null, "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
-			{ "location": "right", "sprite": "Chisato-Sad", "transition": "appear", "enabled": true }
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Sad", "animate": "appear", "transition": null, "enabled": true }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quaerat molestias nobis incidunt blanditiis exercitationem harum, quasi tenetur impedit ullam molestiae corporis ab magni ducimus sequi similique ad. Totam, eveniet!",
@@ -40,11 +46,17 @@
 	"main-2": {
 		"index": "main-2",
 		"type": "scene",
-		"bg": { "media": "schoolDay", "transition": null },
+		"bg": { "media": "schoolDay", "animate": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
-			{ "location": "right", "sprite": "Chisato-Sad", "transition": "exitRight", "enabled": true }
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{
+				"location": "right",
+				"sprite": "Chisato-Sad",
+				"animate": "exitRight",
+				"transition": null,
+				"enabled": true
+			}
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 3",
@@ -59,11 +71,11 @@
 	"main-3": {
 		"index": "main-3",
 		"type": "scene",
-		"bg": { "media": "schoolDay", "transition": null },
+		"bg": { "media": "schoolDay", "animate": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "transition": null, "enabled": true },
-			{ "location": "right", "sprite": "Chisato-Sad", "transition": null, "enabled": false }
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Sad", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Scene 4",

@@ -30,6 +30,7 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 					character={scene.characters[i]}
 					characters={characters}
 					femaleSprites={femaleSprites}
+					animate={scene.characters[i].animate}
 					transition={scene.characters[i].transition}
 					type="game"
 				/>

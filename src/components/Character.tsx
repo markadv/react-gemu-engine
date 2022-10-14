@@ -10,7 +10,7 @@ const variantsList: any = {
 		animate: { opacity: 0, x: "100vw" },
 	},
 	appear: {
-		initial: { scale: 0.9 },
+		initial: { scale: 0.95 },
 		animate: { scale: 1 },
 	},
 	disapper: {
@@ -46,7 +46,16 @@ const location: { [key: string]: { [key: string]: any } } = {
 	right: { location: "absolute right-0 bottom-0 h-4/6", transition: enterRightExitRight },
 };
 
-const Character = ({ character, characters, femaleSprites, createdCharacter, type, charLocation, transition }: any) => {
+const Character = ({
+	character,
+	characters,
+	femaleSprites,
+	createdCharacter,
+	type,
+	charLocation,
+	animate,
+	transition,
+}: any) => {
 	let characterEl = [];
 	if (type === "game") {
 		for (let part in characters[character.sprite]) {
@@ -64,13 +73,12 @@ const Character = ({ character, characters, femaleSprites, createdCharacter, typ
 							]
 						}
 						alt={part}
-						variants={
-							transition === null ? location[character.location].transition : variantsList[transition]
-						}
+						variants={animate === null ? location[character.location].transition : variantsList[animate]}
 						initial="initial"
 						animate="animate"
+						/* Remove with animate presence once tested */
 						exit="exit"
-						transition={{ ease: "easeOut", duration: 1 }}
+						transition={{ ease: "easeOut", duration: 0.5 }}
 					/>
 				);
 			} else if (characters[character.sprite][part] !== "") {
@@ -80,13 +88,11 @@ const Character = ({ character, characters, femaleSprites, createdCharacter, typ
 						className={location[character.location].location}
 						src={femaleSprites[part][characters[character.sprite][part]]}
 						alt={part}
-						variants={
-							transition === null ? location[character.location].transition : variantsList[transition]
-						}
+						variants={animate === null ? location[character.location].transition : variantsList[animate]}
 						initial="initial"
 						animate="animate"
 						exit="exit"
-						transition={{ ease: "easeOut", duration: 1 }}
+						transition={{ ease: "easeOut", duration: 0.5 }}
 					/>
 				);
 			}

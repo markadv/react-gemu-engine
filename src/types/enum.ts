@@ -94,6 +94,7 @@ const SceneTypes = {
 	CHANGENAME: "changeName",
 	CHANGETEXT: "changeText",
 	TOGGLECHARACTER: "toggleCharacter",
+	TOGGLESPEAKER: "toggleSpeaker",
 } as const;
 
 type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
@@ -110,8 +111,6 @@ interface IEditChar {
 
 interface IMenuButtons {
 	title: string;
-	left: string;
-	top: string;
 	textSize: string;
 	onClick: any;
 	icon: any;
@@ -123,7 +122,8 @@ interface EditCharState {
 	[key: string]: string | object | number | boolean;
 	spriteName: string;
 	parts: {
-		[backhair: string]: string | null;
+		[key: string]: string | null;
+		backhair: string;
 		haircolor: string;
 		body: string;
 		outfits: string;

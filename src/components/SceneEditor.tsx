@@ -12,7 +12,13 @@ import DialogueBox from "./DialogueBox";
 /* Styles */
 import { ImImages } from "react-icons/im";
 import { MdRadio } from "react-icons/md";
-import { BsFillPersonFill, BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill, BsPlayBtn } from "react-icons/bs";
+import {
+	BsFillPersonFill,
+	BsFillArrowLeftCircleFill,
+	BsFillArrowRightCircleFill,
+	BsPlayBtn,
+	BsMegaphone,
+} from "react-icons/bs";
 import { FiMessageSquare, FiSave } from "react-icons/fi";
 
 /* Types */
@@ -55,10 +61,10 @@ const INITIAL_CHAR = {
 const INITIAL_SCENE = {
 	index: "main-0",
 	type: "scene",
-	bg: { media: "schoolDay", transition: null },
+	bg: { media: "schoolDay", transition: null, animate: null },
 	characters: [
-		{ location: "left", sprite: "Chisato-Smile2", transition: null, enabled: true },
-		{ location: "right", sprite: "Kanon-Smile", transition: null, enabled: true },
+		{ location: "left", sprite: "Chisato-Smile2", transition: null, animate: null, enabled: true },
+		{ location: "right", sprite: "Kanon-Smile", transition: null, animate: null, enabled: true },
 	],
 	bgm: "menu",
 	voice: "test",
@@ -218,6 +224,12 @@ const SceneEditor = ({
 				};
 				return { ...state, characters: [...charactersArray] };
 			}
+			case "toggleSpeaker": {
+				return {
+					...state,
+					speaker: { ...state.speaker, location: state.speaker.location === "right" ? "left" : "right" },
+				};
+			}
 			case "reset": {
 				return INITIAL_SCENE;
 			}
@@ -320,6 +332,9 @@ const SceneEditor = ({
 	const enableDialogue = () => {
 		editSceneDispatch({ type: SceneTypes.HIDEDIALOGUE });
 	};
+	const toggleSpeaker = () => {
+		editSceneDispatch({ type: SceneTypes.TOGGLESPEAKER });
+	};
 	const saveCurrent = () => {
 		/* Use to insert sprite to the characters array in scene */
 		let leftIndex = editSceneState.characters.findIndex((rows) => rows.location === "left");
@@ -345,19 +360,27 @@ const SceneEditor = ({
 	}, [editSceneState.bgm]);
 
 	const menuButtonsList: IMenuButtons[] = [
-		{ title: "Music", left: "2.5%", top: "2.5%", textSize: "2.4vw", onClick: changeBgm, icon: <MdRadio /> },
+		{
+			title: "Play",
+			textSize: "2.4vw",
+			onClick: changeBgm,
+			icon: <BsPlayBtn />,
+		},
+		{
+			title: "Save current characters and scene",
+			textSize: "2.4vw",
+			onClick: saveCurrent,
+			icon: <FiSave />,
+		},
+		{ title: "Music", textSize: "2.4vw", onClick: changeBgm, icon: <MdRadio /> },
 		{
 			title: "Change background",
-			left: "7.5%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBackground,
 			icon: <ImImages />,
 		},
 		{
 			title: "Add/Remove left character",
-			left: "12.5%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: enableCharacter1,
 			icon: <BsFillPersonFill />,
@@ -366,8 +389,6 @@ const SceneEditor = ({
 		},
 		{
 			title: "Add/remove right character",
-			left: "17.5%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: enableCharacter2,
 			icon: <BsFillPersonFill />,
@@ -376,51 +397,39 @@ const SceneEditor = ({
 		},
 		{
 			title: "Enable/disable dialogue box",
-			left: "23%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: enableDialogue,
 			icon: <FiMessageSquare />,
+			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Save current characters and scene",
-			left: "36.25%",
-			top: "2.5%",
+			title: "Enable/disable dialogue box",
 			textSize: "2.4vw",
-			onClick: saveCurrent,
-			icon: <FiSave />,
+			onClick: toggleSpeaker,
+			icon: (
+				<BsMegaphone
+					className={editSceneState.speaker.location === "left" ? "pb-[.25%]" : "-scale-x-100 pb-[.25%]"}
+				/>
+			),
 		},
+
 		{
 			title: "Previous scene",
-			left: "41.25%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
 			icon: <BsFillArrowLeftCircleFill />,
 		},
 		{
 			title: "Current scene",
-			left: "45%",
-			top: "1%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
 			icon: state.index,
 		},
 		{
 			title: "Next scene",
-			left: "54%",
-			top: "2.5%",
 			textSize: "2.4vw",
 			onClick: changeBgm,
 			icon: <BsFillArrowRightCircleFill />,
-		},
-		{
-			title: "Play",
-			left: "59%",
-			top: "2.5%",
-			textSize: "2.4vw",
-			onClick: changeBgm,
-			icon: <BsPlayBtn />,
 		},
 	];
 
@@ -437,8 +446,7 @@ const SceneEditor = ({
 				key={index}
 			>
 				<motion.div
-					style={{ left: button.left, top: button.top }}
-					className={`absolute cursor-pointer text-[${button.textSize}] flex flex-row text-[#E879F9] ${
+					className={`cursor-pointer text-[${button.textSize}] flex flex-row text-[#E879F9] ${
 						typeof button["extraClass"] !== "undefined" ? button.extraClass : ""
 					}`}
 					whileHover={{ scale: 1.2 }}
@@ -517,11 +525,8 @@ const SceneEditor = ({
 					editSceneDispatch={editSceneDispatch}
 				/>
 			)}
-			<div className="absolute top-0 h-[10%] w-full bg-black opacity-50"></div>
-			{menuButtons}
-			<div className="gap 10 absolute top-0 flex w-full flex-row items-center justify-center">
-				<p className="text-[.9vw]">Test</p>
-				<p className="text-[.9vw]">Test2</p>
+			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[1%]">
+				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">{menuButtons}</div>
 			</div>
 		</>
 	);

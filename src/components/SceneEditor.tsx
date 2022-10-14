@@ -1,5 +1,5 @@
 /* Dependencies; */
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 
@@ -12,13 +12,7 @@ import DialogueBox from "./DialogueBox";
 /* Styles */
 import { ImImages } from "react-icons/im";
 import { MdRadio } from "react-icons/md";
-import {
-	BsFillPersonFill,
-	BsFillArrowLeftCircleFill,
-	BsFillArrowRightCircleFill,
-	BsPlayBtn,
-	BsMegaphone,
-} from "react-icons/bs";
+import { BsFillPersonFill, BsFillArrowRightCircleFill, BsPlayBtn, BsMegaphone } from "react-icons/bs";
 import { FiMessageSquare, FiSave } from "react-icons/fi";
 
 /* Types */
@@ -33,6 +27,7 @@ import {
 	EditSceneState,
 	IMenuButtons,
 } from "../types/enum";
+import DatalistInput from "./DatalistInput";
 
 const INITIAL_CHAR = {
 	spriteName: "default",
@@ -230,6 +225,19 @@ const SceneEditor = ({
 					speaker: { ...state.speaker, location: state.speaker.location === "right" ? "left" : "right" },
 				};
 			}
+			case "loadScene": {
+				return {
+					...story[action.payload],
+					bgIndex: bgImagesList.findIndex((rows) => rows === story[action.payload].bg.media),
+					bgmIndex: bgMusicList.findIndex((rows) => rows === story[action.payload].bgm),
+				};
+			}
+			case "setSceneIndex": {
+				return { ...state, index: action.payload };
+			}
+			case "setNext": {
+				return { ...state, next: action.payload };
+			}
 			case "reset": {
 				return INITIAL_SCENE;
 			}
@@ -248,7 +256,6 @@ const SceneEditor = ({
 		editSceneReducer,
 		story ? LOADED_INITIAL_SCENE : INITIAL_SCENE
 	);
-	console.log("scenestate", editSceneState);
 	const retrieveSprite = (spriteName: string) => {
 		return {
 			isEnabled: true,
@@ -322,6 +329,7 @@ const SceneEditor = ({
 		editChar2Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
 		editSceneDispatch({ type: SceneTypes.TOGGLECHARACTER, payload: "right" });
 	};
+
 	/* Scene scripts */
 	const changeBackground = () => {
 		editSceneDispatch({ type: SceneTypes.CHANGEBACKGROUND });
@@ -354,34 +362,52 @@ const SceneEditor = ({
 			return { ...prev, [editSceneState.index]: { ...editSceneState, characters: [...charactersArray] } };
 		});
 	};
+	const loadScene = useCallback((value: string) => {
+		editSceneDispatch({ type: SceneTypes.LOADSCENE, payload: value });
+	}, []);
 
+	const setSceneIndex = (value: string) => {
+		editSceneDispatch({ type: SceneTypes.SETSCENEINDEX, payload: value });
+	};
+	const setNext = (value: string) => {
+		editSceneDispatch({ type: SceneTypes.SETNEXT, payload: value });
+	};
+
+	/* Scene datalist */
+	const sceneList = Object.keys(story);
+	const sceneListObject = useMemo(
+		() =>
+			sceneList.map((scene, index) => {
+				return { id: scene, value: scene };
+			}),
+		[sceneList]
+	);
 	useEffect(() => {
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editSceneState.bgm] });
 	}, [editSceneState.bgm]);
 
+	// const nextSceneList
+
+	/* Menu buttons */
 	const menuButtonsList: IMenuButtons[] = [
 		{
 			title: "Play",
-			textSize: "2.4vw",
 			onClick: changeBgm,
 			icon: <BsPlayBtn />,
 		},
 		{
 			title: "Save current characters and scene",
-			textSize: "2.4vw",
 			onClick: saveCurrent,
 			icon: <FiSave />,
 		},
-		{ title: "Music", textSize: "2.4vw", onClick: changeBgm, icon: <MdRadio /> },
+		{ title: "Music", onClick: changeBgm, icon: <MdRadio /> },
 		{
 			title: "Change background",
-			textSize: "2.4vw",
 			onClick: changeBackground,
 			icon: <ImImages />,
 		},
 		{
 			title: "Add/Remove left character",
-			textSize: "2.4vw",
 			onClick: enableCharacter1,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">L</span>,
@@ -389,22 +415,13 @@ const SceneEditor = ({
 		},
 		{
 			title: "Add/remove right character",
-			textSize: "2.4vw",
 			onClick: enableCharacter2,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">R</span>,
 			extraClass: editChar2State.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Enable/disable dialogue box",
-			textSize: "2.4vw",
-			onClick: enableDialogue,
-			icon: <FiMessageSquare />,
-			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
-		},
-		{
-			title: "Enable/disable dialogue box",
-			textSize: "2.4vw",
+			title: "Left/Right speaker",
 			onClick: toggleSpeaker,
 			icon: (
 				<BsMegaphone
@@ -412,24 +429,11 @@ const SceneEditor = ({
 				/>
 			),
 		},
-
 		{
-			title: "Previous scene",
-			textSize: "2.4vw",
-			onClick: changeBgm,
-			icon: <BsFillArrowLeftCircleFill />,
-		},
-		{
-			title: "Current scene",
-			textSize: "2.4vw",
-			onClick: changeBgm,
-			icon: state.index,
-		},
-		{
-			title: "Next scene",
-			textSize: "2.4vw",
-			onClick: changeBgm,
-			icon: <BsFillArrowRightCircleFill />,
+			title: "Enable/disable dialogue box",
+			onClick: enableDialogue,
+			icon: <FiMessageSquare />,
+			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
 		},
 	];
 
@@ -438,15 +442,22 @@ const SceneEditor = ({
 			<Tippy
 				appendTo="parent"
 				content={
-					<div className="rounded-lg bg-[#E379F4] p-1">
-						<span className="text-sm text-slate-50">{button.title}</span>
-					</div>
+					<motion.div
+						className="grid place-items-center rounded-lg bg-[#E379F4] px-1"
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={{ opacity: 0, scale: 0.9 }}
+						transition={{ duration: 0.1 }}
+					>
+						<span className="text-[0.8vw] text-slate-50">{button.title}</span>
+					</motion.div>
 				}
 				placement="bottom"
 				key={index}
+				animation={true}
 			>
 				<motion.div
-					className={`cursor-pointer text-[${button.textSize}] flex flex-row text-[#E879F9] ${
+					className={`flex cursor-pointer flex-row text-[2.4vw] text-[#E879F9] ${
 						typeof button["extraClass"] !== "undefined" ? button.extraClass : ""
 					}`}
 					whileHover={{ scale: 1.2 }}
@@ -459,11 +470,11 @@ const SceneEditor = ({
 			</Tippy>
 		);
 	});
-
+	/* End of menu buttons */
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={editSceneState.bg.media} />
+				<Background bgImages={bgImages} bg={editSceneState.bg.media} type="editor" />
 			</AnimatePresence>
 			{editSceneState.characters[0].enabled && (
 				<>
@@ -526,7 +537,71 @@ const SceneEditor = ({
 				/>
 			)}
 			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[1%]">
-				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">{menuButtons}</div>
+				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">
+					{menuButtons}
+					<Tippy
+						appendTo="parent"
+						content={
+							<div className="rounded-lg bg-[#E379F4] p-1">
+								<span className="text-sm text-slate-50">Current Scene</span>
+							</div>
+						}
+						placement="bottom-start"
+					>
+						<div className="w-[15%] outline-none">
+							<DatalistInput
+								placeholder="test"
+								label="Current scene"
+								onFocus={(item) => setSceneIndex("")}
+								items={sceneListObject}
+								className="border-none text-center font-handwritten font-black text-[#E879F9] outline-none"
+								inputProps={{
+									style: { background: "transparent", border: "0", fontSize: "2vw" },
+									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9]",
+								}}
+								listboxProps={{
+									style: { border: "0", fontSize: "1vw" },
+									className: "bg-rose-400",
+								}}
+								value={editSceneState.index}
+								onSelect={(item) => loadScene(item.value)}
+								setValue={setSceneIndex}
+							/>
+						</div>
+					</Tippy>
+					<BsFillArrowRightCircleFill className="flex flex-row text-[2.4vw] text-[#E879F9]" />
+					<Tippy
+						appendTo="parent"
+						content={
+							<div className="rounded-lg bg-[#E379F4] p-1">
+								<span className="text-sm text-slate-50">Current Scene</span>
+							</div>
+						}
+						placement="bottom-start"
+					>
+						<div className="w-[15%] outline-none">
+							<DatalistInput
+								placeholder="test"
+								label="Next scene"
+								showLabel={true}
+								onFocus={(item) => setNext("")}
+								items={[...sceneListObject, { id: "end", value: "end" }]}
+								className="border-none text-center font-handwritten text-[1vw] font-black text-[#E879F9] outline-none"
+								inputProps={{
+									style: { background: "transparent", border: "0", fontSize: "2vw" },
+									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9]",
+								}}
+								listboxProps={{
+									style: { border: "0", fontSize: "1vw" },
+									className: "bg-rose-400",
+								}}
+								value={editSceneState.next}
+								onSelect={(item) => setNext(item.value)}
+								setValue={setNext}
+							/>
+						</div>
+					</Tippy>
+				</div>
 			</div>
 		</>
 	);

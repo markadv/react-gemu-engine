@@ -80,21 +80,21 @@ Table- [React visual novel game engine](#react-visual-novel-game-engine)
 ## Features
 
 -   [ ] General
-    -   [x] Title screen -50%
--   [ ] Homepage (Intro)
+    -   [ ] Title screen (Recreate)
+-   [x] Homepage (Intro)
     -   [x] Intro
         -   [x] Initialize music
-    -   [ ] Option menu
-    -   [ ] Quick access sound
-    -   [ ] Quick access fullscreen
-    -   [ ] Interactable characters
+    -   [x] Option menu
+    -   [x] Quick access sound
+    -   [x] Quick access fullscreen
+    -   [ ] Interactable characters (Optional)
 -   [x] Game output
     -   [x] Characters
     -   [x] Background
     -   [x] Dialogue
     -   [x] Controls
     -   [ ] Choices (Optional)
-    -   [ ] History
+    -   [ ] History (Optional)
     -   [ ] Quick menu
     -   [ ] Ending
 -   [ ] Editor (CRUD)
@@ -102,6 +102,8 @@ Table- [React visual novel game engine](#react-visual-novel-game-engine)
     -   [x] Characters
     -   [x] Background
     -   [x] Background music
+    -   [ ] Animate
+    -   [ ] Transition
     -   [ ] Voice (Optional)
     -   [ ] Sound effects (Optional)
     -   [ ] Story choices (Optional)

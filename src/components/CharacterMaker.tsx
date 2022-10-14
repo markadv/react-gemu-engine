@@ -41,7 +41,7 @@ const CharacterMaker = ({
 	/* Close the modal if you click outside */
 	const charMakerRef = useRef(null);
 	useOnClickOutside(charMakerRef, handleClickOutside);
-	const setValueSpriteName = (value: string) => {
+	const setSpriteName = (value: string) => {
 		editDispatch({ type: CharTypes.CHANGESPRITENAME, payload: value });
 	};
 	/* For datalist */
@@ -53,6 +53,7 @@ const CharacterMaker = ({
 			}),
 		[]
 	);
+
 	const loadCharacter = useCallback((value: string) => {
 		editDispatch({ type: CharTypes.LOADCHARACTER, payload: value });
 	}, []);
@@ -129,9 +130,9 @@ const CharacterMaker = ({
 			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
 		},
 	];
-	const buttonListEl = buttonList.map((rows) => {
+	const buttonListEl = buttonList.map((rows, index) => {
 		return (
-			<div className="flex flex-row items-center justify-center">
+			<div className="flex flex-row items-center justify-center" key={index}>
 				<p className="w-1/3 text-left text-[.8vw]">{rows.title}:</p>
 				<button className="w-2/3 text-[0.9vw]" onClick={rows.onClick}>
 					{rows.partName}
@@ -158,13 +159,12 @@ const CharacterMaker = ({
 					placeholder={editChar.spriteName}
 					label="Sprite Name"
 					showLabel={false}
-					onFocus={(item) => setValueSpriteName("")}
+					onFocus={(item) => setSpriteName("")}
 					items={spriteListObject}
 					className="text-center text-[.9vw] outline-none"
 					value={editChar.spriteName}
-					onInput={(e) => console.log("input", e)}
 					onSelect={(item) => loadCharacter(item.value)}
-					setValue={setValueSpriteName}
+					setValue={setSpriteName}
 				/>
 			</div>
 			{buttonListEl}

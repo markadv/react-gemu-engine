@@ -1,5 +1,5 @@
 /* Dependencies */
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, FullScreenHandle, useFullScreenHandle } from "react-full-screen";
 import { motion } from "framer-motion";
@@ -183,6 +183,34 @@ const App = () => {
 	const [charactersState, setCharactersState] = useLocalStorage("characters", characters);
 	const { height, width } = useWindowSize();
 	const screenOrientation = useScreenOrientation();
+	const [screenSize, setScreenSize] = useState(
+		width > height
+			? {
+					width: width / height > 16 / 9 ? "auto" : width,
+					height: width / height > 16 / 9 ? height : "auto",
+					aspectRatio: "16/9",
+			  }
+			: {
+					height: width / height > 16 / 9 ? width : "auto",
+					width: width / height > 16 / 9 ? "auto" : height,
+					aspectRatio: "16/9",
+			  }
+	);
+	useEffect(() => {
+		setScreenSize(
+			width > height
+				? {
+						width: width / height > 16 / 9 ? "auto" : width,
+						height: width / height > 16 / 9 ? height : "auto",
+						aspectRatio: "16/9",
+				  }
+				: {
+						height: width / height > 16 / 9 ? width : "auto",
+						width: width / height > 16 / 9 ? "auto" : height,
+						aspectRatio: "16/9",
+				  }
+		);
+	}, [height, width]);
 	return (
 		<>
 			{state.isLoading && loadingScreen}
@@ -192,20 +220,7 @@ const App = () => {
 					handle={handle}
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 				>
-					<div
-						className="relative aspect-video overflow-hidden"
-						style={
-							screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
-								? {
-										width: width / height > 16 / 9 ? "auto" : width,
-										height: width / height > 16 / 9 ? height : "auto",
-								  }
-								: {
-										height: width / height > 16 / 9 ? width : "auto",
-										width: width / height > 16 / 9 ? "auto" : height,
-								  }
-						}
-					>
+					<div className="relative overflow-hidden" style={screenSize}>
 						{state.introShown && <InitialBrand dispatch={dispatch} />}
 
 						{state.titleScreenShown && (

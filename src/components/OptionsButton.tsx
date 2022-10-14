@@ -25,7 +25,6 @@ const OptionsButton = ({
 	dispatch: React.Dispatch<Action>;
 	configMenuOff: () => void;
 }) => {
-	console.log(state.sceneIsRendering, state.titleScreenShown);
 	return (
 		<>
 			<div className="absolute top-0 right-0 flex h-[5.5%] w-[9%] flex-row items-center justify-center gap-[10%] rounded-bl-xl bg-black bg-opacity-25 pl-[.5%]">

@@ -7,7 +7,6 @@ import { useState } from "react";
 
 const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
 	let scene = story[state.index];
-	console.log(story, state.index);
 	const [isTyping, setIsTyping] = useState(true);
 	const nextFrame = () => {
 		/* Guard clause to make sure player doesn't go to the next frame until typing animation finishes */
@@ -37,11 +36,10 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 			);
 		}
 	}
-	console.log(isTyping);
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={scene.bg.media} />
+				<Background bgImages={bgImages} bg={scene.bg.media} type="game" />
 			</AnimatePresence>
 			<AnimatePresence>{characterEl}</AnimatePresence>
 			<div onClick={nextFrame}>

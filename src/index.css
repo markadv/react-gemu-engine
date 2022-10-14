@@ -24,9 +24,6 @@
 	background-color: #000;
 }
 
-.gamescreen {
-}
-
 @media screen and (orientation: portrait) {
 	#root {
 		transform: rotate(-90deg);
@@ -78,7 +75,7 @@
 	font-weight: 900;
 	margin: 0;
 	padding: var(--padding);
-	border: var(--border);
+	/* border: var(--border); */
 	border-radius: var(--border-radius);
 }
 .react-datalist-input__listbox {
@@ -87,7 +84,7 @@
 	position: absolute;
 	margin: 2px 0 0 0;
 	padding: 0;
-	border: var(--border);
+	/* border: var(--border); */
 	border-radius: var(--border-radius);
 	background-color: white;
 	display: flex;
@@ -103,10 +100,12 @@
 	padding: var(--padding);
 }
 .react-datalist-input__listbox-option:focus {
-	background-color: var(--gray);
+	background-color: #f3ddf7;
+	border-radius: var(--border-radius);
 }
 .react-datalist-input__listbox-option:hover {
-	background-color: var(--gray);
+	background-color: #f3ddf7;
+	border-radius: var(--border-radius);
 }
 
 /* Loading screen */

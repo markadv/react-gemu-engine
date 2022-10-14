@@ -27,11 +27,11 @@
 	"main-1": {
 		"index": "main-1",
 		"type": "scene",
-		"bg": { "media": "schoolDay", "animate": null, "transition": null },
+		"bg": { "media": "classroomDay", "animate": null, "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
-			{ "location": "right", "sprite": "Chisato-Sad", "animate": "appear", "transition": null, "enabled": true }
+			{ "location": "left", "sprite": "Chisato-Sad", "animate": null, "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Kanon-Smile", "animate": "appear", "transition": null, "enabled": true }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quaerat molestias nobis incidunt blanditiis exercitationem harum, quasi tenetur impedit ullam molestiae corporis ab magni ducimus sequi similique ad. Totam, eveniet!",

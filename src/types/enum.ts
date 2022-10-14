@@ -15,14 +15,6 @@ const ActionTypes = {
 	MENUOFF: "menuOff",
 } as const;
 
-type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
-/* Typescript interface */
-
-interface Action {
-	type: ActionTypes;
-	payload?: any;
-}
-
 interface State {
 	bgMusic: any;
 	bgmVolume: number;
@@ -52,6 +44,41 @@ interface State {
 	isDebug: boolean;
 }
 
+const SceneTypes = {
+	RESET: "reset",
+	CHANGEBACKGROUND: "changeBackground",
+	CHANGEBGM: "changeBgm",
+	HIDEDIALOGUE: "hideDialogue",
+	CHANGENAME: "changeName",
+	CHANGETEXT: "changeText",
+	TOGGLECHARACTER: "toggleCharacter",
+	TOGGLESPEAKER: "toggleSpeaker",
+	LOADSCENE: "loadScene",
+	SETSCENEINDEX: "setSceneIndex",
+	SETNEXT: "setNext",
+} as const;
+
+/* Editor types */
+const CharTypes = {
+	RESET: "reset",
+	EDITCHARACTER: "editCharacterToggle",
+	EDITCHARACTERCLEAR: "editCharacterClear",
+	CHANGECHARACTERPART: "changeCharacterPart",
+	ENABLECHARACTERTOGGLE: "enableCharacterToggle",
+	CHANGESPRITENAME: "changeSpriteName",
+	CHANGEHAIRCOLOR: "changeHaircolor",
+	LOADCHARACTER: "loadCharacter",
+} as const;
+
+type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
+type CharTypes = typeof CharTypes[keyof typeof CharTypes];
+type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
+/* Typescript interface */
+
+interface Action {
+	type: ActionTypes;
+	payload?: any;
+}
 interface ManagerProps {
 	dispatch: React.Dispatch<Action>;
 	bgImages: {
@@ -72,33 +99,6 @@ interface ManagerProps {
 	setStory?: any;
 }
 
-/* Editor types */
-const CharTypes = {
-	RESET: "reset",
-	EDITCHARACTER: "editCharacterToggle",
-	EDITCHARACTERCLEAR: "editCharacterClear",
-	CHANGECHARACTERPART: "changeCharacterPart",
-	ENABLECHARACTERTOGGLE: "enableCharacterToggle",
-	CHANGESPRITENAME: "changeSpriteName",
-	CHANGEHAIRCOLOR: "changeHaircolor",
-	LOADCHARACTER: "loadCharacter",
-} as const;
-
-type CharTypes = typeof CharTypes[keyof typeof CharTypes];
-
-const SceneTypes = {
-	RESET: "reset",
-	CHANGEBACKGROUND: "changeBackground",
-	CHANGEBGM: "changeBgm",
-	HIDEDIALOGUE: "hideDialogue",
-	CHANGENAME: "changeName",
-	CHANGETEXT: "changeText",
-	TOGGLECHARACTER: "toggleCharacter",
-	TOGGLESPEAKER: "toggleSpeaker",
-} as const;
-
-type SceneTypes = typeof SceneTypes[keyof typeof SceneTypes];
-
 interface IEditScene {
 	type: SceneTypes;
 	payload?: any;
@@ -111,7 +111,6 @@ interface IEditChar {
 
 interface IMenuButtons {
 	title: string;
-	textSize: string;
 	onClick: any;
 	icon: any;
 	extraIcon?: any;

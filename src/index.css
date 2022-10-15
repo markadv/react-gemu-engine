@@ -92,6 +92,8 @@
 	list-style-type: none;
 	box-shadow: var(--shadow);
 	z-index: 10;
+	max-height: 30vh;
+	overflow-y: auto;
 }
 .react-datalist-input__listbox-option {
 	width: 100%;
@@ -107,6 +109,7 @@
 	background-color: #f3ddf7;
 	border-radius: var(--border-radius);
 }
+
 
 /* Loading screen */
 .loader {

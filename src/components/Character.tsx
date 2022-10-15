@@ -1,49 +1,157 @@
 import { motion } from "framer-motion";
 
-const variantsList: any = {
+const getRandomDelay = () => -(Math.random() * 0.7 + 0.05);
+const randomDuration = () => Math.random() * 0.07 + 0.23;
+
+export const variantsList: any = {
 	enterRight: {
-		initial: { opacity: 0, x: "100vw" },
-		animate: { opacity: 1, x: "0" },
+		initial: {
+			opacity: 0,
+			x: "100vw",
+		},
+		animate: {
+			opacity: 1,
+			x: "0",
+		},
 	},
 	exitRight: {
-		initial: { opacity: 1, x: "0" },
-		animate: { opacity: 0, x: "100vw" },
+		initial: {
+			opacity: 1,
+			x: "0",
+		},
+		animate: {
+			opacity: 0,
+			x: "100vw",
+		},
+	},
+	enterLeft: {
+		initial: {
+			opacity: 0,
+			x: "-100vw",
+		},
+		animate: {
+			opacity: 1,
+			x: "0",
+		},
+	},
+	exitLeft: {
+		initial: {
+			opacity: 1,
+			x: "0",
+		},
+		animate: {
+			opacity: 0,
+			x: "-100vw",
+		},
+	},
+	mole: {
+		initial: {
+			opacity: 0,
+			y: "100vh",
+		},
+		animate: {
+			opacity: 1,
+			y: "0",
+		},
+	},
+	grow: {
+		initial: {
+			opacity: 0,
+			scale: 1,
+		},
+		animate: {
+			scale: 0.8,
+			opacity: 0.5,
+			transition: {
+				duration: 0.5,
+				delay: 0.25,
+			},
+		},
+		end: {
+			opacity: 1,
+			scale: 1.1,
+			transition: {
+				duration: 0.5,
+				delay: 0.75,
+			},
+		},
+	},
+	shrink: {
+		initial: {
+			opacity: 0,
+			scale: 1,
+		},
+		animate: {
+			scale: 1.2,
+			opacity: 0.5,
+			transition: {
+				duration: 0.5,
+				delay: 0.25,
+			},
+		},
+		end: {
+			opacity: 1,
+			scale: 0.9,
+			transition: {
+				duration: 0.5,
+				delay: 0.75,
+			},
+		},
 	},
 	appear: {
-		initial: { scale: 0.95 },
-		animate: { scale: 1 },
+		inital: {
+			opacity: 0,
+		},
+		animate: {
+			opacity: 1,
+		},
 	},
-	disapper: {
-		animate: { opacity: 0 },
+	disappear: {
+		inital: {
+			opacity: 1,
+		},
+		animate: {
+			opacity: 0,
+		},
 	},
-};
+	shake: {
+		animate: {
+			rotate: [-1, 1.3, 0],
+			transition: {
+				delay: getRandomDelay(),
+				repeat: 3,
+				duration: randomDuration(),
+			},
+		},
+	},
 
-const enterLeftExitLeft: any = {
-	initial: { opacity: 0, x: "-100vw" },
-	animate: { opacity: 1, x: "0" },
-	exit: { opacity: 0, x: "-100vw" },
-};
-
-const enterRightExitRight: any = {
-	initial: { opacity: 0, x: "100vw" },
-	animate: { opacity: 1, x: "0" },
-	exit: { opacity: 0, x: "100vw" },
-};
-
-const shrinkUnshrink: any = {
-	initial: { scale: 0.95 },
-	animate: { scale: 1, opacity: 1 },
-	exit: { scale: 0.8, opacity: 0 },
-};
-const disappearAppear: any = {
-	initial: { opacity: 0 },
-	animate: { opacity: 1 },
-	exit: { opacity: 0 },
+	// test: {
+	// 	initial: {
+	// 		x: 100,
+	// 		transition: {
+	// 			duration: 0.5,
+	// 		},
+	// 	},
+	// 	animate: {
+	// 		y: 100,
+	// 		transition: {
+	// 			duration: 1,
+	// 			delay: 0.5,
+	// 		},
+	// 	},
+	// 	end: {
+	// 		x: 100,
+	// 		transition: {
+	// 			duration: 1,
+	// 			delay: 1.5,
+	// 		},
+	// 	},
+	// },
 };
 
 const location: { [key: string]: { [key: string]: any } } = {
-	left: { location: "absolute left-0 bottom-0 h-4/6", transition: enterLeftExitLeft },
-	right: { location: "absolute right-0 bottom-0 h-4/6", transition: enterRightExitRight },
+	left: { location: "absolute left-0 bottom-0 h-4/6", transition: variantsList.enterLeft },
+	right: { location: "absolute right-0 bottom-0 h-4/6", transition: variantsList.enterRight },
 };
 
 const Character = ({
@@ -57,6 +165,7 @@ const Character = ({
 	transition,
 }: any) => {
 	let characterEl = [];
+	/* If playing the game */
 	if (type === "game") {
 		for (let part in characters[character.sprite]) {
 			if (part === "haircolor") {
@@ -75,10 +184,9 @@ const Character = ({
 						alt={part}
 						variants={animate === null ? location[character.location].transition : variantsList[animate]}
 						initial="initial"
-						animate="animate"
-						/* Remove with animate presence once tested */
-						exit="exit"
-						transition={{ ease: "easeOut", duration: 0.5 }}
+						animate={["inital", "animate", "end"]}
+						// exit="exit"
+						transition={{ ease: "easeInOut", duration: 1 }}
 					/>
 				);
 			} else if (characters[character.sprite][part] !== "") {
@@ -90,13 +198,14 @@ const Character = ({
 						alt={part}
 						variants={animate === null ? location[character.location].transition : variantsList[animate]}
 						initial="initial"
-						animate="animate"
+						animate={["inital", "animate", "end"]}
 						exit="exit"
-						transition={{ ease: "easeOut", duration: 0.5 }}
+						transition={{ ease: "easeInOut", duration: 1 }}
 					/>
 				);
 			}
 		}
+		/* If in the editor */
 	} else {
 		for (let part in createdCharacter) {
 			if (part === "haircolor") {
@@ -109,11 +218,11 @@ const Character = ({
 						className={location[charLocation].location}
 						src={femaleSprites[part][createdCharacter.haircolor][createdCharacter[part]]}
 						alt={part}
-						variants={shrinkUnshrink}
+						variants={animate === null ? location[charLocation].transition : variantsList[animate]}
 						initial="initial"
-						animate="animate"
+						animate={["inital", "animate", "end"]}
 						exit="exit"
-						transition={{ ease: "easeInOut", duration: 0.15 }}
+						transition={{ ease: "easeInOut", duration: 1 }}
 					/>
 				);
 			} else if (createdCharacter[part] !== "") {
@@ -123,11 +232,11 @@ const Character = ({
 						className={location[charLocation].location}
 						src={femaleSprites[part][createdCharacter[part]]}
 						alt={part}
-						variants={shrinkUnshrink}
+						variants={animate === null ? location[charLocation].transition : variantsList[animate]}
 						initial="initial"
-						animate="animate"
+						animate={["inital", "animate", "end"]}
 						exit="exit"
-						transition={{ ease: "easeInOut", duration: 0.15 }}
+						transition={{ ease: "easeInOut", duration: 1 }}
 					/>
 				);
 			}

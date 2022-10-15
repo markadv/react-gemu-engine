@@ -1,5 +1,5 @@
 /* Dependencies; */
-import { useReducer, useEffect, useCallback, useMemo, useState } from "react";
+import { useReducer, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 
@@ -14,6 +14,8 @@ import { ImImages } from "react-icons/im";
 import { MdRadio } from "react-icons/md";
 import { BsFillPersonFill, BsFillArrowRightCircleFill, BsPlayBtn, BsMegaphone } from "react-icons/bs";
 import { FiMessageSquare, FiSave } from "react-icons/fi";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/animations/scale.css";
 
 /* Types */
 import {
@@ -27,6 +29,8 @@ import {
 	EditSceneState,
 	IMenuButtons,
 } from "../types/enum";
+
+/* Data */
 import DatalistInput from "./DatalistInput";
 
 const INITIAL_CHAR = {
@@ -86,6 +90,8 @@ const SceneEditor = ({
 	story,
 	setCharacters,
 	setStory,
+	screenOrientation,
+	handle,
 }: ManagerProps) => {
 	/* List of assets */
 	const haircolorList = Object.keys(femaleSprites.fronthair);
@@ -118,7 +124,7 @@ const SceneEditor = ({
 			}
 			case "changeCharacterPart": {
 				const partIndicator = action.payload;
-				const partList: { [key: string]: any } = {
+				const partList: { [key: string]: string[] } = {
 					haircolor: haircolorList,
 					fronthair: hairList,
 					backhair: hairList,
@@ -128,7 +134,7 @@ const SceneEditor = ({
 					accessories2: accessories2List,
 					accessories3: accessories3List,
 				};
-				const indexList: { [key: string]: any } = {
+				const indexList: { [key: string]: number } = {
 					haircolor: state.haircolorIndex,
 					fronthair: state.fronthairIndex,
 					backhair: state.backhairIndex,
@@ -238,6 +244,14 @@ const SceneEditor = ({
 			case "setNext": {
 				return { ...state, next: action.payload };
 			}
+			case "setAnimate": {
+				let newCharacters = [...state.characters];
+				newCharacters[action.payload.index] = {
+					...state.characters[action.payload.index],
+					animate: action.payload.animate,
+				};
+				return { ...state, characters: newCharacters };
+			}
 			case "reset": {
 				return INITIAL_SCENE;
 			}
@@ -331,6 +345,12 @@ const SceneEditor = ({
 	};
 
 	/* Scene scripts */
+	const startGame = () => {
+		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
+		dispatch({ type: ActionTypes.CLOSEEDITOR });
+		dispatch({ type: ActionTypes.SHOWINTRO });
+		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story["main-0"].bgm] });
+	};
 	const changeBackground = () => {
 		editSceneDispatch({ type: SceneTypes.CHANGEBACKGROUND });
 	};
@@ -343,10 +363,11 @@ const SceneEditor = ({
 	const toggleSpeaker = () => {
 		editSceneDispatch({ type: SceneTypes.TOGGLESPEAKER });
 	};
+	let leftIndex = editSceneState.characters.findIndex((rows) => rows.location === "left");
+	let rightIndex = editSceneState.characters.findIndex((rows) => rows.location === "right");
 	const saveCurrent = () => {
 		/* Use to insert sprite to the characters array in scene */
-		let leftIndex = editSceneState.characters.findIndex((rows) => rows.location === "left");
-		let rightIndex = editSceneState.characters.findIndex((rows) => rows.location === "right");
+
 		let charactersArray = [...editSceneState.characters];
 		charactersArray[leftIndex].sprite = editChar1State.spriteName;
 		charactersArray[rightIndex].sprite = editChar2State.spriteName;
@@ -372,7 +393,6 @@ const SceneEditor = ({
 	const setNext = (value: string) => {
 		editSceneDispatch({ type: SceneTypes.SETNEXT, payload: value });
 	};
-
 	/* Scene datalist */
 	const sceneList = Object.keys(story);
 	const sceneListObject = useMemo(
@@ -386,42 +406,40 @@ const SceneEditor = ({
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[editSceneState.bgm] });
 	}, [editSceneState.bgm]);
 
-	// const nextSceneList
-
 	/* Menu buttons */
 	const menuButtonsList: IMenuButtons[] = [
 		{
-			title: "Play",
-			onClick: changeBgm,
+			content: "Play",
+			onClick: startGame,
 			icon: <BsPlayBtn />,
 		},
 		{
-			title: "Save current characters and scene",
+			content: "Save current characters and scene",
 			onClick: saveCurrent,
 			icon: <FiSave />,
 		},
-		{ title: "Music", onClick: changeBgm, icon: <MdRadio /> },
+		{ content: "Music", onClick: changeBgm, icon: <MdRadio /> },
 		{
-			title: "Change background",
+			content: "Change background",
 			onClick: changeBackground,
 			icon: <ImImages />,
 		},
 		{
-			title: "Add/Remove left character",
+			content: "Add/Remove left character",
 			onClick: enableCharacter1,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">L</span>,
 			extraClass: editChar1State.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Add/remove right character",
+			content: "Add/remove right character",
 			onClick: enableCharacter2,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">R</span>,
 			extraClass: editChar2State.isEnabled ? "" : "opacity-40 grayscale",
 		},
 		{
-			title: "Left/Right speaker",
+			content: "Left/Right speaker",
 			onClick: toggleSpeaker,
 			icon: (
 				<BsMegaphone
@@ -430,7 +448,7 @@ const SceneEditor = ({
 			),
 		},
 		{
-			title: "Enable/disable dialogue box",
+			content: "Enable/disable dialogue box",
 			onClick: enableDialogue,
 			icon: <FiMessageSquare />,
 			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
@@ -441,20 +459,12 @@ const SceneEditor = ({
 		return (
 			<Tippy
 				appendTo="parent"
-				content={
-					<motion.div
-						className="grid place-items-center rounded-lg bg-[#E379F4] px-1"
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={{ opacity: 0, scale: 0.9 }}
-						transition={{ duration: 0.1 }}
-					>
-						<span className="text-[0.8vw] text-slate-50">{button.title}</span>
-					</motion.div>
-				}
+				content={button.content}
+				animation="scale"
 				placement="bottom"
+				arrow={true}
+				delay={100}
 				key={index}
-				animation={true}
 			>
 				<motion.div
 					className={`flex cursor-pointer flex-row text-[2.4vw] text-[#E879F9] ${
@@ -471,61 +481,39 @@ const SceneEditor = ({
 		);
 	});
 	/* End of menu buttons */
+
 	return (
 		<>
 			<AnimatePresence mode="wait">
 				<Background bgImages={bgImages} bg={editSceneState.bg.media} type="editor" />
 			</AnimatePresence>
+
 			{editSceneState.characters[0].enabled && (
-				<>
-					<motion.div onClick={editCharacter1Toggle}>
-						<AnimatePresence>
-							<Character
-								femaleSprites={femaleSprites}
-								createdCharacter={editChar1State.parts}
-								charLocation="left"
-								type="editor"
-							/>
-						</AnimatePresence>
-					</motion.div>
+				<motion.div onClick={editCharacter1Toggle}>
 					<AnimatePresence>
-						{editChar1State.inCharacterEditMode && (
-							<CharacterMaker
-								editDispatch={editChar1Dispatch}
-								handleClickOutside={handleClickOutside1}
-								charLocation="left"
-								editChar={editChar1State}
-								characters={characters}
-							/>
-						)}
+						<Character
+							femaleSprites={femaleSprites}
+							createdCharacter={editChar1State.parts}
+							charLocation="left"
+							type="editor"
+							animate={editSceneState.characters[leftIndex].animate}
+						/>
 					</AnimatePresence>
-				</>
+				</motion.div>
 			)}
 
-			{editChar2State.isEnabled && (
-				<>
-					<motion.div onClick={editCharacter2Toggle}>
-						<AnimatePresence>
-							<Character
-								femaleSprites={femaleSprites}
-								createdCharacter={editChar2State.parts}
-								charLocation="right"
-								type="editor"
-							/>
-						</AnimatePresence>
-					</motion.div>
+			{editSceneState.characters[1].enabled && (
+				<motion.div onClick={editCharacter2Toggle}>
 					<AnimatePresence>
-						{editChar2State.inCharacterEditMode && (
-							<CharacterMaker
-								editDispatch={editChar2Dispatch}
-								handleClickOutside={handleClickOutside2}
-								charLocation="right"
-								editChar={editChar2State}
-								characters={characters}
-							/>
-						)}
+						<Character
+							femaleSprites={femaleSprites}
+							createdCharacter={editChar2State.parts}
+							charLocation="right"
+							type="editor"
+							animate={editSceneState.characters[rightIndex].animate}
+						/>
 					</AnimatePresence>
-				</>
+				</motion.div>
 			)}
 			{editSceneState.enableDialogue && (
 				<DialogueBox
@@ -536,27 +524,55 @@ const SceneEditor = ({
 					editSceneDispatch={editSceneDispatch}
 				/>
 			)}
+
+			<AnimatePresence>
+				{editChar1State.inCharacterEditMode && editSceneState.characters[1].enabled && (
+					<CharacterMaker
+						editCharDispatch={editChar1Dispatch}
+						handleClickOutside={handleClickOutside1}
+						charLocation="left"
+						editChar={editChar1State}
+						characters={characters}
+						editSceneState={editSceneState}
+						editSceneDispatch={editSceneDispatch}
+					/>
+				)}
+			</AnimatePresence>
+
+			<AnimatePresence>
+				{editChar2State.inCharacterEditMode && editSceneState.characters[1].enabled && (
+					<CharacterMaker
+						editCharDispatch={editChar2Dispatch}
+						handleClickOutside={handleClickOutside2}
+						charLocation="right"
+						editChar={editChar2State}
+						characters={characters}
+						editSceneState={editSceneState}
+						editSceneDispatch={editSceneDispatch}
+					/>
+				)}
+			</AnimatePresence>
+
 			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[1%]">
 				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">
 					{menuButtons}
 					<Tippy
 						appendTo="parent"
-						content={
-							<div className="rounded-lg bg-[#E379F4] p-1">
-								<span className="text-sm text-slate-50">Current Scene</span>
-							</div>
-						}
-						placement="bottom-start"
+						content="Current Scene"
+						animation="scale"
+						placement="bottom"
+						arrow={true}
+						delay={100}
 					>
 						<div className="w-[15%] outline-none">
 							<DatalistInput
-								placeholder="test"
+								placeholder="Add scene"
 								label="Current scene"
 								onFocus={(item) => setSceneIndex("")}
 								items={sceneListObject}
-								className="border-none text-center font-handwritten font-black text-[#E879F9] outline-none"
+								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
 								inputProps={{
-									style: { background: "transparent", border: "0", fontSize: "2vw" },
+									style: { background: "transparent", border: "0", fontSize: "1.75vw", padding: 0 },
 									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9]",
 								}}
 								listboxProps={{
@@ -572,27 +588,26 @@ const SceneEditor = ({
 					<BsFillArrowRightCircleFill className="flex flex-row text-[2.4vw] text-[#E879F9]" />
 					<Tippy
 						appendTo="parent"
-						content={
-							<div className="rounded-lg bg-[#E379F4] p-1">
-								<span className="text-sm text-slate-50">Current Scene</span>
-							</div>
-						}
-						placement="bottom-start"
+						content="Next Scene"
+						animation="scale"
+						placement="bottom"
+						arrow={true}
+						delay={100}
 					>
 						<div className="w-[15%] outline-none">
 							<DatalistInput
-								placeholder="test"
+								placeholder="Add scene"
 								label="Next scene"
 								showLabel={true}
 								onFocus={(item) => setNext("")}
 								items={[...sceneListObject, { id: "end", value: "end" }]}
-								className="border-none text-center font-handwritten text-[1vw] font-black text-[#E879F9] outline-none"
+								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
 								inputProps={{
-									style: { background: "transparent", border: "0", fontSize: "2vw" },
-									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9]",
+									style: { background: "transparent", border: "0", fontSize: "1.75vw", padding: 0 },
+									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9] p-0",
 								}}
 								listboxProps={{
-									style: { border: "0", fontSize: "1vw" },
+									style: { border: "0", fontSize: "1vw", padding: 0 },
 									className: "bg-rose-400",
 								}}
 								value={editSceneState.next}

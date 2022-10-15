@@ -13,6 +13,7 @@ const ActionTypes = {
 	BGMTOGGLE: "bgmToggle",
 	MENUTOGGLE: "menuToggle",
 	MENUOFF: "menuOff",
+	CLOSEEDITOR: "closeEditor",
 } as const;
 
 interface State {
@@ -56,6 +57,7 @@ const SceneTypes = {
 	LOADSCENE: "loadScene",
 	SETSCENEINDEX: "setSceneIndex",
 	SETNEXT: "setNext",
+	SETANIMATE: "setAnimate",
 } as const;
 
 /* Editor types */
@@ -97,6 +99,8 @@ interface ManagerProps {
 	};
 	setCharacters?: any;
 	setStory?: any;
+	screenOrientation?: string;
+	handle?: any;
 }
 
 interface IEditScene {
@@ -110,7 +114,7 @@ interface IEditChar {
 }
 
 interface IMenuButtons {
-	title: string;
+	content: string;
 	onClick: any;
 	icon: any;
 	extraIcon?: any;
@@ -147,7 +151,13 @@ interface EditSceneState {
 	index: string;
 	type: string;
 	bg: { media: string; transition: string | null };
-	characters: { location: string; sprite: string; transition: null; enabled: boolean }[];
+	characters: {
+		location: string;
+		sprite: string;
+		animate: null | string;
+		transition: null | string;
+		enabled: boolean;
+	}[];
 	bgm: string;
 	voice: string;
 	sfx: string;

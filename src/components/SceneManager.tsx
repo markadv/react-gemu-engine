@@ -8,6 +8,11 @@ import { useState } from "react";
 const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
 	let scene = story[state.index];
 	const [isTyping, setIsTyping] = useState(true);
+	if (!story[state.index].enableDialogue) {
+		setTimeout(() => {
+			setIsTyping(false);
+		}, 500);
+	}
 	const nextFrame = () => {
 		/* Guard clause to make sure player doesn't go to the next frame until typing animation finishes */
 		if (isTyping) return;
@@ -39,18 +44,20 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 	return (
 		<>
 			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={scene.bg.media} type="game" />
+				<Background bgImages={bgImages} bg={scene.bg.media} type="game" onClick={nextFrame} />
 			</AnimatePresence>
 			<AnimatePresence>{characterEl}</AnimatePresence>
-			<div onClick={nextFrame}>
-				<DialogueBox
-					name={scene.speaker.name}
-					text={scene.text}
-					location={scene.speaker.location}
-					type="game"
-					setIsTyping={setIsTyping}
-				/>
-			</div>
+			{story[state.index].enableDialogue && (
+				<div onClick={nextFrame}>
+					<DialogueBox
+						name={scene.speaker.name}
+						text={scene.text}
+						location={scene.speaker.location}
+						type="game"
+						setIsTyping={setIsTyping}
+					/>
+				</div>
+			)}
 		</>
 	);
 };

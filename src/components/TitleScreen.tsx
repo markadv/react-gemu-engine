@@ -81,7 +81,6 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story, screenOrientation }: Ti
 				</div>
 				<p className="text-xs">Try dragging the title when it seems out of place.</p>
 			</div>
-
 			<p>
 				A react visual novel game maker for everyone. It is recommended to turn on sounds and fullscreen for a
 				better experience.
@@ -95,6 +94,14 @@ const TitleScreen = ({ dispatch, handle, bgMusic, story, screenOrientation }: Ti
 					whileHover={{ scale: 1.2 }}
 				>
 					Demo Game
+				</motion.button>
+				<motion.button
+					className="rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"
+					onClick={startScene}
+					whileTap={{ scale: 0.8 }}
+					whileHover={{ scale: 1.2 }}
+				>
+					Start Created Game
 				</motion.button>
 				<motion.button
 					className="rounded border border-rose-300 bg-transparent py-2 px-4 font-semibold text-rose-500 hover:border-transparent hover:bg-rose-500 hover:text-white"

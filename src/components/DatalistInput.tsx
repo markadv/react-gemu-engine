@@ -332,18 +332,22 @@ const ComboboxInput = forwardRef<HTMLInputElement, PropsWithRef<ComboboxInputPro
 		assertWithWarning(contextAvailable, contextRequiredWarning(ComboboxInput.name));
 
 		return (
-			<input
-				autoComplete="off"
-				{...props}
-				ref={forwardedRef}
-				value={value}
-				type="text"
-				role="combobox"
-				aria-autocomplete="list"
-				aria-haspopup="listbox"
-				aria-expanded={isExpanded}
-				aria-controls={listboxId}
-			/>
+			<div className="relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-sm font-medium text-gray-900">
+				<div className="relative w-full rounded-md bg-white p-[2%] transition-all duration-75 ease-in">
+					<input
+						autoComplete="off"
+						{...props}
+						ref={forwardedRef}
+						value={value}
+						type="text"
+						role="combobox"
+						aria-autocomplete="list"
+						aria-haspopup="listbox"
+						aria-expanded={isExpanded}
+						aria-controls={listboxId}
+					/>
+				</div>
+			</div>
 		);
 	}
 );

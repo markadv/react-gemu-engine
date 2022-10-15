@@ -11,7 +11,7 @@ import ReactHowler from "react-howler";
 import InitialBrand from "./components/InitialBrand";
 import TitleScreen from "./components/TitleScreen";
 import SceneManager from "./components/SceneManager";
-import OptionsButton from "./components/OptionsButton";
+import OptionsButtons from "./components/OptionsButtons";
 
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
@@ -51,8 +51,8 @@ const loadingScreen = (
 const INITIAL_STATE: State = {
 	/* config state */
 	bgMusic: bgMusic.menu,
-	bgmVolume: 80,
-	bgmPlaying: true,
+	bgmVolume: 50,
+	bgmPlaying: false,
 	soundEffectVolume: 90,
 	voiceVolume: 100,
 	font: "Handwritten",
@@ -84,7 +84,7 @@ const INITIAL_STATE: State = {
 const reducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case "setVolume": {
-			return state;
+			return { ...state, bgmVolume: action.payload };
 		}
 		case "bgmToggle": {
 			return { ...state, bgmPlaying: !state.bgmPlaying };
@@ -108,10 +108,13 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, titleScreenShown: false, introShown: true };
 		}
 		case "startScene": {
-			return { ...state, sceneIsRendering: true };
+			return { ...state, sceneeditorIsRendering: false, sceneIsRendering: true };
 		}
 		case "startEditor": {
 			return { ...state, titleScreenShown: false, sceneeditorIsRendering: true };
+		}
+		case "closeEditor": {
+			return { ...state, sceneeditorIsRendering: false };
 		}
 		case "nextFrame": {
 			return { ...state, index: action.payload };
@@ -121,7 +124,7 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case "reset": {
 			setTimeout(() => {}, 3500);
-			return { ...INITIAL_STATE, titleScreenShown: true, isLoading: false };
+			return { ...INITIAL_STATE, titleScreenShown: true, isLoading: false, bgmPlaying: state.bgmPlaying };
 		}
 		default:
 			return INITIAL_STATE;
@@ -173,7 +176,9 @@ const App = () => {
 	};
 
 	const configMenuToggle = () => {
-		dispatch({ type: ActionTypes.MENUTOGGLE });
+		if (!state.titleScreenShown) {
+			dispatch({ type: ActionTypes.MENUTOGGLE });
+		}
 	};
 
 	const configMenuOff = () => {
@@ -249,6 +254,7 @@ const App = () => {
 									bgMusic={bgMusic}
 									femaleSprites={femaleSprites}
 									story={storyState}
+									screenOrientation={screenOrientation}
 								/>
 							</motion.div>
 						)}
@@ -271,12 +277,13 @@ const App = () => {
 									story={storyState}
 									setCharacters={setCharactersState}
 									setStory={setStoryState}
+									handle={handle}
 								/>
 							</motion.div>
 						)}
 
 						{!state.isLoading && (
-							<OptionsButton
+							<OptionsButtons
 								state={state}
 								bgmToggle={bgmToggle}
 								fullscreenToggle={fullscreenToggle}
@@ -288,7 +295,12 @@ const App = () => {
 						)}
 
 						{!state.isLoading && (
-							<ReactHowler src={state.bgMusic} playing={state.bgmPlaying} volume={0.5} loop={true} />
+							<ReactHowler
+								src={state.bgMusic ? state.bgMusic : ""}
+								playing={state.bgMusic ? state.bgmPlaying : false}
+								volume={state.bgmVolume / 100}
+								loop={true}
+							/>
 						)}
 					</div>
 				</FullScreen>

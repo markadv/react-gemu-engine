@@ -5,7 +5,7 @@ const animationBody: any = {
 	animate: { opacity: 1 },
 	exit: { opacity: 0 },
 };
-const Background = ({ bgImages, bg, type }: any) => {
+const Background = ({ bgImages, bg, type, onClick }: any) => {
 	return (
 		<motion.img
 			className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2"
@@ -17,6 +17,7 @@ const Background = ({ bgImages, bg, type }: any) => {
 			animate="animate"
 			exit="exit"
 			transition={{ duration: type === "game" ? 1.5 : 0.23 }}
+			onClick={onClick}
 		/>
 	);
 };

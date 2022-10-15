@@ -14,6 +14,9 @@ const ActionTypes = {
 	MENUTOGGLE: "menuToggle",
 	MENUOFF: "menuOff",
 	CLOSEEDITOR: "closeEditor",
+	SHOWSPLASHPAGE: "showSplashPage",
+	BGMOFF: "bgmOff",
+	BGMON: "bgmOn",
 } as const;
 
 interface State {
@@ -43,6 +46,7 @@ interface State {
 	isSkipping: boolean;
 	isLoading: boolean;
 	isDebug: boolean;
+	disclaimerShown: boolean;
 }
 
 const SceneTypes = {
@@ -58,6 +62,7 @@ const SceneTypes = {
 	SETSCENEINDEX: "setSceneIndex",
 	SETNEXT: "setNext",
 	SETANIMATE: "setAnimate",
+	SETVIDEO: "setVideo",
 } as const;
 
 /* Editor types */

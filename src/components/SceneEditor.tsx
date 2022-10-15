@@ -2,6 +2,7 @@
 import { useReducer, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
+import { ToastContainer, toast } from "react-toastify";
 
 /* Component */
 import CharacterMaker from "./CharacterMaker";
@@ -11,11 +12,12 @@ import DialogueBox from "./DialogueBox";
 
 /* Styles */
 import { ImImages } from "react-icons/im";
-import { MdRadio } from "react-icons/md";
-import { BsFillPersonFill, BsFillArrowRightCircleFill, BsPlayBtn, BsMegaphone } from "react-icons/bs";
+import { MdOutlineKeyboardVoice, MdRadio } from "react-icons/md";
+import { BsFillPersonFill, BsFillArrowRightCircleFill, BsPlayBtn, BsMegaphone, BsCameraVideo } from "react-icons/bs";
 import { FiMessageSquare, FiSave } from "react-icons/fi";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
+import "react-toastify/dist/ReactToastify.css";
 
 /* Types */
 import {
@@ -32,6 +34,8 @@ import {
 
 /* Data */
 import DatalistInput from "./DatalistInput";
+import VideoScene from "./VideoScene";
+import { GiChoice } from "react-icons/gi";
 
 const INITIAL_CHAR = {
 	spriteName: "default",
@@ -252,6 +256,9 @@ const SceneEditor = ({
 				};
 				return { ...state, characters: newCharacters };
 			}
+			case "setVideo": {
+				return { ...state, type: state.type === "scene" ? "video" : "scene" };
+			}
 			case "reset": {
 				return INITIAL_SCENE;
 			}
@@ -296,6 +303,8 @@ const SceneEditor = ({
 			accessories3Index: accessories3List.findIndex((row) => row === characters[spriteName].accessories3) && 0,
 		};
 	};
+
+	const notify = () => toast.success("Saving successful");
 
 	const storyCharacterCheck = () => {
 		if (story[state.index].characters.length > 0) {
@@ -382,6 +391,12 @@ const SceneEditor = ({
 		setStory((prev: any) => {
 			return { ...prev, [editSceneState.index]: { ...editSceneState, characters: [...charactersArray] } };
 		});
+		if (editSceneState.type === "video") {
+			dispatch({ type: ActionTypes.BGMOFF });
+		} else {
+			dispatch({ type: ActionTypes.BGMON });
+		}
+		notify();
 	};
 	const loadScene = useCallback((value: string) => {
 		editSceneDispatch({ type: SceneTypes.LOADSCENE, payload: value });
@@ -392,6 +407,14 @@ const SceneEditor = ({
 	};
 	const setNext = (value: string) => {
 		editSceneDispatch({ type: SceneTypes.SETNEXT, payload: value });
+	};
+	const setVideo = (url: any) => {
+		editSceneDispatch({ type: SceneTypes.SETVIDEO, payload: url });
+		if (editSceneState.type === "video") {
+			dispatch({ type: ActionTypes.BGMON });
+		} else {
+			dispatch({ type: ActionTypes.BGMOFF });
+		}
 	};
 	/* Scene datalist */
 	const sceneList = Object.keys(story);
@@ -418,7 +441,7 @@ const SceneEditor = ({
 			onClick: saveCurrent,
 			icon: <FiSave />,
 		},
-		{ content: "Music", onClick: changeBgm, icon: <MdRadio /> },
+		{ content: "Change music", onClick: changeBgm, icon: <MdRadio /> },
 		{
 			content: "Change background",
 			onClick: changeBackground,
@@ -453,6 +476,24 @@ const SceneEditor = ({
 			icon: <FiMessageSquare />,
 			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
 		},
+		{
+			content: "Set video",
+			onClick: setVideo,
+			icon: <BsCameraVideo />,
+			extraClass: editSceneState.type === "video" ? "" : "opacity-40 grayscale",
+		},
+		{
+			content: "Change voice",
+			onClick: setVideo,
+			icon: <MdOutlineKeyboardVoice />,
+			extraClass: "opacity-40 grayscale",
+		},
+		{
+			content: "Add choices",
+			onClick: setVideo,
+			icon: <GiChoice />,
+			extraClass: "opacity-40 grayscale",
+		},
 	];
 
 	const menuButtons = menuButtonsList.map((button, index) => {
@@ -481,79 +522,83 @@ const SceneEditor = ({
 		);
 	});
 	/* End of menu buttons */
-
+	console.log(story[state.index].type);
 	return (
 		<>
-			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={editSceneState.bg.media} type="editor" />
-			</AnimatePresence>
-
-			{editSceneState.characters[0].enabled && (
-				<motion.div onClick={editCharacter1Toggle}>
-					<AnimatePresence>
-						<Character
-							femaleSprites={femaleSprites}
-							createdCharacter={editChar1State.parts}
-							charLocation="left"
-							type="editor"
-							animate={editSceneState.characters[leftIndex].animate}
-						/>
+			{editSceneState.type === "video" && <VideoScene />}
+			{editSceneState.type === "scene" && (
+				<>
+					<AnimatePresence mode="wait">
+						<Background bgImages={bgImages} bg={editSceneState.bg.media} type="editor" />
 					</AnimatePresence>
-				</motion.div>
-			)}
 
-			{editSceneState.characters[1].enabled && (
-				<motion.div onClick={editCharacter2Toggle}>
-					<AnimatePresence>
-						<Character
-							femaleSprites={femaleSprites}
-							createdCharacter={editChar2State.parts}
-							charLocation="right"
+					{editSceneState.characters[0].enabled && (
+						<motion.div onClick={editCharacter1Toggle}>
+							<AnimatePresence>
+								<Character
+									femaleSprites={femaleSprites}
+									createdCharacter={editChar1State.parts}
+									charLocation="left"
+									type="editor"
+									animate={editSceneState.characters[leftIndex].animate}
+								/>
+							</AnimatePresence>
+						</motion.div>
+					)}
+
+					{editSceneState.characters[1].enabled && (
+						<motion.div onClick={editCharacter2Toggle}>
+							<AnimatePresence>
+								<Character
+									femaleSprites={femaleSprites}
+									createdCharacter={editChar2State.parts}
+									charLocation="right"
+									type="editor"
+									animate={editSceneState.characters[rightIndex].animate}
+								/>
+							</AnimatePresence>
+						</motion.div>
+					)}
+					{editSceneState.enableDialogue && (
+						<DialogueBox
+							name={editSceneState.speaker.name}
+							text={editSceneState.text}
+							location={editSceneState.speaker.location}
 							type="editor"
-							animate={editSceneState.characters[rightIndex].animate}
+							editSceneDispatch={editSceneDispatch}
 						/>
+					)}
+
+					<AnimatePresence>
+						{editChar1State.inCharacterEditMode && editSceneState.characters[1].enabled && (
+							<CharacterMaker
+								editCharDispatch={editChar1Dispatch}
+								handleClickOutside={handleClickOutside1}
+								charLocation="left"
+								editChar={editChar1State}
+								characters={characters}
+								editSceneState={editSceneState}
+								editSceneDispatch={editSceneDispatch}
+							/>
+						)}
 					</AnimatePresence>
-				</motion.div>
+
+					<AnimatePresence>
+						{editChar2State.inCharacterEditMode && editSceneState.characters[1].enabled && (
+							<CharacterMaker
+								editCharDispatch={editChar2Dispatch}
+								handleClickOutside={handleClickOutside2}
+								charLocation="right"
+								editChar={editChar2State}
+								characters={characters}
+								editSceneState={editSceneState}
+								editSceneDispatch={editSceneDispatch}
+							/>
+						)}
+					</AnimatePresence>
+				</>
 			)}
-			{editSceneState.enableDialogue && (
-				<DialogueBox
-					name={editSceneState.speaker.name}
-					text={editSceneState.text}
-					location={editSceneState.speaker.location}
-					type="editor"
-					editSceneDispatch={editSceneDispatch}
-				/>
-			)}
-
-			<AnimatePresence>
-				{editChar1State.inCharacterEditMode && editSceneState.characters[1].enabled && (
-					<CharacterMaker
-						editCharDispatch={editChar1Dispatch}
-						handleClickOutside={handleClickOutside1}
-						charLocation="left"
-						editChar={editChar1State}
-						characters={characters}
-						editSceneState={editSceneState}
-						editSceneDispatch={editSceneDispatch}
-					/>
-				)}
-			</AnimatePresence>
-
-			<AnimatePresence>
-				{editChar2State.inCharacterEditMode && editSceneState.characters[1].enabled && (
-					<CharacterMaker
-						editCharDispatch={editChar2Dispatch}
-						handleClickOutside={handleClickOutside2}
-						charLocation="right"
-						editChar={editChar2State}
-						characters={characters}
-						editSceneState={editSceneState}
-						editSceneDispatch={editSceneDispatch}
-					/>
-				)}
-			</AnimatePresence>
-
-			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[1%]">
+			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[2.5%]">
 				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">
 					{menuButtons}
 					<Tippy
@@ -572,7 +617,12 @@ const SceneEditor = ({
 								items={sceneListObject}
 								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
 								inputProps={{
-									style: { background: "transparent", border: "0", fontSize: "1.75vw", padding: 0 },
+									style: {
+										background: "transparent",
+										border: "0",
+										fontSize: "1.75vw",
+										padding: 0,
+									},
 									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9]",
 								}}
 								listboxProps={{
@@ -603,7 +653,12 @@ const SceneEditor = ({
 								items={[...sceneListObject, { id: "end", value: "end" }]}
 								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
 								inputProps={{
-									style: { background: "transparent", border: "0", fontSize: "1.75vw", padding: 0 },
+									style: {
+										background: "transparent",
+										border: "0",
+										fontSize: "1.75vw",
+										padding: 0,
+									},
 									className: "focus:ring-0 focus:ring-offset-0 outline-none text-[#E879F9] p-0",
 								}}
 								listboxProps={{
@@ -618,6 +673,18 @@ const SceneEditor = ({
 					</Tippy>
 				</div>
 			</div>
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
 		</>
 	);
 };

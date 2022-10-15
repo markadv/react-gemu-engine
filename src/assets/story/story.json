@@ -1,7 +1,7 @@
 {
 	"main-0": {
 		"index": "main-0",
-		"type": "scene",
+		"type": "video",
 		"bg": { "media": "schoolDay", "animate": null, "transition": null },
 		"bgm": "sunny",
 		"characters": [

@@ -62,7 +62,11 @@ const AnimatedText: FC<Props> = ({ text, delay = 0, duration = 0.05, ...props }:
 			{...props}
 		>
 			{letters.map((letter, index) => (
-				<motion.span key={`${text + letter + index}`} variants={child}>
+				<motion.span
+					key={`${text + letter + index}`}
+					variants={child}
+					whileHover={{ scale: 1.1, color: "#E879F9" }}
+				>
 					{letter === " " ? "\u00A0" : letter}
 				</motion.span>
 			))}

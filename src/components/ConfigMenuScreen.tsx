@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { ActionTypes, Action, State } from "../types/enum";
 
@@ -28,10 +28,12 @@ const ConfigMenuScreen = ({
 	dispatch,
 	configMenuOff,
 	state,
+	playStartSfx,
 }: {
 	dispatch: React.Dispatch<Action>;
 	configMenuOff: () => void;
 	state: State;
+	playStartSfx: any;
 }) => {
 	const configMenuRef = useRef(null);
 	useOnClickOutside(configMenuRef, configMenuOff);
@@ -63,6 +65,7 @@ const ConfigMenuScreen = ({
 				<button
 					className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
 					onClick={(e) => {
+						playStartSfx();
 						dispatch({ type: ActionTypes.RESET });
 					}}
 				>

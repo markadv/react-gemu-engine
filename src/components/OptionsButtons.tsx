@@ -18,6 +18,7 @@ const OptionsButtons = ({
 	configMenuToggle,
 	dispatch,
 	configMenuOff,
+	playStartSfx
 }: {
 	state: State;
 	bgmToggle: () => void;
@@ -26,6 +27,7 @@ const OptionsButtons = ({
 	configMenuToggle: () => void;
 	dispatch: React.Dispatch<Action>;
 	configMenuOff: () => void;
+	playStartSfx: any
 }) => {
 	return (
 		<>
@@ -88,7 +90,12 @@ const OptionsButtons = ({
 			</div>
 			<AnimatePresence>
 				{state.configMenuShown && (
-					<ConfigMenuScreen dispatch={dispatch} configMenuOff={configMenuOff} state={state} />
+					<ConfigMenuScreen
+						dispatch={dispatch}
+						configMenuOff={configMenuOff}
+						state={state}
+						playStartSfx={playStartSfx}
+					/>
 				)}
 			</AnimatePresence>
 		</>

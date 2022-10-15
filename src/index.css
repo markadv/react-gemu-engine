@@ -21,7 +21,9 @@
 	width: 100vw;
 	display: grid;
 	place-items: center;
-	background-color: #000;
+	background-color: rgb(248 250 252);
+	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./assets/images/titlescreen.webp");
+	background-position: center;
 }
 
 @media screen and (orientation: portrait) {
@@ -36,6 +38,14 @@
 		left: 0;
 	}
 }
+
+/* Toastify */
+#root {
+	--toastify-icon-color-success: #e879f9;
+	--toastify-text-color-light: #e879f9;
+	--toastify-color-progress-success: #e879f9;
+}
+
 /* Chatbox border */
 .borderimg {
 	border: 15px solid #fb7185;
@@ -109,7 +119,6 @@
 	background-color: #f3ddf7;
 	border-radius: var(--border-radius);
 }
-
 
 /* Loading screen */
 .loader {

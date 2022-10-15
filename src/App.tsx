@@ -4,6 +4,7 @@ import useBeforeunload from "./hooks/useBeforeunload";
 import { FullScreen, FullScreenHandle, useFullScreenHandle } from "react-full-screen";
 import { motion } from "framer-motion";
 import ReactHowler from "react-howler";
+import { useSound } from "use-sound";
 
 /* Styles */
 
@@ -12,9 +13,14 @@ import InitialBrand from "./components/InitialBrand";
 import TitleScreen from "./components/TitleScreen";
 import SceneManager from "./components/SceneManager";
 import OptionsButtons from "./components/OptionsButtons";
+import Disclaimer from "./components/Disclaimer";
+import SceneEditor from "./components/SceneEditor";
 
 /* Hooks; */
 import useDocumentTitle from "./hooks/useDocumentTitle";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import useWindowSize from "./hooks/useWindowSize";
+import useScreenOrientation from "./hooks/useScreenOrientation";
 
 /* Initial data */
 import characters from "./assets/story/characters.json";
@@ -27,10 +33,7 @@ import { ActionTypes, Action, State } from "./types/enum";
 import bgMusic from "./loader/bgMusic";
 import femaleSprites from "./loader/femaleSprites";
 import bgImages from "./loader/bgImages";
-import SceneEditor from "./components/SceneEditor";
-import { useLocalStorage } from "./hooks/useLocalStorage";
-import useWindowSize from "./hooks/useWindowSize";
-import useScreenOrientation from "./hooks/useScreenOrientation";
+import sfx from "./loader/sfx";
 
 /* Loading screen */
 const loadingScreen = (
@@ -52,7 +55,7 @@ const INITIAL_STATE: State = {
 	/* config state */
 	bgMusic: bgMusic.menu,
 	bgmVolume: 50,
-	bgmPlaying: false,
+	bgmPlaying: true,
 	soundEffectVolume: 90,
 	voiceVolume: 100,
 	font: "Handwritten",
@@ -77,7 +80,8 @@ const INITIAL_STATE: State = {
 	loadMenuShown: false,
 	isSkipping: false,
 	isLoading: true,
-	isDebug: true,
+	isDebug: false,
+	disclaimerShown: true,
 };
 
 /* Reducer function to control all state */
@@ -88,6 +92,12 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case "bgmToggle": {
 			return { ...state, bgmPlaying: !state.bgmPlaying };
+		}
+		case "bgmOff": {
+			return { ...state, bgmPlaying: false };
+		}
+		case "bgmOn": {
+			return { ...state, bgmPlaying: true };
 		}
 		case "menuToggle": {
 			return { ...state, configMenuShown: !state.configMenuShown };
@@ -100,6 +110,9 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case "isLoading": {
 			return { ...state, isLoading: !state.isLoading };
+		}
+		case "showSplashPage": {
+			return { ...state, isLoading: false, disclaimerShown: false };
 		}
 		case "showTitle": {
 			return { ...state, titleScreenShown: true, isLoading: false };
@@ -124,7 +137,13 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case "reset": {
 			setTimeout(() => {}, 3500);
-			return { ...INITIAL_STATE, titleScreenShown: true, isLoading: false, bgmPlaying: state.bgmPlaying };
+			return {
+				...INITIAL_STATE,
+				titleScreenShown: true,
+				isLoading: false,
+				bgmPlaying: state.bgmPlaying,
+				disclaimerShown: false,
+			};
 		}
 		default:
 			return INITIAL_STATE;
@@ -140,11 +159,15 @@ const animationBody: any = {
 
 /* Actual application */
 const App = () => {
-	/* Set document title by Markad */
-	useDocumentTitle("Superstar");
-
 	/* Initialize reducer with initial state */
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+	/* Set document title by Markad */
+	useDocumentTitle("Visual Novel Maker");
+	/* SFX */
+	const [playCheckSfx] = useSound(sfx.check, { volume: 0.1 });
+	const [playStartSfx] = useSound(sfx.start, { volume: 0.1 });
+	const [playHoverSfx] = useSound(sfx.hover, { volume: 0.1 });
+
 	let loadDelay = state.isDebug ? 0 : 3500;
 	state.isDebug && console.log(state);
 
@@ -219,15 +242,17 @@ const App = () => {
 	return (
 		<>
 			{state.isLoading && loadingScreen}
+			{!state.isLoading && state.disclaimerShown && (
+				<Disclaimer dispatch={dispatch} playCheckSfx={playCheckSfx} />
+			)}
 
-			{!state.isLoading && (
+			{!state.isLoading && !state.disclaimerShown && (
 				<FullScreen
 					handle={handle}
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 				>
 					<div className="relative overflow-hidden" style={screenSize}>
 						{state.introShown && <InitialBrand dispatch={dispatch} />}
-
 						{state.titleScreenShown && (
 							<TitleScreen
 								dispatch={dispatch}
@@ -235,9 +260,10 @@ const App = () => {
 								bgMusic={bgMusic}
 								story={story}
 								screenOrientation={screenOrientation}
+								playStartSfx={playStartSfx}
+								playHoverSfx={playHoverSfx}
 							/>
 						)}
-
 						{state.sceneIsRendering && (
 							<motion.div
 								variants={animationBody}
@@ -278,11 +304,12 @@ const App = () => {
 									setCharacters={setCharactersState}
 									setStory={setStoryState}
 									handle={handle}
+									playHoverSfx={playHoverSfx}
 								/>
 							</motion.div>
 						)}
 
-						{!state.isLoading && (
+						{!state.isLoading && !state.titleScreenShown && (
 							<OptionsButtons
 								state={state}
 								bgmToggle={bgmToggle}
@@ -291,13 +318,14 @@ const App = () => {
 								configMenuToggle={configMenuToggle}
 								dispatch={dispatch}
 								configMenuOff={configMenuOff}
+								playStartSfx={playStartSfx}
 							/>
 						)}
 
 						{!state.isLoading && (
 							<ReactHowler
-								src={state.bgMusic ? state.bgMusic : ""}
-								playing={state.bgMusic ? state.bgmPlaying : false}
+								src={state.bgMusic}
+								playing={state.bgmPlaying}
 								volume={state.bgmVolume / 100}
 								loop={true}
 							/>

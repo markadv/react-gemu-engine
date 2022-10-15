@@ -4,11 +4,12 @@ import DialogueBox from "./DialogueBox";
 import { ActionTypes, ManagerProps } from "../types/enum";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import VideoScene from "./VideoScene";
 
 const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
-	let scene = story[state.index];
 	const [isTyping, setIsTyping] = useState(true);
-	if (!story[state.index].enableDialogue) {
+	let scene = story[state.index];
+	if (scene.type !== "video" && !story[state.index].enableDialogue) {
 		setTimeout(() => {
 			setIsTyping(false);
 		}, 500);
@@ -24,6 +25,10 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 		} else {
 			dispatch({ type: ActionTypes.RESET });
 		}
+	};
+	const videoNextFrame = () => {
+		dispatch({ type: ActionTypes.NEXTFRAME, payload: story[state.index].next });
+		dispatch({ type: ActionTypes.BGMTOGGLE });
 	};
 	let characterEl = [];
 	for (let i = 0; i < scene.characters.length; i++) {
@@ -43,20 +48,25 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 	}
 	return (
 		<>
-			<AnimatePresence mode="wait">
-				<Background bgImages={bgImages} bg={scene.bg.media} type="game" onClick={nextFrame} />
-			</AnimatePresence>
-			<AnimatePresence>{characterEl}</AnimatePresence>
-			{story[state.index].enableDialogue && (
-				<div onClick={nextFrame}>
-					<DialogueBox
-						name={scene.speaker.name}
-						text={scene.text}
-						location={scene.speaker.location}
-						type="game"
-						setIsTyping={setIsTyping}
-					/>
-				</div>
+			{scene.type === "video" && <VideoScene videoNextFrame={videoNextFrame} />}
+			{scene.type === "scene" && (
+				<>
+					<AnimatePresence mode="wait">
+						<Background bgImages={bgImages} bg={scene.bg.media} type="game" onClick={nextFrame} />
+					</AnimatePresence>
+					<AnimatePresence>{characterEl}</AnimatePresence>
+					{scene.enableDialogue && (
+						<div onClick={nextFrame}>
+							<DialogueBox
+								name={scene.speaker.name}
+								text={scene.text}
+								location={scene.speaker.location}
+								type="game"
+								setIsTyping={setIsTyping}
+							/>
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);

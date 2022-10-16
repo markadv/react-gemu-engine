@@ -44,7 +44,7 @@ export const variantsList: any = {
 			x: "-100vw",
 		},
 	},
-	mole: {
+	moleUp: {
 		initial: {
 			opacity: 0,
 			y: "100vh",
@@ -52,6 +52,16 @@ export const variantsList: any = {
 		animate: {
 			opacity: 1,
 			y: "0",
+		},
+	},
+	moleDown: {
+		initial: {
+			opacity: 1,
+			y: "0",
+		},
+		animate: {
+			opacity: 0,
+			y: "100vh",
 		},
 	},
 	grow: {
@@ -201,7 +211,7 @@ const Character = ({
 						variants={animate === null ? location[character.location].transition : variantsList[animate]}
 						initial="initial"
 						animate={["inital", "animate", "end"]}
-						// exit="exit"
+						exit="exit"
 						transition={{ ease: "easeInOut", duration: 1 }}
 					/>
 				);
@@ -234,11 +244,27 @@ const Character = ({
 						className={location[charLocation].location}
 						src={femaleSprites[part][createdCharacter.haircolor][createdCharacter[part]]}
 						alt={part}
-						variants={animate === null ? location[charLocation].transition : variantsList[animate]}
-						initial="initial"
-						animate={["inital", "animate", "end"]}
-						exit="exit"
-						transition={{ ease: "easeInOut", duration: 1 }}
+						// variants={animate === null ? location[charLocation].transition : variantsList[animate]}
+						// initial="initial"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						// exit="exit"
+						transition={{ ease: "easeInOut", duration: 0.23 }}
+					/>
+				);
+			} else if (createdCharacter[part] !== "" && part === "body") {
+				characterEl.push(
+					<motion.img
+						key={part + createdCharacter[part]}
+						className={location[charLocation].location + " character-button"}
+						src={femaleSprites[part][createdCharacter[part]]}
+						alt={part}
+						// variants={animate === null ? location[charLocation].transition : variantsList[animate]}
+						// initial="initial"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						// exit="exit"
+						transition={{ ease: "easeInOut", duration: 0.23 }}
 					/>
 				);
 			} else if (createdCharacter[part] !== "") {
@@ -248,11 +274,11 @@ const Character = ({
 						className={location[charLocation].location}
 						src={femaleSprites[part][createdCharacter[part]]}
 						alt={part}
-						variants={animate === null ? location[charLocation].transition : variantsList[animate]}
-						initial="initial"
-						animate={["inital", "animate", "end"]}
-						exit="exit"
-						transition={{ ease: "easeInOut", duration: 1 }}
+						// variants={animate === null ? location[charLocation].transition : variantsList[animate]}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						// exit="exit"
+						transition={{ ease: "easeInOut", duration: 0.23 }}
 					/>
 				);
 			}

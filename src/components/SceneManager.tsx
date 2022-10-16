@@ -22,6 +22,7 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 			dispatch({ type: ActionTypes.NEXTFRAME, payload: story[state.index].next });
 			dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story[state.index].bgm] });
 			setIsTyping(true);
+			if (story[story[state.index].next].type === "video") dispatch({ type: ActionTypes.BGMOFF });
 		} else {
 			dispatch({ type: ActionTypes.RESET });
 		}
@@ -48,7 +49,11 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 	}
 	return (
 		<>
-			{scene.type === "video" && <VideoScene videoNextFrame={videoNextFrame} />}
+			{scene.type === "video" && (
+				<div onClick={videoNextFrame}>
+					<VideoScene videoNextFrame={videoNextFrame} />
+				</div>
+			)}
 			{scene.type === "scene" && (
 				<>
 					<AnimatePresence mode="wait">

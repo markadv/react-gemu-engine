@@ -42,5 +42,16 @@
 		"accessories1": "",
 		"accessories2": "",
 		"accessories3": ""
+	},
+	"Kanon-Grumpy": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "pajama",
+		"fronthair": "short",
+		"expression": "annoyed",
+		"accessories1": "blackGlasses",
+		"accessories2": "",
+		"accessories3": ""
 	}
 }

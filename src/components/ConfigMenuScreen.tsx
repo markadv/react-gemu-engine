@@ -49,13 +49,13 @@ const ConfigMenuScreen = ({
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className={`absolute left-1/2 top-1/2 `}
+			className={`absolute left-1/2 top-1/2 w-1/5`}
 		>
 			<div
 				ref={configMenuRef}
-				className="flex -translate-x-1/2 -translate-y-1/2 flex-col gap-1 rounded-md border border-[#E879F9] bg-white p-2"
+				className="flex -translate-x-1/2 -translate-y-1/2 flex-col gap-1 rounded-md border border-[#E879F9] bg-white px-[10%] py-[5%]"
 			>
-				<p className="font-md text-center text-[1vw] font-medium text-gray-900">Volume</p>
+				<p className="font-md text-center text-[1vw] font-medium text-[#E879F9]">Volume</p>
 				<input
 					className="mb-2 block accent-[#E879F9]"
 					value={state.bgmVolume}
@@ -68,28 +68,24 @@ const ConfigMenuScreen = ({
 					}}
 				/>
 				<button
-					className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
+					className="w-full rounded border border-[#E879F9] bg-transparent py-[.5%] px-[.25%] text-[1vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={(e) => {
 						playStartSfx();
 						dispatch({ type: ActionTypes.RESET });
 					}}
 					onMouseEnter={playHoverSfx}
 				>
-					<span className="relative w-full rounded-md bg-white text-[1vw] transition-all duration-75 ease-in group-hover:bg-opacity-0">
-						Go back to title screen
-					</span>
+					Return to title screen
 				</button>
 				<button
-					className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-xl text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
+					className="w-full rounded border border-[#E879F9] bg-transparent py-[.5%] px-[.25%] text-[1vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={(e) => {
 						playClickSfx();
 						dispatch({ type: ActionTypes.MENUTOGGLE });
 					}}
 					onMouseEnter={playHoverSfx}
 				>
-					<span className="relative w-full rounded-md bg-white text-[1vw]  transition-all duration-75 ease-in group-hover:bg-opacity-0">
-						Close settings
-					</span>
+					Close settings
 				</button>
 			</div>
 		</motion.div>

@@ -73,7 +73,6 @@ const CharTypes = {
 	EDITCHARACTER: "editCharacterToggle",
 	EDITCHARACTERCLEAR: "editCharacterClear",
 	CHANGECHARACTERPART: "changeCharacterPart",
-	ENABLECHARACTERTOGGLE: "enableCharacterToggle",
 	CHANGESPRITENAME: "changeSpriteName",
 	CHANGEHAIRCOLOR: "changeHaircolor",
 	LOADCHARACTER: "loadCharacter",

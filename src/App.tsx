@@ -266,6 +266,7 @@ const App = () => {
 								handle={handle}
 								bgMusic={bgMusic}
 								story={story}
+								storyState={storyState}
 								screenOrientation={screenOrientation}
 								playStartSfx={playStartSfx}
 								playHoverSfx={playHoverSfx}

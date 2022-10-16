@@ -1,5 +1,5 @@
 /* Dependencies; */
-import { useReducer, useEffect, useCallback, useMemo } from "react";
+import { useReducer, useEffect, useCallback, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import { ToastContainer, toast } from "react-toastify";
@@ -118,9 +118,6 @@ const SceneEditor = ({
 	/* Controls character edits. */
 	const editCharReducer = (state: EditCharState, action: IEditChar): EditCharState => {
 		switch (action.type) {
-			case "enableCharacterToggle": {
-				return { ...state, isEnabled: !state.isEnabled };
-			}
 			case "editCharacterToggle": {
 				return { ...state, inCharacterEditMode: !state.inCharacterEditMode };
 			}
@@ -270,6 +267,7 @@ const SceneEditor = ({
 				return INITIAL_SCENE;
 		}
 	};
+
 	const LOADED_INITIAL_SCENE = {
 		...story[state.index],
 		bgIndex: bgImagesList.findIndex((rows) => rows === story[state.index].bg.media),
@@ -281,9 +279,9 @@ const SceneEditor = ({
 		editSceneReducer,
 		story ? LOADED_INITIAL_SCENE : INITIAL_SCENE
 	);
+
 	const retrieveSprite = (spriteName: string) => {
 		return {
-			isEnabled: true,
 			spriteName: spriteName,
 			parts: {
 				haircolor: characters[spriteName].haircolor,
@@ -307,6 +305,182 @@ const SceneEditor = ({
 			accessories3Index: accessories3List.findIndex((row) => row === characters[spriteName].accessories3) && 0,
 		};
 	};
+
+	/* Tour */
+	const [{ run, steps }, setState] = useState<any>({
+		run: true,
+		steps: [
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">Let's begin our storytelling journey!</p>
+				),
+				placement: "center",
+				target: "body",
+			},
+			{
+				content: <p className="font-handwritten text-[1.3vw] font-bold">This is our editor control menu</p>,
+				placement: "bottom",
+				target: ".editor-control-menu",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our change background button. Change the background to set the location of the scene.
+					</p>
+				),
+				placement: "bottom",
+				target: ".changebg-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our change background music button. Change the music to set the mood here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".changebgm-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our left character toggle button. Add or remove the left character here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".toggle-leftchar-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our right character toggle button. Add or remove the right character here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".toggle-rightchar-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our speaker toggle button. You can toggle the left or right speaker here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".toggle-speaker-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our dialogue toggle button. If you want to focus on the characters, you can remove the
+						dialogue box here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".dialogue-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our change video button. You can display a video instead of a scene here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".change-video-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our add voice button. You can add voice here to accent your dialogue. Don't overuse it
+						thought.
+					</p>
+				),
+				placement: "bottom",
+				target: ".add-voice-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our choices button. You can add choices here for branching story path.
+					</p>
+				),
+				placement: "bottom",
+				target: ".add-choices",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our current scene control. You can add and load scene here. Make sure to save your
+						changes otherwise it would not work.
+					</p>
+				),
+				placement: "bottom",
+				target: ".current-scene-combobox",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our next scene control. You can add the next scene for this current path here. You can
+						choose end to end the story in this scene.
+					</p>
+				),
+				placement: "bottom",
+				target: ".next-scene-combobox",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our character. Click her to reveal the controls to change how she looks.
+					</p>
+				),
+				placement: "top-end",
+				target: ".character-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our name input box. Change the name of the character speaking here.
+					</p>
+				),
+				placement: "top",
+				target: ".edit-name-box",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our dialogue input box. Write the conversation here.
+					</p>
+				),
+				placement: "top",
+				target: ".edit-dialogue-box",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our very important save button. Make sure to save your progress per scene here.
+					</p>
+				),
+				placement: "bottom",
+				target: ".save-button",
+			},
+			{
+				content: (
+					<p className="font-handwritten text-[1.3vw] font-bold">
+						This is our play button. Click this to play your created visual novel.
+					</p>
+				),
+				placement: "bottom",
+				target: ".play-button",
+			},
+			// {
+			// 	content: (
+			// 		<p className="font-handwritten text-[1.3vw] font-bold">
+			// 			This is our left character (because she is on the left). Click her to change how she looks.
+			// 		</p>
+			// 	),
+			// 	placement: "top",
+			// 	target: ".character-control",
+			// },
+		],
+	});
 
 	const notify = () => toast.success("Saving successful");
 
@@ -333,7 +507,7 @@ const SceneEditor = ({
 
 	const [editChar1State, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
 	const [editChar2State, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
-
+	console.log(editSceneState, editChar1State, editChar2State);
 	/* Character scripts */
 	const editCharacter1Toggle = () => {
 		editChar1Dispatch({ type: CharTypes.EDITCHARACTER });
@@ -349,17 +523,16 @@ const SceneEditor = ({
 	};
 
 	const enableCharacter1 = (character: string) => {
-		editChar1Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
 		editSceneDispatch({ type: SceneTypes.TOGGLECHARACTER, payload: "left" });
 	};
 	const enableCharacter2 = (character: string) => {
-		editChar2Dispatch({ type: CharTypes.ENABLECHARACTERTOGGLE });
 		editSceneDispatch({ type: SceneTypes.TOGGLECHARACTER, payload: "right" });
 	};
 
 	/* Scene scripts */
 	const startGame = () => {
 		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
+		dispatch({ type: ActionTypes.PLAYDEMO, payload: false });
 		dispatch({ type: ActionTypes.CLOSEEDITOR });
 		dispatch({ type: ActionTypes.SHOWINTRO });
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story["main-0"].bgm] });
@@ -439,38 +612,49 @@ const SceneEditor = ({
 			content: "Play",
 			onClick: startGame,
 			icon: <BsPlayBtn />,
+			extraClass: "play-button",
 		},
 		{
 			content: "Save current characters and scene",
 			onClick: saveCurrent,
 			icon: <FiSave />,
+			extraClass: "save-button",
 		},
-		{ content: "Change music", onClick: changeBgm, icon: <MdRadio /> },
 		{
 			content: "Change background",
 			onClick: changeBackground,
 			icon: <ImImages />,
+			extraClass: "changebg-button",
 		},
+		{ content: "Change music", onClick: changeBgm, icon: <MdRadio />, extraClass: "changebgm-button" },
 		{
 			content: "Add/Remove left character",
 			onClick: enableCharacter1,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">L</span>,
-			extraClass: editChar1State.isEnabled ? "" : "opacity-40 grayscale",
+			extraClass: editSceneState.characters[0].enabled
+				? "toggle-leftchar-button"
+				: "opacity-40 grayscale toggle-leftchar-button",
 		},
 		{
 			content: "Add/remove right character",
 			onClick: enableCharacter2,
 			icon: <BsFillPersonFill />,
 			extraIcon: <span className="text-[1.5vw]">R</span>,
-			extraClass: editChar2State.isEnabled ? "" : "opacity-40 grayscale",
+			extraClass: editSceneState.characters[1].enabled
+				? "toggle-rightchar-button"
+				: "opacity-40 grayscale toggle-rightchar-button",
 		},
 		{
 			content: "Left/Right speaker",
 			onClick: toggleSpeaker,
 			icon: (
 				<BsMegaphone
-					className={editSceneState.speaker.location === "left" ? "pb-[.25%]" : "-scale-x-100 pb-[.25%]"}
+					className={
+						editSceneState.speaker.location === "left"
+							? "toggle-speaker-button pb-[.25%]"
+							: "toggle-speaker-button -scale-x-100 pb-[.25%]"
+					}
 				/>
 			),
 		},
@@ -478,26 +662,28 @@ const SceneEditor = ({
 			content: "Enable/disable dialogue box",
 			onClick: enableDialogue,
 			icon: <FiMessageSquare />,
-			extraClass: editSceneState.enableDialogue ? "" : "opacity-40 grayscale",
+			extraClass: editSceneState.enableDialogue ? "dialogue-button" : "opacity-40 grayscale dialogue-button",
 		},
 		{
 			content: "Set video",
 			onClick: setVideo,
 			icon: <BsCameraVideo />,
-			extraClass: editSceneState.type === "video" ? "" : "opacity-40 grayscale",
+			extraClass:
+				editSceneState.type === "video" ? "change-video-button" : "opacity-40 grayscale change-video-button",
 		},
 		{
-			content: "Change voice",
+			content: "Add voice",
 			onClick: () => {
 				playVoicesSfx();
 			},
 			icon: <MdOutlineKeyboardVoice />,
+			extraClass: "add-voice-button",
 		},
 		{
 			content: "Add choices",
 			onClick: () => {},
 			icon: <GiChoice />,
-			extraClass: "opacity-40 grayscale",
+			extraClass: "opacity-40 grayscale add-choices",
 		},
 	];
 
@@ -531,9 +717,36 @@ const SceneEditor = ({
 		);
 	});
 	/* End of menu buttons */
-	console.log(story[state.index].type);
 	return (
 		<>
+			<Joyride
+				continuous={true}
+				showSkipButton={true}
+				run={run}
+				steps={steps}
+				styles={{
+					buttonBack: {
+						color: "#E879F9",
+						fontSize: "1.1vw",
+					},
+					buttonNext: {
+						backgroundColor: "#E879F9",
+						fontSize: "1.1vw",
+					},
+					tooltip: {
+						padding: "3%",
+					},
+					tooltipContent: {
+						padding: "8% 8% 4% 4%",
+					},
+					tooltipFooter: {
+						marginTop: 0,
+					},
+					buttonSkip: {
+						fontSize: "1vw",
+					},
+				}}
+			/>
 			{editSceneState.type === "video" && <VideoScene />}
 			{editSceneState.type === "scene" && (
 				<>
@@ -568,6 +781,7 @@ const SceneEditor = ({
 								playClickSfx();
 							}}
 							onHoverStart={playHoverSfx}
+							className="right-character-button"
 						>
 							<AnimatePresence>
 								<Character
@@ -593,18 +807,20 @@ const SceneEditor = ({
 					)}
 
 					<AnimatePresence>
-						{editChar1State.inCharacterEditMode && editSceneState.characters[1].enabled && (
-							<CharacterMaker
-								editCharDispatch={editChar1Dispatch}
-								handleClickOutside={handleClickOutside1}
-								charLocation="left"
-								editChar={editChar1State}
-								characters={characters}
-								editSceneState={editSceneState}
-								editSceneDispatch={editSceneDispatch}
-								playHoverSfx={playHoverSfx}
-								playClickSfx={playClickSfx}
-							/>
+						{editChar1State.inCharacterEditMode && editSceneState.characters[0].enabled && (
+							<div className="left-character-control">
+								<CharacterMaker
+									editCharDispatch={editChar1Dispatch}
+									handleClickOutside={handleClickOutside1}
+									charLocation="left"
+									editChar={editChar1State}
+									characters={characters}
+									editSceneState={editSceneState}
+									editSceneDispatch={editSceneDispatch}
+									playHoverSfx={playHoverSfx}
+									playClickSfx={playClickSfx}
+								/>
+							</div>
 						)}
 					</AnimatePresence>
 
@@ -625,7 +841,7 @@ const SceneEditor = ({
 					</AnimatePresence>
 				</>
 			)}
-			<div className="absolute top-0 h-[10%] w-full bg-black bg-opacity-50 px-[2.5%]">
+			<div className="editor-control-menu absolute top-0 h-[10%] w-full bg-black bg-opacity-60 px-[2.5%]">
 				<div className="justify-left flex h-full w-[90%] flex-row items-center gap-[2%]">
 					{menuButtons}
 					<Tippy
@@ -642,7 +858,7 @@ const SceneEditor = ({
 								label="Current scene"
 								onFocus={(item) => setSceneIndex("")}
 								items={sceneListObject}
-								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
+								className="current-scene-combobox border-none text-center font-handwritten text-[0.75vw] font-black text-[#e59df0] outline-none"
 								inputProps={{
 									style: {
 										background: "transparent",
@@ -680,7 +896,7 @@ const SceneEditor = ({
 								showLabel={true}
 								onFocus={(item) => setNext("")}
 								items={[...sceneListObject, { id: "end", value: "end" }]}
-								className="border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
+								className="next-scene-combobox border-none text-center font-handwritten text-[0.75vw] font-black text-[#E879F9] outline-none"
 								inputProps={{
 									style: {
 										background: "transparent",

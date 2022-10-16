@@ -49,7 +49,7 @@ const DialogueBox = ({
 					{type === "editor" && (
 						<textarea
 							name="text"
-							className="box-border h-full w-full resize-none bg-slate-100 outline-none"
+							className="edit-dialogue-box box-border h-full w-full resize-none bg-slate-100 outline-none"
 							onInput={editText}
 							value={text}
 						></textarea>
@@ -72,7 +72,7 @@ const DialogueBox = ({
 						type="text"
 						value={name}
 						name="name"
-						className="bg-slate-100 text-center font-handwritten text-[1.2vw] font-bold outline-none sm:text-[1.4vw]"
+						className="edit-name-box bg-slate-100 text-center font-handwritten text-[1.2vw] font-bold outline-none sm:text-[1.4vw]"
 						onInput={editName}
 						onMouseEnter={playHoverSfx}
 						onClick={playClickSfx}

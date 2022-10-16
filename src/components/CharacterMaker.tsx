@@ -68,7 +68,7 @@ const CharacterMaker = ({
 			spriteList.map((sprite, index) => {
 				return { id: index + sprite, value: sprite };
 			}),
-		[]
+		[spriteList]
 	);
 	const loadCharacter = useCallback((value: string) => {
 		editCharDispatch({ type: CharTypes.LOADCHARACTER, payload: value });
@@ -184,13 +184,11 @@ const CharacterMaker = ({
 				<div className="my-[1%] flex flex-row items-center justify-center" key={index}>
 					<p className="w-1/3 text-left text-[.8vw] font-semibold">{rows.title}:</p>
 					<button
-						className="group relative inline-flex w-2/3 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
+						className="w-2/3 rounded border border-[#E879F9] bg-transparent font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 						onClick={rows.onClick}
 						// onMouseEnter={playHoverSfx}
 					>
-						<span className="relative w-full rounded-md bg-white transition-all duration-75 ease-in group-hover:bg-opacity-0">
-							{rows.partName}
-						</span>
+						{rows.partName}
 					</button>
 				</div>
 			);
@@ -201,28 +199,36 @@ const CharacterMaker = ({
 					key={index}
 					// onMouseEnter={playHoverSfx}
 				>
-					<p className="text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
-					<DatalistInput
-						placeholder={charAnimate === null ? "null" : charAnimate}
-						value={animateInputValue}
-						onFocus={(item) => setAnimateInputValue("")}
-						label="Sprite Name"
-						showLabel={false}
-						items={animateListObject}
-						className="w-full border-none text-center text-[.9vw]"
-						onSelect={(item) => {
-							setAnimate(item.value);
-						}}
-						setValue={(item) => {
-							// setAnimateInputValue("");
-						}}
-						inputProps={{
-							style: { fontWeight: 500, fontSize: "0.9vw", padding: 0, outline: 0, border: 0 },
-						}}
-						listboxProps={{ style: { fontWeight: 500 } }}
-						// onMouseEnter={playHoverSfx}
-						onClick={rows.onClick}
-					/>
+					<p className="w-1/3 text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
+					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
+						<DatalistInput
+							placeholder={charAnimate === null ? "null" : charAnimate}
+							value={animateInputValue}
+							onFocus={(item) => setAnimateInputValue("")}
+							label="Sprite Name"
+							showLabel={false}
+							items={animateListObject}
+							className="w-full border-none text-center text-[.9vw]"
+							onSelect={(item) => {
+								setAnimate(item.value);
+							}}
+							setValue={(item) => {
+								// setAnimateInputValue("");
+							}}
+							inputProps={{
+								style: {
+									fontWeight: 500,
+									fontSize: "0.9vw",
+									padding: 0,
+									outline: 0,
+									border: 0,
+								},
+							}}
+							listboxProps={{ style: { fontWeight: 500 } }}
+							// onMouseEnter={playHoverSfx}
+							onClick={rows.onClick}
+						/>
+					</div>
 				</div>
 			);
 		}
@@ -238,12 +244,12 @@ const CharacterMaker = ({
 			exit="exit"
 			className={`absolute bottom-[30%] ${
 				charLocation === "left" ? "left-[30%]" : "right-[30%]"
-			} flex w-[15%] flex-col`}
+			} character-control flex w-[15%] flex-col`}
 		>
-			<div className="relative inline-flex items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-sm font-medium text-gray-900">
-				<div className="relative w-full rounded-md bg-white p-[2%] transition-all duration-75 ease-in">
-					<div className="flex w-full flex-row items-center justify-center">
-						<p className="mr-[2%] text-[.9vw] font-semibold">Sprite:</p>
+			<div className="w-full rounded border border-[#E879F9] bg-slate-50 px-[2.5%] py-[5%] text-[1vw] font-semibold">
+				<div className="flex w-full flex-row items-center justify-center">
+					<p className="mr-[2%] w-1/3 text-[.9vw] font-semibold">Sprite:</p>
+					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
 						<DatalistInput
 							placeholder={editChar.spriteName}
 							label="Sprite Name"
@@ -262,6 +268,7 @@ const CharacterMaker = ({
 									border: 0,
 									padding: 0,
 									outline: 0,
+									color: "#E879F9",
 								},
 							}}
 							listboxProps={{ style: { fontWeight: 500 } }}
@@ -269,8 +276,8 @@ const CharacterMaker = ({
 							onClick={playClickSfx}
 						/>
 					</div>
-					{buttonListEl}
 				</div>
+				{buttonListEl}
 			</div>
 		</motion.div>
 	);

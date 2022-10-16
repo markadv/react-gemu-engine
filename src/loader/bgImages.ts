@@ -5,6 +5,7 @@ const bgImages = {
 	bedroomEvening: require("../assets/images/bg/Bedroom_Evening.webp"),
 	bedroomNight: require("../assets/images/bg/Bedroom_Night.webp"),
 	bedroomNightDark: require("../assets/images/bg/Bedroom_Night_Dark.webp"),
+	stage: require("../assets/images/bg/Stage.webp"),
 	cafeteriaDay: require("../assets/images/bg/Cafeteria_Day.webp"),
 	cityAfternoon: require("../assets/images/bg/City_Afternoon.webp"),
 	cityMorning: require("../assets/images/bg/City_Morning.webp"),

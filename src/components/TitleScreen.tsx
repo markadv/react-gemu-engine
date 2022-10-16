@@ -17,6 +17,7 @@ interface TitleScreenProps {
 		[key: string]: any;
 	};
 	story: any;
+	storyState: any;
 	screenOrientation: string;
 	playStartSfx: any;
 	playHoverSfx: any;
@@ -27,17 +28,24 @@ const TitleScreen = ({
 	handle,
 	bgMusic,
 	story,
+	storyState,
 	screenOrientation,
 	playStartSfx,
 	playHoverSfx,
 }: TitleScreenProps) => {
+	console.log("storyDefault", story, "storyState", storyState);
 	const startScene = (isDemo: boolean): void => {
 		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
 		dispatch({ type: ActionTypes.PLAYDEMO, payload: isDemo });
 		dispatch({ type: ActionTypes.SHOWINTRO });
-		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story["main-0"].bgm] });
+		dispatch({
+			type: ActionTypes.CHANGEBGM,
+			payload: isDemo ? bgMusic[story["main-0"].bgm] : bgMusic[storyState["main-0"].bgm],
+		});
 		playStartSfx();
-		if (story["main-0"].type === "video") {
+		if (!isDemo && storyState["main-0"].type === "video") {
+			dispatch({ type: ActionTypes.BGMOFF });
+		} else if (isDemo && story["main-0"].type === "video") {
 			dispatch({ type: ActionTypes.BGMOFF });
 		}
 	};
@@ -95,7 +103,7 @@ const TitleScreen = ({
 			<motion.img
 				whileTap={{ scale: 0.8 }}
 				whileHover={{ scale: 1.2 }}
-				className="w-[20%] cursor-pointer"
+				className="w-[15%] cursor-pointer"
 				src={require("../assets/images/steam.png")}
 				alt="Steam logo"
 				onHoverStart={playHoverSfx}

@@ -47,7 +47,8 @@
 		"bgIndex": 0,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-2"
+		"next": "main-2",
+		"videoIndex": "start"
 	},
 	"main-2": {
 		"index": "main-2",
@@ -216,6 +217,163 @@
 		"bgIndex": 6,
 		"bgmIndex": 8,
 		"choices": [],
-		"next": "end"
+		"next": "main-10"
+	},
+	"main-10": {
+		"index": "main-10",
+		"type": "scene",
+		"bg": { "media": "stage", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": "moleDown", "transition": null, "enabled": true },
+			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
+		],
+		"speaker": { "name": "Teacher", "location": "right" },
+		"text": "Shibuya-san!?",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 6,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-11"
+	},
+	"main-11": {
+		"index": "main-11",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{
+				"location": "left",
+				"sprite": "Kanon-Smile",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			},
+			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
+		],
+		"speaker": { "name": "Kanon", "location": "left" },
+		"text": "O... ok.",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-12"
+	},
+	"main-12": {
+		"index": "main-12",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{
+				"location": "left",
+				"sprite": "Kanon-Smile",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			},
+			{ "location": "right", "sprite": "Kanon-Grumpy", "animate": "moleUp", "transition": null, "enabled": true }
+		],
+		"speaker": { "name": "Kanon", "location": "left" },
+		"text": "O... ok.",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-13"
+	},
+	"main-13": {
+		"index": "main-13",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{
+				"location": "left",
+				"sprite": "Kanon-Smile",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			},
+			{ "location": "right", "sprite": "Kanon-Grumpy", "animate": "moleUp", "transition": null, "enabled": true }
+		],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "I am Kanon Shibuya. My dream is to get into the music program at Yuigaoka Girls' High School... but I can't sing when it counts.",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-14"
+	},
+	"main-14": {
+		"index": "main-14",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{
+				"location": "left",
+				"sprite": "Kanon-Smile",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			},
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			}
+		],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "I am Kanon Shibuya. My dream is to get into the music program at Yuigaoka Girls' High School... but I can't sing when it counts.",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-15"
+	},
+	"main-15": {
+		"index": "main-15",
+		"type": "video",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "night",
+		"characters": [
+			{
+				"location": "left",
+				"sprite": "Kanon-Smile",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			},
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			}
+		],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "end",
+		"videoIndex": "ending"
 	}
 }

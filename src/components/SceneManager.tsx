@@ -28,8 +28,12 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 		}
 	};
 	const videoNextFrame = () => {
-		dispatch({ type: ActionTypes.NEXTFRAME, payload: story[state.index].next });
-		dispatch({ type: ActionTypes.BGMON });
+		if (story[state.index].next !== "end") {
+			dispatch({ type: ActionTypes.NEXTFRAME, payload: story[state.index].next });
+			dispatch({ type: ActionTypes.BGMON });
+		} else {
+			dispatch({ type: ActionTypes.RESET });
+		}
 	};
 	let characterEl = [];
 	for (let i = 0; i < scene.characters.length; i++) {
@@ -51,7 +55,7 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 		<>
 			{scene.type === "video" && (
 				<div onClick={videoNextFrame}>
-					<VideoScene videoNextFrame={videoNextFrame} />
+					<VideoScene videoNextFrame={videoNextFrame} videoIndex={story[state.index].videoIndex} />
 				</div>
 			)}
 			{scene.type === "scene" && (

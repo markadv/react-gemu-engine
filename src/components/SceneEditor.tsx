@@ -83,6 +83,7 @@ const INITIAL_SCENE = {
 	enableDialogue: true,
 	choices: [],
 	next: "main-1",
+	videoIndex: "start",
 };
 
 const SceneEditor = ({
@@ -747,7 +748,7 @@ const SceneEditor = ({
 					},
 				}}
 			/>
-			{editSceneState.type === "video" && <VideoScene />}
+			{editSceneState.type === "video" && <VideoScene videoIndex={editSceneState.videoIndex} />}
 			{editSceneState.type === "scene" && (
 				<>
 					<AnimatePresence mode="wait">

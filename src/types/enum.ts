@@ -156,7 +156,7 @@ interface EditCharState {
 	accessories3Index: number;
 }
 interface EditSceneState {
-	[key: string]: string | object | number | boolean;
+	[key: string]: string | object | number | boolean | undefined;
 	index: string;
 	type: string;
 	bg: { media: string; transition: string | null };
@@ -180,6 +180,7 @@ interface EditSceneState {
 	enableDialogue: boolean;
 	choices: any[];
 	next: string;
+	videoIndex?: string;
 }
 
 export type { Action, State, ManagerProps, IMenuButtons, IEditScene, IEditChar, EditCharState, EditSceneState };

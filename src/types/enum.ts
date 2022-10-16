@@ -110,6 +110,7 @@ interface ManagerProps {
 	playHoverSfx?: any;
 	playClickSfx?: any;
 	playVoicesSfx?: any;
+	videos: any
 }
 
 interface IEditScene {

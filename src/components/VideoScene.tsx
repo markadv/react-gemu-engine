@@ -1,7 +1,14 @@
 import { useRef } from "react";
-import videos from "../loader/videos";
 
-const VideoScene = ({ videoNextFrame, videoIndex }: { videoNextFrame?: any; videoIndex: string | undefined }) => {
+const VideoScene = ({
+	videoNextFrame,
+	videoIndex,
+	videos,
+}: {
+	videoNextFrame?: any;
+	videoIndex: string | undefined;
+	videos: any;
+}) => {
 	const vidRef = useRef<HTMLVideoElement>(null);
 	//Remove controls for better story flow
 	// const handlePlayVideo = (event: any) => {

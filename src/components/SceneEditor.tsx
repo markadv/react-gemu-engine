@@ -101,6 +101,7 @@ const SceneEditor = ({
 	playHoverSfx,
 	playClickSfx,
 	playVoicesSfx,
+	videos,
 }: ManagerProps) => {
 	/* List of assets */
 	const haircolorList = Object.keys(femaleSprites.fronthair);
@@ -748,7 +749,7 @@ const SceneEditor = ({
 					},
 				}}
 			/>
-			{editSceneState.type === "video" && <VideoScene videoIndex={editSceneState.videoIndex} />}
+			{editSceneState.type === "video" && <VideoScene videoIndex={editSceneState.videoIndex} videos={videos}/>}
 			{editSceneState.type === "scene" && (
 				<>
 					<AnimatePresence mode="wait">

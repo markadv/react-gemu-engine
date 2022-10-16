@@ -6,7 +6,16 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import VideoScene from "./VideoScene";
 
-const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSprites, story }: ManagerProps) => {
+const SceneManager = ({
+	dispatch,
+	bgImages,
+	characters,
+	state,
+	bgMusic,
+	femaleSprites,
+	story,
+	videos,
+}: ManagerProps) => {
 	const [isTyping, setIsTyping] = useState(true);
 	let scene = story[state.index];
 	if (scene.type !== "video" && !story[state.index].enableDialogue) {
@@ -55,7 +64,11 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 		<>
 			{scene.type === "video" && (
 				<div onClick={videoNextFrame}>
-					<VideoScene videoNextFrame={videoNextFrame} videoIndex={story[state.index].videoIndex} />
+					<VideoScene
+						videoNextFrame={videoNextFrame}
+						videoIndex={story[state.index].videoIndex}
+						videos={videos}
+					/>
 				</div>
 			)}
 			{scene.type === "scene" && (

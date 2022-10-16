@@ -35,6 +35,7 @@ import femaleSprites from "./loader/femaleSprites";
 import bgImages from "./loader/bgImages";
 import sfx from "./loader/sfx";
 import voices from "./loader/voices";
+import videos from "./loader/videos";
 
 /* Loading screen */
 const loadingScreen = (
@@ -289,6 +290,7 @@ const App = () => {
 									femaleSprites={femaleSprites}
 									story={state.isDemo ? story : storyState}
 									screenOrientation={screenOrientation}
+									videos={videos}
 								/>
 							</motion.div>
 						)}
@@ -315,6 +317,7 @@ const App = () => {
 									playHoverSfx={playHoverSfx}
 									playClickSfx={playClickSfx}
 									playVoicesSfx={playVoicesSfx}
+									videos={videos}
 								/>
 							</motion.div>
 						)}

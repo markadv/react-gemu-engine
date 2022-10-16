@@ -56,7 +56,14 @@
 		"bg": { "media": "classroomDay", "animate": null, "transition": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": false }
+			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": false },
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "enterRight",
+				"transition": null,
+				"enabled": false
+			}
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "Hello!",
@@ -335,7 +342,7 @@
 			}
 		],
 		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "I am Kanon Shibuya. My dream is to get into the music program at Yuigaoka Girls' High School... but I can't sing when it counts.",
+		"text": "",
 		"voice": null,
 		"sfx": null,
 		"enableDialogue": false,

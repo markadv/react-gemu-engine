@@ -749,7 +749,7 @@ const SceneEditor = ({
 					},
 				}}
 			/>
-			{editSceneState.type === "video" && <VideoScene videoIndex={editSceneState.videoIndex} videos={videos}/>}
+			{editSceneState.type === "video" && <VideoScene videoIndex={editSceneState.videoIndex} videos={videos} />}
 			{editSceneState.type === "scene" && (
 				<>
 					<AnimatePresence mode="wait">
@@ -877,7 +877,7 @@ const SceneEditor = ({
 								value={editSceneState.index}
 								onSelect={(item) => loadScene(item.value)}
 								setValue={setSceneIndex}
-								onMouseEnter={playHoverSfx}
+								// onMouseEnter={playHoverSfx}
 								onClick={playClickSfx}
 							/>
 						</div>
@@ -915,7 +915,7 @@ const SceneEditor = ({
 								value={editSceneState.next}
 								onSelect={(item) => setNext(item.value)}
 								setValue={setNext}
-								onMouseEnter={playHoverSfx}
+								// onMouseEnter={playHoverSfx}
 								onClick={playClickSfx}
 							/>
 						</div>

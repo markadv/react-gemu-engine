@@ -1,4 +1,4 @@
-/* App types */
+/* Enum */
 const ActionTypes = {
 	RESET: "reset",
 	SETVOLUME: "setVolume",
@@ -20,37 +20,6 @@ const ActionTypes = {
 	PLAYDEMO: "playDemo",
 } as const;
 
-interface State {
-	bgMusic: any;
-	bgmVolume: number;
-	bgmPlaying: boolean;
-	soundEffectVolume: number;
-	voiceVolume: number;
-	font: string;
-	isFullscreen: boolean;
-	choicesStore: { [key: string]: any };
-	index: string;
-	stateHistory: any[];
-	choicesHistory: any[];
-	choicesIndexHistory: any[];
-	indexHistory: any[];
-	choicesExist: boolean;
-	configMenuShown: boolean;
-	titleScreenShown: boolean;
-	introShown: boolean;
-	sceneIsRendering: boolean;
-	sceneeditorIsRendering: boolean;
-	backlogShown: boolean;
-	textBoxShown: boolean;
-	saveMenuShown: boolean;
-	loadMenuShown: boolean;
-	isSkipping: boolean;
-	isLoading: boolean;
-	isDebug: boolean;
-	isDemo: boolean;
-	disclaimerShown: boolean;
-}
-
 const SceneTypes = {
 	RESET: "reset",
 	CHANGEBACKGROUND: "changeBackground",
@@ -67,7 +36,6 @@ const SceneTypes = {
 	SETVIDEO: "setVideo",
 } as const;
 
-/* Editor types */
 const CharTypes = {
 	RESET: "reset",
 	EDITCHARACTER: "editCharacterToggle",
@@ -77,6 +45,40 @@ const CharTypes = {
 	CHANGEHAIRCOLOR: "changeHaircolor",
 	LOADCHARACTER: "loadCharacter",
 } as const;
+
+/* End of enum */
+interface State {
+	bgMusic: any;
+	bgmVolume: number;
+	bgmPlaying: boolean;
+	soundEffectVolume: number;
+	voiceVolume: number;
+	font: string;
+	isFullscreen: boolean;
+	choicesStore: { [key: string]: any };
+	index: string;
+	stateHistory: any[];
+	choicesHistory: any[];
+	choicesIndexHistory: any[];
+	indexHistory: any[];
+	choicesExist: boolean;
+	configMenuShown: boolean;
+	onTitleScreen: boolean;
+	onIntro: boolean;
+	onSceneManager: boolean;
+	onSceneEditor: boolean;
+	backlogShown: boolean;
+	textBoxShown: boolean;
+	saveMenuShown: boolean;
+	loadMenuShown: boolean;
+	isSkipping: boolean;
+	isLoading: boolean;
+	isDebug: boolean;
+	isDemo: boolean;
+	onDisclaimer: boolean;
+}
+
+/* Editor types */
 
 type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
 type CharTypes = typeof CharTypes[keyof typeof CharTypes];
@@ -110,7 +112,7 @@ interface ManagerProps {
 	playHoverSfx?: any;
 	playClickSfx?: any;
 	playVoicesSfx?: any;
-	videos: any
+	videos: any;
 }
 
 interface IEditScene {
@@ -184,6 +186,20 @@ interface EditSceneState {
 	videoIndex?: string;
 }
 
-export type { Action, State, ManagerProps, IMenuButtons, IEditScene, IEditChar, EditCharState, EditSceneState };
+interface ISimpleAnimation {
+	[key: string]: { [key: string]: number | string };
+}
+
+export type {
+	Action,
+	State,
+	ManagerProps,
+	IMenuButtons,
+	IEditScene,
+	IEditChar,
+	EditCharState,
+	EditSceneState,
+	ISimpleAnimation,
+};
 
 export { CharTypes, SceneTypes, ActionTypes };

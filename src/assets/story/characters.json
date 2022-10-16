@@ -53,5 +53,104 @@
 		"accessories1": "blackGlasses",
 		"accessories2": "",
 		"accessories3": ""
+	},
+	"Kanon-Happy-Enter": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "delighted",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Shocked": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "shocked",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Shocked-Shake": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "shocked",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Shocked-Fall": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "shocked",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Grumpy-Raise": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "pajama",
+		"fronthair": "short",
+		"expression": "annoyed",
+		"accessories1": "blackGlasses",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Sis-Angry": {
+		"haircolor": "brown",
+		"backhair": "thick",
+		"body": "body",
+		"outfits": "hoodie",
+		"fronthair": "thick",
+		"expression": "angry",
+		"accessories1": "circleGlasses",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Sis-Angry-Exit": {
+		"haircolor": "brown",
+		"backhair": "thick",
+		"body": "body",
+		"outfits": "hoodie",
+		"fronthair": "thick",
+		"expression": "angry",
+		"accessories1": "circleGlasses",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Grumpy-Exit": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "pajama",
+		"fronthair": "short",
+		"expression": "annoyed",
+		"accessories1": "blackGlasses",
+		"accessories2": "",
+		"accessories3": ""
+	},
+	"Kanon-Sad": {
+		"haircolor": "blondie",
+		"backhair": "short",
+		"body": "body",
+		"outfits": "seifuku2",
+		"fronthair": "short",
+		"expression": "sad",
+		"accessories1": "",
+		"accessories2": "",
+		"accessories3": ""
 	}
 }

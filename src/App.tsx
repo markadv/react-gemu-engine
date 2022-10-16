@@ -27,7 +27,7 @@ import characters from "./assets/story/characters.json";
 import story from "./assets/story/story.json";
 
 /* Types */
-import { ActionTypes, Action, State } from "./types/enum";
+import { ActionTypes, Action, State, ISimpleAnimation } from "./types/enum";
 
 /* Pre-load Assets */
 import bgMusic from "./loader/bgMusic";
@@ -71,11 +71,12 @@ const INITIAL_STATE: State = {
 	indexHistory: [],
 	choicesExist: false,
 	/* App state  */
+	onTitleScreen: false,
+	onIntro: false,
+	onSceneManager: false,
+	onSceneEditor: false,
+	/* Options */
 	configMenuShown: false,
-	titleScreenShown: false,
-	introShown: false,
-	sceneIsRendering: false,
-	sceneeditorIsRendering: false,
 	backlogShown: false,
 	textBoxShown: true,
 	saveMenuShown: false,
@@ -84,7 +85,7 @@ const INITIAL_STATE: State = {
 	isLoading: true,
 	isDebug: false,
 	isDemo: true,
-	disclaimerShown: true,
+	onDisclaimer: true,
 };
 
 /* Reducer function to control all state */
@@ -115,22 +116,22 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, isLoading: !state.isLoading };
 		}
 		case "showSplashPage": {
-			return { ...state, isLoading: false, disclaimerShown: false };
+			return { ...state, isLoading: false, onDisclaimer: false };
 		}
 		case "showTitle": {
-			return { ...state, titleScreenShown: true, isLoading: false };
+			return { ...state, onTitleScreen: true, isLoading: false };
 		}
 		case "showIntro": {
-			return { ...state, titleScreenShown: false, introShown: true };
+			return { ...state, onTitleScreen: false, onIntro: true };
 		}
 		case "startScene": {
-			return { ...state, sceneeditorIsRendering: false, sceneIsRendering: true };
+			return { ...state, onSceneEditor: false, onSceneManager: true };
 		}
 		case "startEditor": {
-			return { ...state, titleScreenShown: false, sceneeditorIsRendering: true };
+			return { ...state, onTitleScreen: false, onSceneEditor: true };
 		}
 		case "closeEditor": {
-			return { ...state, sceneeditorIsRendering: false };
+			return { ...state, onSceneEditor: false };
 		}
 		case "nextFrame": {
 			return { ...state, index: action.payload };
@@ -145,10 +146,10 @@ const reducer = (state: State, action: Action): State => {
 			setTimeout(() => {}, 3500);
 			return {
 				...INITIAL_STATE,
-				titleScreenShown: true,
+				onTitleScreen: true,
 				isLoading: false,
 				bgmPlaying: state.bgmPlaying,
-				disclaimerShown: false,
+				onDisclaimer: false,
 			};
 		}
 		default:
@@ -157,7 +158,7 @@ const reducer = (state: State, action: Action): State => {
 };
 
 /* Framer motion animation */
-const animationBody: any = {
+const animationBody: ISimpleAnimation = {
 	initial: { opacity: 0 },
 	animate: { opacity: 1 },
 	exit: { opacity: 0 },
@@ -170,13 +171,13 @@ const App = () => {
 	/* Set document title by Markad */
 	useDocumentTitle("Visual Novel Maker");
 	/* SFX */
-	const [playCheckSfx] = useSound(sfx.check, { volume: 0.1 });
-	const [playStartSfx] = useSound(sfx.start, { volume: 0.1 });
-	const [playHoverSfx] = useSound(sfx.hover, { volume: 0.1 });
-	const [playClickSfx] = useSound(sfx.click, { volume: 0.1 });
-	const [playVoicesSfx] = useSound(voices.goodmorning, { volume: 0.1 });
+	const [playCheckSfx] = useSound(sfx.check, { volume: 0.05 });
+	const [playStartSfx] = useSound(sfx.start, { volume: 0.05 });
+	const [playHoverSfx] = useSound(sfx.hover, { volume: 0.02 });
+	const [playClickSfx] = useSound(sfx.click, { volume: 0.05 });
+	const [playVoicesSfx] = useSound(voices.goodmorning, { volume: 0.2 });
 
-	let loadDelay = state.isDebug ? 0 : 3500;
+	let loadDelay = state.isDebug ? 0 : 1500;
 	state.isDebug && console.log(state);
 
 	/* Used to handle full screen */
@@ -185,7 +186,7 @@ const App = () => {
 		handle.active ? handle.exit() : handle.enter();
 	};
 	/* 	Adds a prompt when user leave/refresh/back/forward page (Only works when user already interacted with the page) by Markad */
-	useBeforeunload((e: any) => {
+	useBeforeunload((e: Event) => {
 		e.preventDefault();
 	});
 
@@ -202,21 +203,20 @@ const App = () => {
 		return () => window.removeEventListener("load", loadingFinished);
 	}, []);
 
-	const bgmToggle = () => {
-		dispatch({ type: ActionTypes.BGMTOGGLE });
-	};
+	const bgmToggle = () => dispatch({ type: ActionTypes.BGMTOGGLE });
+	const configMenuOff = () => dispatch({ type: ActionTypes.MENUOFF });
 
 	const configMenuToggle = () => {
-		if (!state.titleScreenShown) {
+		if (!state.onTitleScreen) {
 			dispatch({ type: ActionTypes.MENUTOGGLE });
 		}
 	};
 
-	const configMenuOff = () => {
-		dispatch({ type: ActionTypes.MENUOFF });
-	};
+	/* New state for user created games */
 	const [storyState, setStoryState] = useLocalStorage("story", story);
 	const [charactersState, setCharactersState] = useLocalStorage("characters", characters);
+
+	/* Aspect ratio by Markad */
 	const { height, width } = useWindowSize();
 	const screenOrientation = useScreenOrientation();
 	const [screenSize, setScreenSize] = useState(
@@ -247,21 +247,20 @@ const App = () => {
 				  }
 		);
 	}, [height, width]);
+
+	/* Due to performance need for the game, I decided to put conditional in render to make sure that it will no rerender every instance */
 	return (
 		<>
 			{state.isLoading && loadingScreen}
-			{!state.isLoading && state.disclaimerShown && (
-				<Disclaimer dispatch={dispatch} playCheckSfx={playCheckSfx} />
-			)}
-
-			{!state.isLoading && !state.disclaimerShown && (
+			{!state.isLoading && state.onDisclaimer && <Disclaimer dispatch={dispatch} playCheckSfx={playCheckSfx} />}
+			{!state.isLoading && !state.onDisclaimer && (
 				<FullScreen
 					handle={handle}
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 				>
 					<div className="relative overflow-hidden" style={screenSize}>
-						{state.introShown && <InitialBrand dispatch={dispatch} />}
-						{state.titleScreenShown && (
+						{state.onIntro && <InitialBrand dispatch={dispatch} />}
+						{state.onTitleScreen && (
 							<TitleScreen
 								dispatch={dispatch}
 								handle={handle}
@@ -273,7 +272,7 @@ const App = () => {
 								playHoverSfx={playHoverSfx}
 							/>
 						)}
-						{state.sceneIsRendering && (
+						{state.onSceneManager && (
 							<motion.div
 								variants={animationBody}
 								initial="initial"
@@ -295,7 +294,7 @@ const App = () => {
 							</motion.div>
 						)}
 
-						{state.sceneeditorIsRendering && (
+						{state.onSceneEditor && (
 							<motion.div
 								variants={animationBody}
 								initial="initial"
@@ -322,7 +321,7 @@ const App = () => {
 							</motion.div>
 						)}
 
-						{!state.isLoading && !state.titleScreenShown && (
+						{!state.onTitleScreen && (
 							<OptionsButtons
 								state={state}
 								bgmToggle={bgmToggle}
@@ -337,14 +336,12 @@ const App = () => {
 							/>
 						)}
 
-						{!state.isLoading && (
-							<ReactHowler
-								src={state.bgMusic}
-								playing={state.bgmPlaying}
-								volume={state.bgmVolume / 100}
-								loop={true}
-							/>
-						)}
+						<ReactHowler
+							src={state.bgMusic}
+							playing={state.bgmPlaying}
+							volume={state.bgmVolume / 150}
+							loop={true}
+						/>
 					</div>
 				</FullScreen>
 			)}

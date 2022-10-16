@@ -10,12 +10,13 @@ import CharacterMaker from "./CharacterMaker";
 import Background from "./Background";
 import Character from "./Character";
 import DialogueBox from "./DialogueBox";
+// import BackgroundChooser from "./BackgroundChooser";
 
 /* Styles */
 import { ImImages } from "react-icons/im";
 import { MdOutlineKeyboardVoice, MdRadio } from "react-icons/md";
 import { BsFillPersonFill, BsFillArrowRightCircleFill, BsPlayBtn, BsMegaphone, BsCameraVideo } from "react-icons/bs";
-import { FiMessageSquare, FiSave } from "react-icons/fi";
+import { FiMessageSquare, FiSave, FiTrash } from "react-icons/fi";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,6 +38,7 @@ import {
 import DatalistInput from "./DatalistInput";
 import VideoScene from "./VideoScene";
 import { GiChoice } from "react-icons/gi";
+import tutorialData from "../data/tutorialData";
 
 const INITIAL_CHAR = {
 	spriteName: "default",
@@ -171,7 +173,11 @@ const SceneEditor = ({
 				}
 			}
 			case "loadCharacter": {
-				return { ...state, parts: { ...state["parts"], ...characters[action.payload] } };
+				return {
+					...state,
+					spriteName: action.payload,
+					parts: { ...state["parts"], ...characters[action.payload] },
+				};
 			}
 			case "reset": {
 				return INITIAL_CHAR;
@@ -309,182 +315,10 @@ const SceneEditor = ({
 	};
 
 	/* Tour */
-	const [{ run, steps }, setState] = useState<any>({
-		run: true,
-		steps: [
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">Let's begin our storytelling journey!</p>
-				),
-				placement: "center",
-				target: "body",
-			},
-			{
-				content: <p className="font-handwritten text-[1.3vw] font-bold">This is our editor control menu</p>,
-				placement: "bottom",
-				target: ".editor-control-menu",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our change background button. Change the background to set the location of the scene.
-					</p>
-				),
-				placement: "bottom",
-				target: ".changebg-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our change background music button. Change the music to set the mood here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".changebgm-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our left character toggle button. Add or remove the left character here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".toggle-leftchar-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our right character toggle button. Add or remove the right character here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".toggle-rightchar-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our speaker toggle button. You can toggle the left or right speaker here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".toggle-speaker-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our dialogue toggle button. If you want to focus on the characters, you can remove the
-						dialogue box here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".dialogue-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our change video button. You can display a video instead of a scene here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".change-video-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our add voice button. You can add voice here to accent your dialogue. Don't overuse it
-						thought.
-					</p>
-				),
-				placement: "bottom",
-				target: ".add-voice-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our choices button. You can add choices here for branching story path.
-					</p>
-				),
-				placement: "bottom",
-				target: ".add-choices",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our current scene control. You can add and load scene here. Make sure to save your
-						changes otherwise it would not work.
-					</p>
-				),
-				placement: "bottom",
-				target: ".current-scene-combobox",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our next scene control. You can add the next scene for this current path here. You can
-						choose end to end the story in this scene.
-					</p>
-				),
-				placement: "bottom",
-				target: ".next-scene-combobox",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our character. Click her to reveal the controls to change how she looks.
-					</p>
-				),
-				placement: "top-end",
-				target: ".character-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our name input box. Change the name of the character speaking here.
-					</p>
-				),
-				placement: "top",
-				target: ".edit-name-box",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our dialogue input box. Write the conversation here.
-					</p>
-				),
-				placement: "top",
-				target: ".edit-dialogue-box",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our very important save button. Make sure to save your progress per scene here.
-					</p>
-				),
-				placement: "bottom",
-				target: ".save-button",
-			},
-			{
-				content: (
-					<p className="font-handwritten text-[1.3vw] font-bold">
-						This is our play button. Click this to play your created visual novel.
-					</p>
-				),
-				placement: "bottom",
-				target: ".play-button",
-			},
-			// {
-			// 	content: (
-			// 		<p className="font-handwritten text-[1.3vw] font-bold">
-			// 			This is our left character (because she is on the left). Click her to change how she looks.
-			// 		</p>
-			// 	),
-			// 	placement: "top",
-			// 	target: ".character-control",
-			// },
-		],
-	});
-
+	const [{ run, steps }, setState] = useState<any>(tutorialData);
+	/* Toast */
 	const notify = () => toast.success("Saving successful");
+	const error = (message: string) => toast.error(message);
 
 	const storyCharacterCheck = () => {
 		if (story[state.index].characters.length > 0) {
@@ -577,9 +411,14 @@ const SceneEditor = ({
 		}
 		notify();
 	};
-	const loadScene = useCallback((value: string) => {
-		editSceneDispatch({ type: SceneTypes.LOADSCENE, payload: value });
-	}, []);
+	const loadScene = useCallback(
+		(value: string) => {
+			editSceneDispatch({ type: SceneTypes.LOADSCENE, payload: value });
+			editChar1Dispatch({ type: CharTypes.LOADCHARACTER, payload: story[value].characters[0].sprite });
+			editChar2Dispatch({ type: CharTypes.LOADCHARACTER, payload: story[value].characters[1].sprite });
+		},
+		[story]
+	);
 
 	const setSceneIndex = (value: string) => {
 		editSceneDispatch({ type: SceneTypes.SETSCENEINDEX, payload: value });
@@ -594,6 +433,16 @@ const SceneEditor = ({
 		} else {
 			dispatch({ type: ActionTypes.BGMOFF });
 		}
+	};
+	const deleteScene = () => {
+		if (editSceneState.index === "main-0") {
+			error("Can't delete main-0");
+			return;
+		}
+		let temp = { ...story };
+		delete temp[editSceneState.index];
+		setStory({ ...temp });
+		loadScene("main-0");
 	};
 	/* Scene datalist */
 	const sceneList = Object.keys(story);
@@ -686,6 +535,12 @@ const SceneEditor = ({
 			onClick: () => {},
 			icon: <GiChoice />,
 			extraClass: "opacity-40 grayscale add-choices",
+		},
+		{
+			content: "Delete current scene",
+			onClick: deleteScene,
+			icon: <FiTrash />,
+			extraClass: "delete-current-scene",
 		},
 	];
 
@@ -819,7 +674,6 @@ const SceneEditor = ({
 									characters={characters}
 									editSceneState={editSceneState}
 									editSceneDispatch={editSceneDispatch}
-									playHoverSfx={playHoverSfx}
 									playClickSfx={playClickSfx}
 								/>
 							</div>
@@ -836,7 +690,6 @@ const SceneEditor = ({
 								characters={characters}
 								editSceneState={editSceneState}
 								editSceneDispatch={editSceneDispatch}
-								playHoverSfx={playHoverSfx}
 								playClickSfx={playClickSfx}
 							/>
 						)}
@@ -922,6 +775,7 @@ const SceneEditor = ({
 					</Tippy>
 				</div>
 			</div>
+			{/* <BackgroundChooser /> */}
 			<ToastContainer
 				position="top-right"
 				autoClose={2500}

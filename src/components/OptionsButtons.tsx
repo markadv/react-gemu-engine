@@ -84,7 +84,7 @@ const OptionsButtons = ({
 				>
 					<motion.div
 						className={`cursor-pointer text-[1.75vw] ${
-							state.titleScreenShown ? "text-slate-500 opacity-50" : "text-[#E879F9]"
+							state.onTitleScreen ? "text-slate-500 opacity-50" : "text-[#E879F9]"
 						}`}
 						onClick={configMenuToggle}
 						whileHover={{ scale: 1.2 }}

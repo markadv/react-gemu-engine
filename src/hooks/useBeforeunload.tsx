@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-type BeforeunloadHandler = (evt: BeforeUnloadEvent) => void;
+export type BeforeunloadHandler = (evt: BeforeUnloadEvent) => void;
 
 export default function useBeforeunload(handler: BeforeunloadHandler) {
 	const handlerRef = useRef(handler);

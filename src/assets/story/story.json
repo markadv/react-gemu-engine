@@ -22,7 +22,8 @@
 		"bgIndex": 0,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-1"
+		"next": "main-1",
+		"videoIndex": "start"
 	},
 	"main-1": {
 		"index": "main-1",
@@ -73,7 +74,8 @@
 		"bgIndex": 1,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-3"
+		"next": "main-3",
+		"videoIndex": "start"
 	},
 	"main-3": {
 		"index": "main-3",
@@ -81,7 +83,13 @@
 		"bg": { "media": "classroomDay", "animate": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{
+				"location": "left",
+				"sprite": "Kanon-Happy-Enter",
+				"animate": "enterLeft",
+				"transition": null,
+				"enabled": true
+			},
 			{
 				"location": "right",
 				"sprite": "Chisato-Smile2",
@@ -98,7 +106,8 @@
 		"bgIndex": 1,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-4"
+		"next": "main-4",
+		"videoIndex": "start"
 	},
 	"main-4": {
 		"index": "main-4",
@@ -106,7 +115,7 @@
 		"bg": { "media": "classroomDay", "animate": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": null, "transition": null, "enabled": true },
+			{ "location": "left", "sprite": "Kanon-Happy-Enter", "animate": null, "transition": null, "enabled": true },
 			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
@@ -117,7 +126,8 @@
 		"bgIndex": 1,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-5"
+		"next": "main-5",
+		"videoIndex": "start"
 	},
 	"main-5": {
 		"index": "main-5",
@@ -125,7 +135,13 @@
 		"bg": { "media": "classroomDay", "animate": null },
 		"bgm": "sunny",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Happy", "animate": "exitLeft", "transition": null, "enabled": true },
+			{
+				"location": "left",
+				"sprite": "Kanon-Happy-Enter",
+				"animate": "exitLeft",
+				"transition": null,
+				"enabled": true
+			},
 			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
@@ -136,7 +152,8 @@
 		"bgIndex": 1,
 		"bgmIndex": 2,
 		"choices": [],
-		"next": "main-6"
+		"next": "main-6",
+		"videoIndex": "start"
 	},
 	"main-6": {
 		"index": "main-6",
@@ -146,7 +163,7 @@
 		"characters": [
 			{
 				"location": "left",
-				"sprite": "Kanon-Smile",
+				"sprite": "Kanon-Shocked",
 				"animate": "enterLeft",
 				"transition": null,
 				"enabled": true
@@ -161,7 +178,8 @@
 		"bgIndex": 6,
 		"bgmIndex": 8,
 		"choices": [],
-		"next": "main-7"
+		"next": "main-7",
+		"videoIndex": "start"
 	},
 	"main-7": {
 		"index": "main-7",
@@ -171,7 +189,7 @@
 		"characters": [
 			{
 				"location": "left",
-				"sprite": "Kanon-Smile",
+				"sprite": "Kanon-Shocked",
 				"animate": "enterLeft",
 				"transition": null,
 				"enabled": true
@@ -186,7 +204,8 @@
 		"bgIndex": 6,
 		"bgmIndex": 8,
 		"choices": [],
-		"next": "main-8"
+		"next": "main-8",
+		"videoIndex": "start"
 	},
 	"main-8": {
 		"index": "main-8",
@@ -194,18 +213,19 @@
 		"bg": { "media": "stage", "animate": null },
 		"bgm": "crowd",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": "shake", "transition": null, "enabled": true },
+			{ "location": "left", "sprite": "Kanon-Shocked", "animate": "shake", "transition": null, "enabled": true },
 			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
-		"text": "O... ok.",
+		"text": "I... I... I... I'm from Gaien West Middle School... My name is Kanon Shibuya.",
 		"voice": null,
 		"sfx": null,
 		"enableDialogue": true,
 		"bgIndex": 6,
 		"bgmIndex": 8,
 		"choices": [],
-		"next": "main-9"
+		"next": "main-9",
+		"videoIndex": "start"
 	},
 	"main-9": {
 		"index": "main-9",
@@ -213,7 +233,7 @@
 		"bg": { "media": "stage", "animate": null },
 		"bgm": "crowd",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": "shake", "transition": null, "enabled": true },
+			{ "location": "left", "sprite": "Kanon-Shocked", "animate": "shake", "transition": null, "enabled": true },
 			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
@@ -224,7 +244,8 @@
 		"bgIndex": 6,
 		"bgmIndex": 8,
 		"choices": [],
-		"next": "main-10"
+		"next": "main-10",
+		"videoIndex": "start"
 	},
 	"main-10": {
 		"index": "main-10",
@@ -232,7 +253,13 @@
 		"bg": { "media": "stage", "animate": null },
 		"bgm": "night",
 		"characters": [
-			{ "location": "left", "sprite": "Kanon-Smile", "animate": "moleDown", "transition": null, "enabled": true },
+			{
+				"location": "left",
+				"sprite": "Kanon-Shocked-Fall",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": true
+			},
 			{ "location": "right", "sprite": "Chisato-Smile2", "animate": null, "transition": null, "enabled": false }
 		],
 		"speaker": { "name": "Teacher", "location": "right" },
@@ -243,7 +270,8 @@
 		"bgIndex": 6,
 		"bgmIndex": 1,
 		"choices": [],
-		"next": "main-11"
+		"next": "main-11",
+		"videoIndex": "start"
 	},
 	"main-11": {
 		"index": "main-11",
@@ -268,7 +296,8 @@
 		"bgIndex": 5,
 		"bgmIndex": 1,
 		"choices": [],
-		"next": "main-12"
+		"next": "main-12",
+		"videoIndex": "start"
 	},
 	"main-12": {
 		"index": "main-12",
@@ -283,7 +312,13 @@
 				"transition": null,
 				"enabled": false
 			},
-			{ "location": "right", "sprite": "Kanon-Grumpy", "animate": "moleUp", "transition": null, "enabled": true }
+			{
+				"location": "right",
+				"sprite": "Kanon-Grumpy-Raise",
+				"animate": "moleUp",
+				"transition": null,
+				"enabled": true
+			}
 		],
 		"speaker": { "name": "Kanon", "location": "left" },
 		"text": "O... ok.",
@@ -293,7 +328,8 @@
 		"bgIndex": 5,
 		"bgmIndex": 1,
 		"choices": [],
-		"next": "main-13"
+		"next": "main-13",
+		"videoIndex": "start"
 	},
 	"main-13": {
 		"index": "main-13",
@@ -308,17 +344,24 @@
 				"transition": null,
 				"enabled": false
 			},
-			{ "location": "right", "sprite": "Kanon-Grumpy", "animate": "moleUp", "transition": null, "enabled": true }
+			{
+				"location": "right",
+				"sprite": "Kanon-Grumpy-Raise",
+				"animate": "moleUp",
+				"transition": null,
+				"enabled": true
+			}
 		],
 		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "I am Kanon Shibuya. My dream is to get into the music program at Yuigaoka Girls' High School... but I can't sing when it counts.",
+		"text": "My dream is to get into the music program at Yuigaoka Girls' High School... but I can't sing when it counts.",
 		"voice": null,
 		"sfx": null,
 		"enableDialogue": true,
 		"bgIndex": 5,
 		"bgmIndex": 1,
 		"choices": [],
-		"next": "main-14"
+		"next": "main-14",
+		"videoIndex": "start"
 	},
 	"main-14": {
 		"index": "main-14",
@@ -326,44 +369,111 @@
 		"bg": { "media": "bedroomNightDark", "animate": null },
 		"bgm": "night",
 		"characters": [
-			{
-				"location": "left",
-				"sprite": "Kanon-Smile",
-				"animate": "moleDown",
-				"transition": null,
-				"enabled": false
-			},
+			{ "location": "left", "sprite": "Sis-Angry", "animate": "enterLeft", "transition": null, "enabled": true },
 			{
 				"location": "right",
-				"sprite": "Chisato-Smile2",
-				"animate": "moleDown",
+				"sprite": "Kanon-Grumpy-Raise",
+				"animate": "moleUp",
 				"transition": null,
-				"enabled": false
+				"enabled": true
 			}
 		],
-		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "",
+		"speaker": { "name": "Aria", "location": "left" },
+		"text": "Sis!",
 		"voice": null,
 		"sfx": null,
-		"enableDialogue": false,
+		"enableDialogue": true,
 		"bgIndex": 5,
 		"bgmIndex": 1,
 		"choices": [],
-		"next": "main-15"
+		"next": "main-15",
+		"videoIndex": "start"
 	},
 	"main-15": {
 		"index": "main-15",
-		"type": "video",
+		"type": "scene",
 		"bg": { "media": "bedroomNightDark", "animate": null },
 		"bgm": "night",
 		"characters": [
+			{ "location": "left", "sprite": "Sis-Angry", "animate": "enterLeft", "transition": null, "enabled": true },
 			{
-				"location": "left",
-				"sprite": "Kanon-Smile",
+				"location": "right",
+				"sprite": "Kanon-Grumpy-Raise",
+				"animate": "shake",
+				"transition": null,
+				"enabled": true
+			}
+		],
+		"speaker": { "name": "Kanon", "location": "right" },
+		"text": "What!?",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 5,
+		"bgmIndex": 1,
+		"choices": [],
+		"next": "main-16",
+		"videoIndex": "ending"
+	},
+	"main-16": {
+		"index": "main-16",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "fun",
+		"characters": [
+			{ "location": "left", "sprite": "Sis-Angry", "animate": "enterLeft", "transition": null, "enabled": true },
+			{
+				"location": "right",
+				"sprite": "Kanon-Grumpy-Raise",
+				"animate": "moleUp",
+				"transition": null,
+				"enabled": true
+			}
+		],
+		"speaker": { "name": "Aria", "location": "left" },
+		"text": "Wake up! Today's your entrance ceremony, isn't it?! You're going to be late!",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 5,
+		"bgmIndex": 7,
+		"choices": [],
+		"next": "main-17",
+		"videoIndex": "start"
+	},
+	"main-17": {
+		"index": "main-17",
+		"type": "scene",
+		"bg": { "media": "bedroomNightDark", "animate": null },
+		"bgm": "fun",
+		"characters": [
+			{ "location": "left", "sprite": "Sis-Angry", "animate": "exitLeft", "transition": null, "enabled": true },
+			{
+				"location": "right",
+				"sprite": "Kanon-Grumpy-Raise",
 				"animate": "moleDown",
 				"transition": null,
-				"enabled": false
-			},
+				"enabled": true
+			}
+		],
+		"speaker": { "name": "Aria", "location": "left" },
+		"text": "Wake up! Today's your entrance ceremony, isn't it?! You're going to be late!",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 5,
+		"bgmIndex": 7,
+		"choices": [],
+		"next": "main-18",
+		"videoIndex": "start"
+	},
+	"main-18": {
+		"index": "main-18",
+		"type": "scene",
+		"bg": { "media": "livingroomDay", "animate": null },
+		"bgm": "fun",
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Sad", "animate": "enterLeft", "transition": null, "enabled": true },
 			{
 				"location": "right",
 				"sprite": "Chisato-Smile2",
@@ -372,13 +482,65 @@
 				"enabled": false
 			}
 		],
-		"speaker": { "name": "Kanon", "location": "right" },
-		"text": "",
+		"speaker": { "name": "Kanon", "location": "left" },
+		"text": "I'm going to school. I'm late so I will not eat breakfast.",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": true,
+		"bgIndex": 15,
+		"bgmIndex": 7,
+		"choices": [],
+		"next": "main-19",
+		"videoIndex": "start"
+	},
+	"main-19": {
+		"index": "main-19",
+		"type": "scene",
+		"bg": { "media": "livingroomDay", "animate": null },
+		"bgm": "fun",
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Sad", "animate": "exitRight", "transition": null, "enabled": true },
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			}
+		],
+		"speaker": { "name": "Aria", "location": "left" },
+		"text": "Wake up! Today's your entrance ceremony, isn't it?! You're going to be late!",
 		"voice": null,
 		"sfx": null,
 		"enableDialogue": false,
-		"bgIndex": 5,
-		"bgmIndex": 1,
+		"bgIndex": 15,
+		"bgmIndex": 7,
+		"choices": [],
+		"next": "main-20",
+		"videoIndex": "start"
+	},
+	"main-20": {
+		"index": "main-20",
+		"type": "video",
+		"bg": { "media": "livingroomDay", "animate": null },
+		"bgm": "fun",
+		"characters": [
+			{ "location": "left", "sprite": "Kanon-Sad", "animate": "exitRight", "transition": null, "enabled": false },
+			{
+				"location": "right",
+				"sprite": "Chisato-Smile2",
+				"animate": "moleDown",
+				"transition": null,
+				"enabled": false
+			}
+		],
+		"speaker": { "name": "Aria", "location": "left" },
+		"text": "Wake up! Today's your entrance ceremony, isn't it?! You're going to be late!",
+		"voice": null,
+		"sfx": null,
+		"enableDialogue": false,
+		"bgIndex": 15,
+		"bgmIndex": 7,
 		"choices": [],
 		"next": "end",
 		"videoIndex": "ending"

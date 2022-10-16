@@ -50,7 +50,7 @@
 /* Toastify */
 #root {
 	--toastify-icon-color-success: #e879f9;
-	--toastify-text-color-light: #e879f9;
+	--toastify-text-color-light: rgb(31, 31, 31);
 	--toastify-color-progress-success: #e879f9;
 }
 

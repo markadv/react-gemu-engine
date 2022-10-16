@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const VideoScene = ({
 	videoNextFrame,
@@ -10,10 +10,12 @@ const VideoScene = ({
 	videos: any;
 }) => {
 	const vidRef = useRef<HTMLVideoElement>(null);
-	//Remove controls for better story flow
-	// const handlePlayVideo = (event: any) => {
-	// 	vidRef.current && vidRef.current.play();
-	// };4
+	const [volume, setVolume] = useState<number>(0.1);
+	useEffect(() => {
+		if (!!vidRef.current) {
+			vidRef.current.volume = volume;
+		}
+	}, [vidRef, volume]);
 	return (
 		<video
 			ref={vidRef}

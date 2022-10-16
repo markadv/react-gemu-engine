@@ -41,7 +41,6 @@ const CharacterMaker = ({
 	characters,
 	editSceneDispatch,
 	editSceneState,
-	playHoverSfx,
 	playClickSfx,
 }: {
 	editCharDispatch: React.Dispatch<IEditChar>;
@@ -51,7 +50,6 @@ const CharacterMaker = ({
 	characters: any;
 	editSceneDispatch: React.Dispatch<IEditScene>;
 	editSceneState: EditSceneState;
-	playHoverSfx: any;
 	playClickSfx: any;
 }) => {
 	/* Close the modal if you click outside */
@@ -89,7 +87,6 @@ const CharacterMaker = ({
 
 	const buttonList = [
 		{
-			type: "select",
 			title: "Haircolor",
 			onClick: () => {
 				playClickSfx();
@@ -98,7 +95,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.haircolor.toUpperCase(),
 		},
 		{
-			type: "select",
 			title: "Fronthair",
 			onClick: () => {
 				playClickSfx();
@@ -107,7 +103,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.fronthair.toUpperCase(),
 		},
 		{
-			type: "select",
 			title: "Backhair",
 			onClick: () => {
 				playClickSfx();
@@ -116,7 +111,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.backhair.toUpperCase(),
 		},
 		{
-			type: "select",
 			title: "Outfits",
 			onClick: () => {
 				playClickSfx();
@@ -125,7 +119,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.outfits.toUpperCase(),
 		},
 		{
-			type: "select",
 			title: "Expression",
 			onClick: () => {
 				playClickSfx();
@@ -134,7 +127,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.expression.toUpperCase(),
 		},
 		{
-			type: "select",
 			title: "Glasses",
 			onClick: () => {
 				playClickSfx();
@@ -143,7 +135,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "null",
 		},
 		{
-			type: "select",
 			title: "NeckAcc",
 			onClick: () => {
 				playClickSfx();
@@ -152,7 +143,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "null",
 		},
 		{
-			type: "select",
 			title: "HeadAcc",
 			onClick: () => {
 				playClickSfx();
@@ -161,7 +151,6 @@ const CharacterMaker = ({
 			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
 		},
 		{
-			type: "datalist",
 			title: "Animate",
 			onClick: () => {
 				playClickSfx();
@@ -179,59 +168,17 @@ const CharacterMaker = ({
 		}, */
 	];
 	const buttonListEl = buttonList.map((rows, index) => {
-		if (rows.type === "select") {
-			return (
-				<div className="my-[1%] flex flex-row items-center justify-center" key={index}>
-					<p className="w-1/3 text-left text-[.8vw] font-semibold">{rows.title}:</p>
-					<button
-						className="w-2/3 rounded border border-[#E879F9] bg-transparent font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
-						onClick={rows.onClick}
-						// onMouseEnter={playHoverSfx}
-					>
-						{rows.partName}
-					</button>
-				</div>
-			);
-		} else {
-			return (
-				<div
-					className="flex w-full flex-row items-center justify-center"
-					key={index}
-					// onMouseEnter={playHoverSfx}
+		return (
+			<div className="my-[1%] flex flex-row items-center justify-center" key={index}>
+				<p className="w-1/3 text-left text-[.8vw] font-semibold">{rows.title}:</p>
+				<button
+					className="w-2/3 rounded border border-[#E879F9] bg-transparent font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					onClick={rows.onClick}
 				>
-					<p className="w-1/3 text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
-					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
-						<DatalistInput
-							placeholder={charAnimate === null ? "null" : charAnimate}
-							value={animateInputValue}
-							onFocus={(item) => setAnimateInputValue("")}
-							label="Sprite Name"
-							showLabel={false}
-							items={animateListObject}
-							className="w-full border-none text-center text-[.9vw]"
-							onSelect={(item) => {
-								setAnimate(item.value);
-							}}
-							setValue={(item) => {
-								// setAnimateInputValue("");
-							}}
-							inputProps={{
-								style: {
-									fontWeight: 500,
-									fontSize: "0.9vw",
-									padding: 0,
-									outline: 0,
-									border: 0,
-								},
-							}}
-							listboxProps={{ style: { fontWeight: 500 } }}
-							// onMouseEnter={playHoverSfx}
-							onClick={rows.onClick}
-						/>
-					</div>
-				</div>
-			);
-		}
+					{rows.partName}
+				</button>
+			</div>
+		);
 	});
 
 	return (
@@ -278,6 +225,35 @@ const CharacterMaker = ({
 					</div>
 				</div>
 				{buttonListEl}
+				<div className="flex w-full flex-row items-center justify-center">
+					<p className="w-1/3 text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
+					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
+						<DatalistInput
+							placeholder={charAnimate === null ? "null" : charAnimate}
+							value={animateInputValue}
+							onFocus={(item) => setAnimateInputValue("")}
+							label="Sprite Name"
+							showLabel={false}
+							items={animateListObject}
+							className="w-full border-none text-center text-[.9vw]"
+							onSelect={(item) => {
+								setAnimate(item.value);
+							}}
+							setValue={(item) => {}}
+							inputProps={{
+								style: {
+									fontWeight: 500,
+									fontSize: "0.9vw",
+									padding: 0,
+									outline: 0,
+									border: 0,
+								},
+							}}
+							listboxProps={{ style: { fontWeight: 500 } }}
+							onClick={playClickSfx}
+						/>
+					</div>
+				</div>
 			</div>
 		</motion.div>
 	);

@@ -5,9 +5,9 @@ import { useRef } from "react";
 import AnimatedText from "./AnimatedText";
 
 const animationTitleScreen: any = {
-	initial: { opacity: 0, y: 0 },
-	animate: { opacity: 1, y: 0 },
-	exit: { opacity: 0, y: -0 },
+	initial: { opacity: 0 },
+	animate: { opacity: 1 },
+	exit: { opacity: 0 },
 };
 
 interface TitleScreenProps {
@@ -69,35 +69,35 @@ const TitleScreen = ({
 				whileHover={{ scale: 1.1, color: "#E879F9" }}
 				className="text-left font-handwritten text-[2.5vw] text-slate-50"
 			>
-				A new creative experience in storytelling.
+				A new experience in storytelling.
 			</motion.div>
 			<div className="flex w-full flex-row items-center justify-center gap-[5%]">
 				<motion.button
-					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={() => startScene(true)}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Demo Game
+					Demo novel
 				</motion.button>
 				<motion.button
-					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={() => startScene(false)}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Start your game
+					Start your own novel
 				</motion.button>
 				<motion.button
-					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={startEditor}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Create your own game
+					Create your own novel
 				</motion.button>
 			</div>
 			<motion.img
@@ -116,7 +116,7 @@ const TitleScreen = ({
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			transition={{ duration: 0.23 }}
+			transition={{ duration: 0.4 }}
 		>
 			{titleScreenEl}
 		</motion.div>

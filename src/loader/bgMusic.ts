@@ -6,5 +6,6 @@ const bgMusic = {
 	defeat: require("../assets/bgm/Defeat.mp3"),
 	complete: require("../assets/bgm/Complete.mp3"),
 	byeDramatic: require("../assets/bgm/ByeDramatic.mp3"),
+	bgm: require("../assets/bgm/bgm.mp4"),
 };
 export default bgMusic;

@@ -18,7 +18,9 @@ const OptionsButtons = ({
 	configMenuToggle,
 	dispatch,
 	configMenuOff,
-	playStartSfx
+	playStartSfx,
+	playHoverSfx,
+	playClickSfx,
 }: {
 	state: State;
 	bgmToggle: () => void;
@@ -27,7 +29,9 @@ const OptionsButtons = ({
 	configMenuToggle: () => void;
 	dispatch: React.Dispatch<Action>;
 	configMenuOff: () => void;
-	playStartSfx: any
+	playStartSfx: any;
+	playHoverSfx: any;
+	playClickSfx: any;
 }) => {
 	return (
 		<>
@@ -45,6 +49,7 @@ const OptionsButtons = ({
 						onClick={fullscreenToggle}
 						whileHover={{ scale: 1.2 }}
 						whileTap={{ scale: 0.9 }}
+						onHoverStart={playHoverSfx}
 					>
 						{handle.active ? <BsFullscreenExit /> : <BsArrowsFullscreen />}
 					</motion.div>
@@ -64,6 +69,7 @@ const OptionsButtons = ({
 						onClick={bgmToggle}
 						whileHover={{ scale: 1.2 }}
 						whileTap={{ scale: 0.9 }}
+						onHoverStart={playHoverSfx}
 					>
 						<GiMusicalNotes />
 					</motion.div>
@@ -83,6 +89,7 @@ const OptionsButtons = ({
 						onClick={configMenuToggle}
 						whileHover={{ scale: 1.2 }}
 						whileTap={{ scale: 0.9 }}
+						onHoverStart={playHoverSfx}
 					>
 						<IoSettingsOutline />
 					</motion.div>
@@ -95,6 +102,8 @@ const OptionsButtons = ({
 						configMenuOff={configMenuOff}
 						state={state}
 						playStartSfx={playStartSfx}
+						playHoverSfx={playHoverSfx}
+						playClickSfx={playClickSfx}
 					/>
 				)}
 			</AnimatePresence>

@@ -124,6 +124,22 @@ export const variantsList: any = {
 			},
 		},
 	},
+	dropIn: {
+		initial: {
+			y: "-100vh",
+			opacity: 0,
+		},
+		animate: {
+			y: "0",
+			opacity: 1,
+			transition: {
+				duration: 0.1,
+				type: "spring",
+				damping: 25,
+				stiffness: 500,
+			},
+		},
+	},
 
 	// test: {
 	// 	initial: {

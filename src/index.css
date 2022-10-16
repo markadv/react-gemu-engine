@@ -24,6 +24,14 @@
 	background-color: rgb(248 250 252);
 	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./assets/images/titlescreen.webp");
 	background-position: center;
+	object-fit: cover;
+	positon: fixed;
+}
+
+.fullscreen-enabled {
+	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./assets/images/titlescreen.webp");
+	background-position: center;
+	object-fit: cover;
 }
 
 @media screen and (orientation: portrait) {

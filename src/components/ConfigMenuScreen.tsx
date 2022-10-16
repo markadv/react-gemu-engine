@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { PlayFunction } from "use-sound/dist/types";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { ActionTypes, Action, State } from "../types/enum";
 
@@ -29,11 +30,15 @@ const ConfigMenuScreen = ({
 	configMenuOff,
 	state,
 	playStartSfx,
+	playHoverSfx,
+	playClickSfx,
 }: {
 	dispatch: React.Dispatch<Action>;
 	configMenuOff: () => void;
 	state: State;
 	playStartSfx: any;
+	playHoverSfx: any;
+	playClickSfx: any;
 }) => {
 	const configMenuRef = useRef(null);
 	useOnClickOutside(configMenuRef, configMenuOff);
@@ -68,6 +73,7 @@ const ConfigMenuScreen = ({
 						playStartSfx();
 						dispatch({ type: ActionTypes.RESET });
 					}}
+					onMouseEnter={playHoverSfx}
 				>
 					<span className="relative w-full rounded-md bg-white text-[1vw] transition-all duration-75 ease-in group-hover:bg-opacity-0">
 						Go back to title screen
@@ -76,8 +82,10 @@ const ConfigMenuScreen = ({
 				<button
 					className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-xl text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
 					onClick={(e) => {
+						playClickSfx();
 						dispatch({ type: ActionTypes.MENUTOGGLE });
 					}}
+					onMouseEnter={playHoverSfx}
 				>
 					<span className="relative w-full rounded-md bg-white text-[1vw]  transition-all duration-75 ease-in group-hover:bg-opacity-0">
 						Close settings

@@ -41,6 +41,8 @@ const CharacterMaker = ({
 	characters,
 	editSceneDispatch,
 	editSceneState,
+	playHoverSfx,
+	playClickSfx,
 }: {
 	editCharDispatch: React.Dispatch<IEditChar>;
 	handleClickOutside: () => void;
@@ -49,6 +51,8 @@ const CharacterMaker = ({
 	characters: any;
 	editSceneDispatch: React.Dispatch<IEditScene>;
 	editSceneState: EditSceneState;
+	playHoverSfx: any;
+	playClickSfx: any;
 }) => {
 	/* Close the modal if you click outside */
 	const charMakerRef = useRef(null);
@@ -88,6 +92,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Haircolor",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "haircolor" });
 			},
 			partName: editChar.parts.haircolor.toUpperCase(),
@@ -96,6 +101,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Fronthair",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "fronthair" });
 			},
 			partName: editChar.parts.fronthair.toUpperCase(),
@@ -104,6 +110,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Backhair",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "backhair" });
 			},
 			partName: editChar.parts.backhair.toUpperCase(),
@@ -112,6 +119,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Outfits",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "outfits" });
 			},
 			partName: editChar.parts.outfits.toUpperCase(),
@@ -120,6 +128,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Expression",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "expression" });
 			},
 			partName: editChar.parts.expression.toUpperCase(),
@@ -128,6 +137,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "Glasses",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
 			},
 			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "null",
@@ -136,6 +146,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "NeckAcc",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
 			},
 			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "null",
@@ -144,6 +155,7 @@ const CharacterMaker = ({
 			type: "select",
 			title: "HeadAcc",
 			onClick: () => {
+				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 			},
 			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
@@ -151,7 +163,9 @@ const CharacterMaker = ({
 		{
 			type: "datalist",
 			title: "Animate",
-			onClick: () => {},
+			onClick: () => {
+				playClickSfx();
+			},
 			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
 		},
 		/* Future updates
@@ -172,6 +186,7 @@ const CharacterMaker = ({
 					<button
 						className="group relative inline-flex w-2/3 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-[1%] text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-purple-500 group-hover:to-pink-500"
 						onClick={rows.onClick}
+						// onMouseEnter={playHoverSfx}
 					>
 						<span className="relative w-full rounded-md bg-white transition-all duration-75 ease-in group-hover:bg-opacity-0">
 							{rows.partName}
@@ -181,7 +196,11 @@ const CharacterMaker = ({
 			);
 		} else {
 			return (
-				<div className="flex w-full flex-row items-center justify-center" key={index}>
+				<div
+					className="flex w-full flex-row items-center justify-center"
+					key={index}
+					// onMouseEnter={playHoverSfx}
+				>
 					<p className="text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
 					<DatalistInput
 						placeholder={charAnimate === null ? "null" : charAnimate}
@@ -201,6 +220,8 @@ const CharacterMaker = ({
 							style: { fontWeight: 500, fontSize: "0.9vw", padding: 0, outline: 0, border: 0 },
 						}}
 						listboxProps={{ style: { fontWeight: 500 } }}
+						// onMouseEnter={playHoverSfx}
+						onClick={rows.onClick}
 					/>
 				</div>
 			);
@@ -244,6 +265,8 @@ const CharacterMaker = ({
 								},
 							}}
 							listboxProps={{ style: { fontWeight: 500 } }}
+							// onMouseEnter={playHoverSfx}
+							onClick={playClickSfx}
 						/>
 					</div>
 					{buttonListEl}

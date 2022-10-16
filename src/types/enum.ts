@@ -17,6 +17,7 @@ const ActionTypes = {
 	SHOWSPLASHPAGE: "showSplashPage",
 	BGMOFF: "bgmOff",
 	BGMON: "bgmOn",
+	PLAYDEMO: "playDemo",
 } as const;
 
 interface State {
@@ -46,6 +47,7 @@ interface State {
 	isSkipping: boolean;
 	isLoading: boolean;
 	isDebug: boolean;
+	isDemo: boolean;
 	disclaimerShown: boolean;
 }
 
@@ -106,6 +108,9 @@ interface ManagerProps {
 	setStory?: any;
 	screenOrientation?: string;
 	handle?: any;
+	playHoverSfx?: any;
+	playClickSfx?: any;
+	playVoicesSfx?: any;
 }
 
 interface IEditScene {

@@ -1,0 +1,20 @@
+const voices = {
+	actually: require("../assets/voices/actually.mp3"),
+	animegasp: require("../assets/voices/animegasp.mp3"),
+	bye: require("../assets/voices/bye.mp3"),
+	goodafternoon: require("../assets/voices/goodafternoon.mp3"),
+	goodbye: require("../assets/voices/goodbye.mp3"),
+	goodevening: require("../assets/voices/goodevening.mp3"),
+	goodmorning: require("../assets/voices/goodmorning.mp3"),
+	hello: require("../assets/voices/hello.mp3"),
+	hey: require("../assets/voices/hey.mp3"),
+	how: require("../assets/voices/how.mp3"),
+	howareyou: require("../assets/voices/howareyou.mp3"),
+	laughter: require("../assets/voices/laughter.mp3"),
+	okay: require("../assets/voices/okay.mp3"),
+	seeyalater: require("../assets/voices/seeyalater.mp3"),
+	thankyou: require("../assets/voices/thankyou.mp3"),
+	what: require("../assets/voices/what.mp3"),
+	why: require("../assets/voices/why.mp3"),
+};
+export default voices;

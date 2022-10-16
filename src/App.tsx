@@ -34,6 +34,7 @@ import bgMusic from "./loader/bgMusic";
 import femaleSprites from "./loader/femaleSprites";
 import bgImages from "./loader/bgImages";
 import sfx from "./loader/sfx";
+import voices from "./loader/voices";
 
 /* Loading screen */
 const loadingScreen = (
@@ -81,6 +82,7 @@ const INITIAL_STATE: State = {
 	isSkipping: false,
 	isLoading: true,
 	isDebug: false,
+	isDemo: true,
 	disclaimerShown: true,
 };
 
@@ -135,6 +137,9 @@ const reducer = (state: State, action: Action): State => {
 		case "changeBgm": {
 			return { ...state, bgMusic: action.payload };
 		}
+		case "playDemo": {
+			return { ...state, isDemo: action.payload };
+		}
 		case "reset": {
 			setTimeout(() => {}, 3500);
 			return {
@@ -167,6 +172,8 @@ const App = () => {
 	const [playCheckSfx] = useSound(sfx.check, { volume: 0.1 });
 	const [playStartSfx] = useSound(sfx.start, { volume: 0.1 });
 	const [playHoverSfx] = useSound(sfx.hover, { volume: 0.1 });
+	const [playClickSfx] = useSound(sfx.click, { volume: 0.1 });
+	const [playVoicesSfx] = useSound(voices.goodmorning, { volume: 0.1 });
 
 	let loadDelay = state.isDebug ? 0 : 3500;
 	state.isDebug && console.log(state);
@@ -279,7 +286,7 @@ const App = () => {
 									state={state}
 									bgMusic={bgMusic}
 									femaleSprites={femaleSprites}
-									story={storyState}
+									story={state.isDemo ? story : storyState}
 									screenOrientation={screenOrientation}
 								/>
 							</motion.div>
@@ -305,6 +312,8 @@ const App = () => {
 									setStory={setStoryState}
 									handle={handle}
 									playHoverSfx={playHoverSfx}
+									playClickSfx={playClickSfx}
+									playVoicesSfx={playVoicesSfx}
 								/>
 							</motion.div>
 						)}
@@ -319,6 +328,8 @@ const App = () => {
 								dispatch={dispatch}
 								configMenuOff={configMenuOff}
 								playStartSfx={playStartSfx}
+								playHoverSfx={playHoverSfx}
+								playClickSfx={playClickSfx}
 							/>
 						)}
 

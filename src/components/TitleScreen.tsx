@@ -31,20 +31,21 @@ const TitleScreen = ({
 	playStartSfx,
 	playHoverSfx,
 }: TitleScreenProps) => {
-	const startScene = (): void => {
+	const startScene = (isDemo: boolean): void => {
 		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
+		dispatch({ type: ActionTypes.PLAYDEMO, payload: isDemo });
 		dispatch({ type: ActionTypes.SHOWINTRO });
 		dispatch({ type: ActionTypes.CHANGEBGM, payload: bgMusic[story["main-0"].bgm] });
 		playStartSfx();
 		if (story["main-0"].type === "video") {
-			dispatch({ type: ActionTypes.BGMTOGGLE });
+			dispatch({ type: ActionTypes.BGMOFF });
 		}
 	};
 	const startEditor = (): void => {
 		playStartSfx();
 		dispatch({ type: ActionTypes.STARTEDITOR });
 		if (story["main-0"].type === "video") {
-			dispatch({ type: ActionTypes.BGMTOGGLE });
+			dispatch({ type: ActionTypes.BGMOFF });
 		}
 	};
 	const constraintsRef = useRef(null);
@@ -65,7 +66,7 @@ const TitleScreen = ({
 			<div className="flex w-full flex-row items-center justify-center gap-[5%]">
 				<motion.button
 					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
-					onClick={startScene}
+					onClick={() => startScene(true)}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
@@ -74,12 +75,21 @@ const TitleScreen = ({
 				</motion.button>
 				<motion.button
 					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					onClick={() => startScene(false)}
+					whileTap={{ scale: 0.8 }}
+					whileHover={{ scale: 1.2 }}
+					onHoverStart={playHoverSfx}
+				>
+					Start your game
+				</motion.button>
+				<motion.button
+					className="w-[20%] rounded border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
 					onClick={startEditor}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Edit Game
+					Create your own game
 				</motion.button>
 			</div>
 			<motion.img

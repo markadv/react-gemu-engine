@@ -28,7 +28,7 @@ const SceneManager = ({ dispatch, bgImages, characters, state, bgMusic, femaleSp
 	};
 	const videoNextFrame = () => {
 		dispatch({ type: ActionTypes.NEXTFRAME, payload: story[state.index].next });
-		dispatch({ type: ActionTypes.BGMTOGGLE });
+		dispatch({ type: ActionTypes.BGMON });
 	};
 	let characterEl = [];
 	for (let i = 0; i < scene.characters.length; i++) {

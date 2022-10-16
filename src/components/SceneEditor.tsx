@@ -3,6 +3,7 @@ import { useReducer, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import { ToastContainer, toast } from "react-toastify";
+import Joyride from "react-joyride";
 
 /* Component */
 import CharacterMaker from "./CharacterMaker";
@@ -96,6 +97,9 @@ const SceneEditor = ({
 	setStory,
 	screenOrientation,
 	handle,
+	playHoverSfx,
+	playClickSfx,
+	playVoicesSfx,
 }: ManagerProps) => {
 	/* List of assets */
 	const haircolorList = Object.keys(femaleSprites.fronthair);
@@ -484,13 +488,14 @@ const SceneEditor = ({
 		},
 		{
 			content: "Change voice",
-			onClick: setVideo,
+			onClick: () => {
+				playVoicesSfx();
+			},
 			icon: <MdOutlineKeyboardVoice />,
-			extraClass: "opacity-40 grayscale",
 		},
 		{
 			content: "Add choices",
-			onClick: setVideo,
+			onClick: () => {},
 			icon: <GiChoice />,
 			extraClass: "opacity-40 grayscale",
 		},
@@ -513,7 +518,11 @@ const SceneEditor = ({
 					}`}
 					whileHover={{ scale: 1.2 }}
 					whileTap={{ scale: 0.9 }}
-					onClick={button.onClick}
+					onClick={() => {
+						button.onClick();
+						playClickSfx();
+					}}
+					onHoverStart={playHoverSfx}
 				>
 					{button.icon}
 					{typeof button["extraIcon"] !== "undefined" ? button.extraIcon : ""}
@@ -533,7 +542,13 @@ const SceneEditor = ({
 					</AnimatePresence>
 
 					{editSceneState.characters[0].enabled && (
-						<motion.div onClick={editCharacter1Toggle}>
+						<motion.div
+							onClick={() => {
+								editCharacter1Toggle();
+								playClickSfx();
+							}}
+							onHoverStart={playHoverSfx}
+						>
 							<AnimatePresence>
 								<Character
 									femaleSprites={femaleSprites}
@@ -547,7 +562,13 @@ const SceneEditor = ({
 					)}
 
 					{editSceneState.characters[1].enabled && (
-						<motion.div onClick={editCharacter2Toggle}>
+						<motion.div
+							onClick={() => {
+								editCharacter2Toggle();
+								playClickSfx();
+							}}
+							onHoverStart={playHoverSfx}
+						>
 							<AnimatePresence>
 								<Character
 									femaleSprites={femaleSprites}
@@ -566,6 +587,8 @@ const SceneEditor = ({
 							location={editSceneState.speaker.location}
 							type="editor"
 							editSceneDispatch={editSceneDispatch}
+							playHoverSfx={playHoverSfx}
+							playClickSfx={playClickSfx}
 						/>
 					)}
 
@@ -579,6 +602,8 @@ const SceneEditor = ({
 								characters={characters}
 								editSceneState={editSceneState}
 								editSceneDispatch={editSceneDispatch}
+								playHoverSfx={playHoverSfx}
+								playClickSfx={playClickSfx}
 							/>
 						)}
 					</AnimatePresence>
@@ -593,6 +618,8 @@ const SceneEditor = ({
 								characters={characters}
 								editSceneState={editSceneState}
 								editSceneDispatch={editSceneDispatch}
+								playHoverSfx={playHoverSfx}
+								playClickSfx={playClickSfx}
 							/>
 						)}
 					</AnimatePresence>
@@ -632,6 +659,8 @@ const SceneEditor = ({
 								value={editSceneState.index}
 								onSelect={(item) => loadScene(item.value)}
 								setValue={setSceneIndex}
+								onMouseEnter={playHoverSfx}
+								onClick={playClickSfx}
 							/>
 						</div>
 					</Tippy>
@@ -668,6 +697,8 @@ const SceneEditor = ({
 								value={editSceneState.next}
 								onSelect={(item) => setNext(item.value)}
 								setValue={setNext}
+								onMouseEnter={playHoverSfx}
+								onClick={playClickSfx}
 							/>
 						</div>
 					</Tippy>
@@ -684,6 +715,7 @@ const SceneEditor = ({
 				draggable
 				pauseOnHover
 				theme="light"
+				onClick={playClickSfx}
 			/>
 		</>
 	);

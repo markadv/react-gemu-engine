@@ -12,6 +12,8 @@ const DialogueBox = ({
 	type,
 	editSceneDispatch,
 	setIsTyping,
+	playHoverSfx,
+	playClickSfx,
 }: {
 	name: string;
 	text: string;
@@ -19,6 +21,8 @@ const DialogueBox = ({
 	type: string;
 	editSceneDispatch?: any;
 	setIsTyping?: any;
+	playHoverSfx?: any;
+	playClickSfx?: any;
 }) => {
 	const editName = (e: React.FormEvent<HTMLInputElement>) => {
 		editSceneDispatch({ type: "changeName", payload: e.currentTarget.value });
@@ -56,7 +60,13 @@ const DialogueBox = ({
 				className={`borderimg2 absolute grid h-[7.25%] w-[20%] place-items-center bg-slate-100 text-center opacity-95 ${defaulPosition[location]}`}
 			>
 				{type === "game" ? (
-					<p className="font-handwritten text-[1vw] font-bold sm:text-[1.4vw]">{name}</p>
+					<p
+						className="font-handwritten text-[1vw] font-bold sm:text-[1.4vw]"
+						onMouseEnter={playHoverSfx}
+						onClick={playClickSfx}
+					>
+						{name}
+					</p>
 				) : (
 					<input
 						type="text"
@@ -64,6 +74,8 @@ const DialogueBox = ({
 						name="name"
 						className="bg-slate-100 text-center font-handwritten text-[1.2vw] font-bold outline-none sm:text-[1.4vw]"
 						onInput={editName}
+						onMouseEnter={playHoverSfx}
+						onClick={playClickSfx}
 					/>
 				)}
 			</div>

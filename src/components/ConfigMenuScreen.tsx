@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
-import { PlayFunction } from "use-sound/dist/types";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { ActionTypes, Action, State } from "../types/enum";
 
@@ -25,6 +24,15 @@ const dropIn = {
 	},
 };
 
+interface IConfigMenuScreen {
+	dispatch: React.Dispatch<Action>;
+	configMenuOff: () => void;
+	state: State;
+	playStartSfx: () => void;
+	playHoverSfx: () => void;
+	playClickSfx: () => void;
+}
+
 const ConfigMenuScreen = ({
 	dispatch,
 	configMenuOff,
@@ -32,14 +40,7 @@ const ConfigMenuScreen = ({
 	playStartSfx,
 	playHoverSfx,
 	playClickSfx,
-}: {
-	dispatch: React.Dispatch<Action>;
-	configMenuOff: () => void;
-	state: State;
-	playStartSfx: any;
-	playHoverSfx: any;
-	playClickSfx: any;
-}) => {
+}: IConfigMenuScreen) => {
 	const configMenuRef = useRef(null);
 	useOnClickOutside(configMenuRef, configMenuOff);
 	return (

@@ -19,8 +19,8 @@ interface TitleScreenProps {
 	story: any;
 	storyState: any;
 	screenOrientation: string;
-	playStartSfx: any;
-	playHoverSfx: any;
+	playStartSfx: () => void;
+	playHoverSfx: () => void;
 }
 
 const TitleScreen = ({
@@ -88,7 +88,7 @@ const TitleScreen = ({
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Start your own novel
+					Watch your novel
 				</motion.button>
 				<motion.button
 					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
@@ -97,7 +97,7 @@ const TitleScreen = ({
 					whileHover={{ scale: 1.2 }}
 					onHoverStart={playHoverSfx}
 				>
-					Create your own novel
+					Create your novel
 				</motion.button>
 			</div>
 			<motion.img

@@ -42,28 +42,40 @@ Table- [React visual novel game engine](#react-visual-novel-game-engine)
 ┣ 📂components
 ┃ ┣ 📜AnimatedText.tsx
 ┃ ┣ 📜Background.tsx
+┃ ┣ 📜BackgroundChooser.tsx
 ┃ ┣ 📜Character.tsx
 ┃ ┣ 📜CharacterMaker.tsx
+┃ ┣ 📜CharacterMakerButton.tsx
+┃ ┣ 📜ConfigMenuScreen.tsx
+┃ ┣ 📜DatalistInput.tsx
 ┃ ┣ 📜DialogueBox.tsx
+┃ ┣ 📜Disclaimer.tsx
 ┃ ┣ 📜InitialBrand.tsx
+┃ ┣ 📜OptionsButtons.tsx
 ┃ ┣ 📜SceneEditor.tsx
+┃ ┣ 📜SceneEditorButtons.tsx
 ┃ ┣ 📜SceneManager.tsx
 ┃ ┗ 📜TitleScreen.tsx
+┃ ┗ 📜VideoScene.tsx
 ┣ 📂hooks
-┃ ┣ 📜useAudio.tsx
 ┃ ┣ 📜useBeforeunload.tsx
 ┃ ┣ 📜useDocumentTitle.tsx
+┃ ┣ 📜useEventCallback.tsx
 ┃ ┣ 📜useEventListener.tsx
 ┃ ┣ 📜useIntro.tsx
 ┃ ┣ 📜useIsomorphicLayoutEffect.tsx
 ┃ ┣ 📜useLocalStorage.tsx
 ┃ ┣ 📜useOnClickOutside.tsx
 ┃ ┣ 📜useSafeContext.tsx
+┃ ┗ 📜useScreenOrientation.tsx
 ┃ ┗ 📜useWindowSize.tsx
 ┣ 📂loader
 ┃ ┣ 📜bgImages.ts
 ┃ ┣ 📜bgMusic.ts
 ┃ ┗ 📜femaleSprites.ts
+┃ ┗ 📜sfx.ts
+┃ ┗ 📜videos.ts
+┃ ┗ 📜voices.ts
 ┣ 📂types
 ┃ ┗ 📜enum.ts
 ┣ 📜App.tsx
@@ -79,31 +91,36 @@ Table- [React visual novel game engine](#react-visual-novel-game-engine)
 
 ## Features
 
--   [ ] General
-    -   [ ] Title screen (Recreate)
+-   [x] General
+    -   [x] Title screen (Recreate)
 -   [x] Homepage (Intro)
+
     -   [x] Intro
         -   [x] Initialize music
     -   [x] Option menu
     -   [x] Quick access sound
     -   [x] Quick access fullscreen
-    -   [ ] Interactable characters (Optional)
+
 -   [x] Game output
     -   [x] Characters
     -   [x] Background
     -   [x] Dialogue
     -   [x] Controls
-    -   [ ] Choices (Optional)
-    -   [ ] History (Optional)
-    -   [ ] Quick menu
-    -   [ ] Ending
+    -   [x] Quick menu
+    -   [x] Ending
 -   [ ] Editor (CRUD)
     -   [x] Scenes
     -   [x] Characters
     -   [x] Background
     -   [x] Background music
-    -   [ ] Animate
-    -   [ ] Transition
-    -   [ ] Voice (Optional)
-    -   [ ] Sound effects (Optional)
-    -   [ ] Story choices (Optional)
+    -   [x] Animate
+    -   [x] Transition
+    -   [x] Voice (Optional)
+
+Future updates
+
+-   [ ] Interactable characters
+-   [ ] Choices
+-   [ ] History
+-   [ ] Sound effects
+-   [ ] Choices

@@ -11,6 +11,7 @@ import { CharTypes, EditCharState, EditSceneState, IEditChar, IEditScene, SceneT
 /* Data */
 import DatalistInput from "./DatalistInput";
 import { variantsList } from "./Character";
+import CharacterMakerButton from "./CharacterMakerButton";
 
 const dropIn = {
 	hidden: {
@@ -169,14 +170,8 @@ const CharacterMaker = ({
 	];
 	const buttonListEl = buttonList.map((rows, index) => {
 		return (
-			<div className="my-[1%] flex flex-row items-center justify-center" key={index}>
-				<p className="w-1/3 text-left text-[.8vw] font-semibold">{rows.title}:</p>
-				<button
-					className="w-2/3 rounded border border-[#E879F9] bg-transparent font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
-					onClick={rows.onClick}
-				>
-					{rows.partName}
-				</button>
+			<div key={index}>
+				<CharacterMakerButton title={rows.title} partName={rows.partName} onClick={rows.onClick} />
 			</div>
 		);
 	});

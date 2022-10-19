@@ -86,6 +86,7 @@ const INITIAL_STATE: State = {
 	isDebug: false,
 	isDemo: true,
 	onDisclaimer: true,
+	assetLoadingTime: 3500,
 };
 
 /* Reducer function to control all state */
@@ -177,7 +178,7 @@ const App = () => {
 	const [playClickSfx] = useSound(sfx.click, { volume: 0.05 });
 	const [playVoicesSfx] = useSound(voices.goodmorning, { volume: 0.2 });
 
-	let loadDelay = state.isDebug ? 0 : 1500;
+	let loadDelay = state.isDebug ? 0 : state.assetLoadingTime;
 	state.isDebug && console.log(state);
 
 	/* Used to handle full screen */
@@ -248,7 +249,7 @@ const App = () => {
 		);
 	}, [height, width]);
 
-	/* Due to performance need for the game, I decided to put conditional in render to make sure that it will no rerender every instance */
+	/* Due to performance need for the game, conditional is in render to make sure that it will not rerender every instance by Markad */
 	return (
 		<>
 			{state.isLoading && loadingScreen}
@@ -336,12 +337,14 @@ const App = () => {
 							/>
 						)}
 
-						<ReactHowler
-							src={state.bgMusic}
-							playing={state.bgmPlaying}
-							volume={state.bgmVolume / 150}
-							loop={true}
-						/>
+						{!state.isLoading && (
+							<ReactHowler
+								src={state.bgMusic}
+								playing={state.bgmPlaying}
+								volume={state.bgmVolume / 150}
+								loop={true}
+							/>
+						)}
 					</div>
 				</FullScreen>
 			)}

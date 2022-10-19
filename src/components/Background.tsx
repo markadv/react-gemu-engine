@@ -6,7 +6,14 @@ const animationBody: ISimpleAnimation = {
 	animate: { opacity: 1 },
 	exit: { opacity: 0 },
 };
-const Background = ({ bgImages, bg, type, onClick }: any) => {
+
+interface IBackground {
+	bgImages: { [key: string]: any };
+	bg: any;
+	type: string;
+	onClick?: () => void;
+}
+const Background = ({ bgImages, bg, type, onClick }: IBackground) => {
 	return (
 		<motion.img
 			className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2"

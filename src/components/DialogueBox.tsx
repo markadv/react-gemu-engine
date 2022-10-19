@@ -1,4 +1,5 @@
 import Typewriter from "typewriter-effect";
+import { IEditScene } from "../types/enum";
 
 const defaulPosition: { [key: string]: string } = {
 	left: "bottom-[17%] left-0",
@@ -19,16 +20,16 @@ const DialogueBox = ({
 	text: string;
 	location: string;
 	type: string;
-	editSceneDispatch?: any;
-	setIsTyping?: any;
-	playHoverSfx?: any;
-	playClickSfx?: any;
+	editSceneDispatch?: React.Dispatch<IEditScene>;
+	setIsTyping?: React.Dispatch<React.SetStateAction<boolean>>;
+	playHoverSfx?: () => void;
+	playClickSfx?: () => void;
 }) => {
 	const editName = (e: React.FormEvent<HTMLInputElement>) => {
-		editSceneDispatch({ type: "changeName", payload: e.currentTarget.value });
+		editSceneDispatch && editSceneDispatch({ type: "changeName", payload: e.currentTarget.value });
 	};
 	const editText = (e: React.FormEvent<HTMLTextAreaElement>) => {
-		editSceneDispatch({ type: "changeText", payload: e.currentTarget.value });
+		editSceneDispatch && editSceneDispatch({ type: "changeText", payload: e.currentTarget.value });
 	};
 	return (
 		<>
@@ -40,7 +41,7 @@ const DialogueBox = ({
 							onInit={(typewriter) => {
 								typewriter
 									.typeString(text)
-									.callFunction(() => setIsTyping(false))
+									.callFunction(() => setIsTyping && setIsTyping(false))
 									.start();
 							}}
 							options={{ cursor: "", delay: 0.23 / text.length }}

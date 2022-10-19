@@ -1,6 +1,7 @@
 import React from "react";
 import DatalistInput from "./DatalistInput";
 
+/* Future updates */
 const BackgroundChooser = () => {
 	return (
 		<div className="absolute top-[10%] left-[11.75%]">

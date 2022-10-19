@@ -39,6 +39,7 @@ import DatalistInput from "./DatalistInput";
 import VideoScene from "./VideoScene";
 import { GiChoice } from "react-icons/gi";
 import tutorialData from "../data/tutorialData";
+import SceneEditorButtons from "./SceneEditorButtons";
 
 const INITIAL_CHAR = {
 	spriteName: "default",
@@ -545,6 +546,7 @@ const SceneEditor = ({
 	];
 
 	const menuButtons = menuButtonsList.map((button, index) => {
+		/* Tippy will have issues on JSX.Element so the element is attached directly here by Markad*/
 		return (
 			<Tippy
 				appendTo="parent"
@@ -557,7 +559,7 @@ const SceneEditor = ({
 			>
 				<motion.div
 					className={`flex cursor-pointer flex-row text-[2.4vw] text-[#E879F9] ${
-						typeof button["extraClass"] !== "undefined" ? button.extraClass : ""
+						typeof button.extraClass !== "undefined" ? button.extraClass : ""
 					}`}
 					whileHover={{ scale: 1.2 }}
 					whileTap={{ scale: 0.9 }}
@@ -568,7 +570,7 @@ const SceneEditor = ({
 					onHoverStart={playHoverSfx}
 				>
 					{button.icon}
-					{typeof button["extraIcon"] !== "undefined" ? button.extraIcon : ""}
+					{typeof button.extraIcon !== "undefined" ? button.extraIcon : ""}
 				</motion.div>
 			</Tippy>
 		);

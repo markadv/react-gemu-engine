@@ -76,6 +76,7 @@ interface State {
 	isDebug: boolean;
 	isDemo: boolean;
 	onDisclaimer: boolean;
+	assetLoadingTime: number;
 }
 
 /* Editor types */
@@ -127,10 +128,10 @@ interface IEditChar {
 
 interface IMenuButtons {
 	content: string;
-	onClick: any;
-	icon: any;
+	onClick: (url?: any) => void;
+	icon: JSX.Element;
 	extraIcon?: any;
-	extraClass?: any;
+	extraClass?: string;
 }
 
 interface EditCharState {

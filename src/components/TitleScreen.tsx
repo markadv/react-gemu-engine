@@ -63,7 +63,7 @@ const TitleScreen = ({
 			className="absolute flex h-full w-full flex-col items-center justify-center gap-16 object-cover"
 		>
 			<div className="text-[5vw] text-slate-50">
-				<AnimatedText text="Visual Novel maker" />
+				<AnimatedText text="Visual Novel Maker" />
 			</div>
 			<motion.div
 				whileHover={{ scale: 1.1, color: "#E879F9" }}

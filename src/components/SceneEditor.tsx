@@ -39,7 +39,6 @@ import DatalistInput from "./DatalistInput";
 import VideoScene from "./VideoScene";
 import { GiChoice } from "react-icons/gi";
 import tutorialData from "../data/tutorialData";
-import SceneEditorButtons from "./SceneEditorButtons";
 
 const INITIAL_CHAR = {
 	spriteName: "default",

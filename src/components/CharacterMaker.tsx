@@ -133,7 +133,7 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
 			},
-			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "null",
+			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "default",
 		},
 		{
 			title: "NeckAcc",
@@ -141,7 +141,7 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
 			},
-			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "null",
+			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "default",
 		},
 		{
 			title: "HeadAcc",
@@ -149,15 +149,9 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 			},
-			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "default",
 		},
-		{
-			title: "Animate",
-			onClick: () => {
-				playClickSfx();
-			},
-			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
-		},
+		// },
 		/* Future updates
 		{
 			type: "select",
@@ -165,7 +159,7 @@ const CharacterMaker = ({
 			onClick: () => {
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 			},
-			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "null",
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "default",
 		}, */
 	];
 	const buttonListEl = buttonList.map((rows, index) => {
@@ -224,7 +218,7 @@ const CharacterMaker = ({
 					<p className="w-1/3 text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
 					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
 						<DatalistInput
-							placeholder={charAnimate === null ? "null" : charAnimate}
+							placeholder={charAnimate === null ? "default" : charAnimate}
 							value={animateInputValue}
 							onFocus={(item) => setAnimateInputValue("")}
 							label="Sprite Name"

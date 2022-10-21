@@ -341,7 +341,7 @@ const App = () => {
 							<ReactHowler
 								src={state.bgMusic}
 								playing={state.bgmPlaying}
-								volume={state.bgmVolume / 150}
+								volume={state.bgmVolume / 500}
 								loop={true}
 							/>
 						)}

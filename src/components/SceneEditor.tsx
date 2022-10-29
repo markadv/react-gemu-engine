@@ -343,7 +343,6 @@ const SceneEditor = ({
 
 	const [editChar1State, editChar1Dispatch] = useReducer(editCharReducer, checkCharacter("left"));
 	const [editChar2State, editChar2Dispatch] = useReducer(editCharReducer, checkCharacter("right"));
-	console.log(editSceneState, editChar1State, editChar2State);
 	/* Character scripts */
 	const editCharacter1Toggle = () => {
 		editChar1Dispatch({ type: CharTypes.EDITCHARACTER });
@@ -575,13 +574,16 @@ const SceneEditor = ({
 		);
 	});
 	/* End of menu buttons */
-	console.log(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary");
 	return (
 		<>
 			<Joyride
 				continuous={true}
 				showSkipButton={true}
-				run={screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"}
+				run={
+					screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
+						? run
+						: false
+				}
 				steps={steps}
 				styles={{
 					buttonBack: {

@@ -33,7 +33,6 @@ const TitleScreen = ({
 	playStartSfx,
 	playHoverSfx,
 }: TitleScreenProps) => {
-	console.log("storyDefault", story, "storyState", storyState);
 	const startScene = (isDemo: boolean): void => {
 		(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary") && handle.enter();
 		dispatch({ type: ActionTypes.PLAYDEMO, payload: isDemo });
@@ -100,14 +99,15 @@ const TitleScreen = ({
 					Create your novel
 				</motion.button>
 			</div>
-			{/* <motion.img
-				whileTap={{ scale: 0.8 }}
-				whileHover={{ scale: 1.2 }}
-				className="w-[15%] cursor-pointer"
-				src={require("../assets/images/steam.png")}
-				alt="Steam logo"
-				onHoverStart={playHoverSfx}
-			/> */}
+			<a href="https://github.com/markadv" className="w-[15%]">
+				<motion.img
+					whileTap={{ scale: 0.8 }}
+					whileHover={{ scale: 1.2 }}
+					src={require("../assets/images/Available-Github.webp")}
+					alt="Steam logo"
+					onHoverStart={playHoverSfx}
+				/>
+			</a>
 		</div>
 	);
 	return (

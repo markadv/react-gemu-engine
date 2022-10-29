@@ -64,7 +64,6 @@ const ConfigMenuScreen = ({
 					min={0}
 					max={100}
 					onChange={(e) => {
-						console.log(e.target.value);
 						dispatch({ type: ActionTypes.SETVOLUME, payload: e.target.value });
 					}}
 				/>

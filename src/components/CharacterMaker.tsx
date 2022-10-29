@@ -80,7 +80,6 @@ const CharacterMaker = ({
 	});
 	let charIndex = editSceneState.characters.findIndex((items) => items.location === charLocation);
 	let charAnimate = editSceneState.characters[charIndex].animate;
-	console.log("animate", charAnimate, "scene", editSceneState);
 	const setAnimate = (value: string) => {
 		editSceneDispatch({ type: SceneTypes.SETANIMATE, payload: { index: charIndex, animate: value } });
 	};

@@ -100,14 +100,14 @@ const TitleScreen = ({
 					Create your novel
 				</motion.button>
 			</div>
-			<motion.img
+			{/* <motion.img
 				whileTap={{ scale: 0.8 }}
 				whileHover={{ scale: 1.2 }}
 				className="w-[15%] cursor-pointer"
 				src={require("../assets/images/steam.png")}
 				alt="Steam logo"
 				onHoverStart={playHoverSfx}
-			/>
+			/> */}
 		</div>
 	);
 	return (

@@ -133,7 +133,7 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories1" });
 			},
-			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "default",
+			partName: editChar.parts.accessories1 ? editChar.parts.accessories1.toUpperCase() : "DEFAULT",
 		},
 		{
 			title: "NeckAcc",
@@ -141,7 +141,7 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories2" });
 			},
-			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "default",
+			partName: editChar.parts.accessories2 ? editChar.parts.accessories2.toUpperCase() : "DEFAULT",
 		},
 		{
 			title: "HeadAcc",
@@ -149,7 +149,7 @@ const CharacterMaker = ({
 				playClickSfx();
 				editCharDispatch({ type: CharTypes.CHANGECHARACTERPART, payload: "accessories3" });
 			},
-			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "default",
+			partName: editChar.parts.accessories3 ? editChar.parts.accessories3.toUpperCase() : "DEFAULT",
 		},
 		// },
 		/* Future updates
@@ -218,7 +218,7 @@ const CharacterMaker = ({
 					<p className="w-1/3 text-left text-[.8vw] font-semibold placeholder:text-gray-900">Animate:</p>
 					<div className="w-full rounded border border-[#E879F9] bg-slate-50 text-[1vw] font-semibold">
 						<DatalistInput
-							placeholder={charAnimate === null ? "default" : charAnimate}
+							placeholder={charAnimate === null ? "DEFAULT" : charAnimate}
 							value={animateInputValue}
 							onFocus={(item) => setAnimateInputValue("")}
 							label="Sprite Name"

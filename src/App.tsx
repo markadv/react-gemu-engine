@@ -83,7 +83,7 @@ const INITIAL_STATE: State = {
 	loadMenuShown: false,
 	isSkipping: false,
 	isLoading: true,
-	isDebug: false,
+	isDebug: true,
 	isDemo: true,
 	onDisclaimer: true,
 	assetLoadingTime: 3500,
@@ -223,13 +223,13 @@ const App = () => {
 	const [screenSize, setScreenSize] = useState(
 		width > height
 			? {
-					width: width / height > 16 / 9 ? "auto" : width,
-					height: width / height > 16 / 9 ? height : "auto",
+					width: width / height > 16 / 9 ? "auto" : Math.floor(width),
+					height: width / height > 16 / 9 ? Math.floor(height) : "auto",
 					aspectRatio: "16/9",
 			  }
 			: {
-					height: width / height > 16 / 9 ? width : "auto",
-					width: width / height > 16 / 9 ? "auto" : height,
+					height: width / height > 16 / 9 ? Math.floor(width) : "auto",
+					width: width / height > 16 / 9 ? "auto" : Math.floor(height),
 					aspectRatio: "16/9",
 			  }
 	);
@@ -318,6 +318,7 @@ const App = () => {
 									playClickSfx={playClickSfx}
 									playVoicesSfx={playVoicesSfx}
 									videos={videos}
+									screenOrientation={screenOrientation}
 								/>
 							</motion.div>
 						)}

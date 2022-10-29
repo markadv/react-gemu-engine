@@ -575,12 +575,13 @@ const SceneEditor = ({
 		);
 	});
 	/* End of menu buttons */
+	console.log(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary");
 	return (
 		<>
 			<Joyride
 				continuous={true}
 				showSkipButton={true}
-				run={run}
+				run={screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"}
 				steps={steps}
 				styles={{
 					buttonBack: {

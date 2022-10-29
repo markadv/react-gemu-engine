@@ -16,6 +16,7 @@
 * {
 	user-select: none;
 }
+
 #root {
 	height: 100vh;
 	width: 100vw;
@@ -25,7 +26,16 @@
 	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./assets/images/titlescreen.webp");
 	background-position: center;
 	object-fit: cover;
-	positon: fixed;
+	overflow: hidden;
+	/* Toastify */
+
+	--toastify-icon-color-success: #e879f9;
+	--toastify-text-color-light: rgb(31, 31, 31);
+	--toastify-color-progress-success: #e879f9;
+}
+
+body {
+	overflow: hidden;
 }
 
 .fullscreen-enabled {
@@ -45,13 +55,6 @@
 		top: 100%;
 		left: 0;
 	}
-}
-
-/* Toastify */
-#root {
-	--toastify-icon-color-success: #e879f9;
-	--toastify-text-color-light: rgb(31, 31, 31);
-	--toastify-color-progress-success: #e879f9;
 }
 
 /* Chatbox border */

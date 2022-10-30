@@ -179,7 +179,7 @@ const App = () => {
 	const [playVoicesSfx] = useSound(voices.goodmorning, { volume: 0.2 });
 
 	let loadDelay = state.isDebug ? 0 : state.assetLoadingTime;
-	state.isDebug && console.log(state);
+	// state.isDebug && console.log(state);
 
 	/* Used to handle full screen */
 	const handle: FullScreenHandle = useFullScreenHandle();

@@ -62,7 +62,7 @@ const DialogueBox = ({
 			>
 				{type === "game" ? (
 					<p
-						className="font-handwritten text-[1.2vh] font-bold sm:text-[1.4vw]"
+						className="font-handwritten text-[1vh] font-bold sm:text-[1.4vw]"
 						onMouseEnter={playHoverSfx}
 						onClick={playClickSfx}
 					>
@@ -73,7 +73,7 @@ const DialogueBox = ({
 						type="text"
 						value={name}
 						name="name"
-						className="edit-name-box bg-slate-100 text-center font-handwritten text-[1.2vh] font-bold outline-none sm:text-[1.4vw]"
+						className="edit-name-box bg-slate-100 text-center font-handwritten text-[1vh] font-bold outline-none sm:text-[1.4vw]"
 						onInput={editName}
 						onMouseEnter={playHoverSfx}
 						onClick={playClickSfx}

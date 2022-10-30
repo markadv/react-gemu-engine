@@ -34,7 +34,7 @@ const DialogueBox = ({
 	return (
 		<>
 			<div className="borderimg absolute bottom-0 flex h-1/6 w-full items-start justify-start bg-slate-100 p-2 opacity-95">
-				<div className="h-full w-full font-handwritten text-[1.8vw] font-semibold sm:text-[1.5vw]">
+				<div className="h-full w-full font-handwritten text-[1.2vh] font-semibold sm:text-[1.5vw]">
 					{type === "game" && (
 						<Typewriter
 							key={text}
@@ -62,7 +62,7 @@ const DialogueBox = ({
 			>
 				{type === "game" ? (
 					<p
-						className="font-handwritten text-[1.5vw] font-bold sm:text-[1.4vw]"
+						className="font-handwritten text-[1.2vh] font-bold sm:text-[1.4vw]"
 						onMouseEnter={playHoverSfx}
 						onClick={playClickSfx}
 					>
@@ -73,7 +73,7 @@ const DialogueBox = ({
 						type="text"
 						value={name}
 						name="name"
-						className="edit-name-box bg-slate-100 text-center font-handwritten text-[1.5vw] font-bold outline-none sm:text-[1.4vw]"
+						className="edit-name-box bg-slate-100 text-center font-handwritten text-[1.2vh] font-bold outline-none sm:text-[1.4vw]"
 						onInput={editName}
 						onMouseEnter={playHoverSfx}
 						onClick={playClickSfx}

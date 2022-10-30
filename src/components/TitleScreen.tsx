@@ -61,18 +61,18 @@ const TitleScreen = ({
 			ref={constraintsRef}
 			className="absolute flex h-full w-full flex-col items-center justify-center gap-16 object-cover"
 		>
-			<div className="text-[5vw] text-slate-50">
+			<div className="text-[5vh] text-slate-50 sm:text-[5vw]">
 				<AnimatedText text="Visual Novel Maker" />
 			</div>
 			<motion.div
 				whileHover={{ scale: 1.1, color: "#E879F9" }}
-				className="text-left font-handwritten text-[2.5vw] text-slate-50"
+				className="text-left font-handwritten text-[2.5vh] text-slate-50 sm:text-[2.5vw]"
 			>
 				A new experience in storytelling.
 			</motion.div>
 			<div className="flex w-full flex-row items-center justify-center gap-[5%]">
 				<motion.button
-					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vh] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white sm:text-[1.5vw]"
 					onClick={() => startScene(true)}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
@@ -81,7 +81,7 @@ const TitleScreen = ({
 					Demo novel
 				</motion.button>
 				<motion.button
-					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vh] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white sm:text-[1.5vw]"
 					onClick={() => startScene(false)}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}
@@ -90,7 +90,7 @@ const TitleScreen = ({
 					Watch your novel
 				</motion.button>
 				<motion.button
-					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vw] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white"
+					className="w-[20%] rounded-xl border border-[#E879F9] bg-transparent py-[.5%] px-[1%] text-[1.5vh] font-semibold text-[#E879F9] hover:border-transparent hover:bg-[#E879F9] hover:text-white sm:text-[1.5vw]"
 					onClick={startEditor}
 					whileTap={{ scale: 0.8 }}
 					whileHover={{ scale: 1.2 }}

@@ -3,7 +3,7 @@ import AnimatedText from "./AnimatedText";
 
 const Disclaimer = ({ dispatch, playCheckSfx }: any) => {
 	return (
-		<div className="grid h-full w-full place-items-center bg-slate-50 text-[1.75vw] font-medium text-slate-900">
+		<div className="grid h-full w-full place-items-center bg-slate-50 text-[1.75vh] font-medium text-slate-900 sm:text-[1.75vw]">
 			<div className="flex flex-col items-center justify-center">
 				<AnimatedText text="Better with sounds and even better in full screen. Mobile version coming soon." />
 				<button

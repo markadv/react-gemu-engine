@@ -220,30 +220,31 @@ const App = () => {
 	/* Aspect ratio by Markad */
 	const { height, width } = useWindowSize();
 	const screenOrientation = useScreenOrientation();
+	console.log(screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary");
 	const [screenSize, setScreenSize] = useState(
-		width > height
+		screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
 			? {
 					width: width / height > 16 / 9 ? "auto" : Math.floor(width),
 					height: width / height > 16 / 9 ? Math.floor(height) : "auto",
 					aspectRatio: "16/9",
 			  }
 			: {
-					height: width / height > 16 / 9 ? Math.floor(width) : "auto",
-					width: width / height > 16 / 9 ? "auto" : Math.floor(height),
+					height: width / height > 16 / 9 ? "auto" : width,
+					width: width / height > 16 / 9 ? height : "auto",
 					aspectRatio: "16/9",
 			  }
 	);
 	useEffect(() => {
 		setScreenSize(
-			width > height
+			screenOrientation === "landscape-primary" || screenOrientation === "landscape-secondary"
 				? {
 						width: width / height > 16 / 9 ? "auto" : width,
 						height: width / height > 16 / 9 ? height : "auto",
 						aspectRatio: "16/9",
 				  }
 				: {
-						height: width / height > 16 / 9 ? width : "auto",
-						width: width / height > 16 / 9 ? "auto" : height,
+						height: width / height > 16 / 9 ? "auto" : width,
+						width: width / height > 16 / 9 ? height : "auto",
 						aspectRatio: "16/9",
 				  }
 		);
@@ -259,7 +260,7 @@ const App = () => {
 					handle={handle}
 					onChange={(isFullscreen) => dispatch({ type: ActionTypes.ISFULLSCREEN, payload: isFullscreen })}
 				>
-					<div className="relative overflow-hidden" style={screenSize}>
+					<div className="relative h-full w-full" style={screenSize}>
 						{state.onIntro && <InitialBrand dispatch={dispatch} />}
 						{state.onTitleScreen && (
 							<TitleScreen
